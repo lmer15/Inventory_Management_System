@@ -71,14 +71,14 @@ public class user extends javax.swing.JFrame {
         userName.setForeground(new java.awt.Color(255, 255, 255));
         userName.setText("User Name");
         jPanel2.add(userName);
-        userName.setBounds(110, 20, 170, 30);
+        userName.setBounds(110, 20, 340, 30);
 
         userPosition.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 17)); // NOI18N
         userPosition.setForeground(new java.awt.Color(255, 255, 255));
         userPosition.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         userPosition.setText("Position");
         jPanel2.add(userPosition);
-        userPosition.setBounds(110, 50, 170, 30);
+        userPosition.setBounds(110, 50, 290, 30);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-user-70.png"))); // NOI18N
         jPanel2.add(jLabel2);
@@ -332,7 +332,7 @@ public class user extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JLabel userName;
-    private javax.swing.JLabel userPosition;
+    public javax.swing.JLabel userName;
+    public javax.swing.JLabel userPosition;
     // End of variables declaration//GEN-END:variables
 }

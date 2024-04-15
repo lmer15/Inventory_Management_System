@@ -24,13 +24,28 @@ public class LogIn extends javax.swing.JFrame {
     public LogIn() {
         initComponents();
     }
+    static String surnam;
+    static String names;
+    static String status;
+    static String type;
+    static String fullname;
     
     public static boolean loginAcc(String uname, String pass){
         dbConnector connector = new dbConnector();
         try{
             String query = "SELECT * FROM lmer_table  WHERE lmer_uname = '" + uname + "' AND lmer_pass = '" + pass + "' AND lmer_stat = 'Active'";
-            ResultSet resultSet = connector.getData(query);
-            return resultSet.next();
+            ResultSet resultSet = connector.getData(query);       
+            if(resultSet.next()){
+                status = resultSet.getString("lmer_stat");
+                type = resultSet.getString("lmer_acc");
+                names = resultSet.getString("lmer_fname");
+                surnam = resultSet.getString("lmer_lname");
+                fullname = names + " " + surnam;
+                
+                return true;
+            }else{
+                return false;
+            }
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Database Connection Error!");
             return false;
@@ -173,10 +188,14 @@ public class LogIn extends javax.swing.JFrame {
             String userna = username.getText();
             if(checkAdmin(userna)){
                 admin ads = new admin();
+                ads.adminName.setText("" +fullname);
+                ads.adminPosition.setText("" +type);
                 ads.setVisible(true);
                 this.dispose();
             }else{
                 user usr = new user();
+                usr.userName.setText("" +fullname);
+                usr.userPosition.setText("" +type);
                 usr.setVisible(true);
                 this.dispose();
             }

@@ -5,6 +5,7 @@
  */
 package AdminDashboard;
 
+import SignUp_LogIn.LogIn;
 import static SignUp_LogIn.LogIn.loginAcc;
 import config.dbConnector;
 import java.sql.ResultSet;
@@ -23,32 +24,7 @@ public class admin extends javax.swing.JFrame {
      */
     public admin() {
         initComponents();
-        getUsername();
     }
-
-public void getUsername() {
-    
-    try {
-        dbConnector dbc = new dbConnector();
-        ResultSet rs = dbc.getData("SELECT lmer_fname, lmer_lname, lmer_acc FROM lmer_table WHERE lmer_acc = 'admin'");
-
-        if (rs.next()) {
-            String firstName = rs.getString("lmer_fname");
-            String lastName = rs.getString("lmer_lname");
-            String fullName = firstName + " " + lastName;
-            adminName.setText(fullName);
-            adminPosition.setText(rs.getString("lmer_acc"));
-        } else {
-            System.err.println("No admin account found in the database.");
-        }
-    } catch (SQLException ex) {
-        // Handle SQL exceptions
-        System.err.println("Error: " + ex.getMessage());
-    } catch (Exception e) {
-        // Handle other exceptions
-        System.err.println("Unexpected error: " + e.getMessage());
-    }
-}
 
 
     /**
@@ -147,6 +123,11 @@ public void getUsername() {
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 51, 51));
         jLabel8.setText("Log Out");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
         jPanel3.add(jLabel8);
         jLabel8.setBounds(50, 140, 180, 30);
 
@@ -184,7 +165,7 @@ public void getUsername() {
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Walk-In Accounts");
         jPanel3.add(jLabel14);
-        jLabel14.setBounds(50, 300, 200, 30);
+        jLabel14.setBounds(50, 300, 180, 30);
 
         jLabel15.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
@@ -203,7 +184,7 @@ public void getUsername() {
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Distributor Accounts");
         jPanel3.add(jLabel17);
-        jLabel17.setBounds(50, 330, 200, 30);
+        jLabel17.setBounds(50, 330, 180, 30);
 
         jLabel18.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
@@ -346,6 +327,13 @@ public void getUsername() {
         this.dispose();
     }//GEN-LAST:event_jLabel11MouseClicked
 
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        // TODO add your handling code here:
+        LogIn li = new LogIn();
+        li.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel8MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -382,8 +370,8 @@ public void getUsername() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel adminName;
-    private javax.swing.JLabel adminPosition;
+    public javax.swing.JLabel adminName;
+    public javax.swing.JLabel adminPosition;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
