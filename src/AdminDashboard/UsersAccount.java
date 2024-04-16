@@ -6,8 +6,19 @@
 package AdminDashboard;
 
 import config.dbConnector;
+import java.awt.Color;
+import java.awt.Font;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.text.Utilities;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -23,11 +34,31 @@ public class UsersAccount extends javax.swing.JFrame {
         initComponents();
         displayData();
     }
+    
+    Color navcolor = new Color (102,102,102);
+    Color headcolor = new Color (102,102,255);
+    Color bodycolor =new Color (240,240,240);
+    
+private void table(){
+    
+    JTableHeader thead = Users.getTableHeader();
+    thead.setForeground(Color.BLACK);
+    thead.setBackground(new Color (0,102,51));
+    thead.setFont(new Font("Micosoft YaHei", Font.BOLD, 16));
+    
+    TableColumn coll = Users.getColumnModel().getColumn(0);
+    coll.setPreferredWidth(100);
+  
+}
+    
  public void displayData(){
         try{
             dbConnector dbc = new dbConnector();
-            ResultSet rs = dbc.getData("SELECT lmer_fname, lmer_lname, lmer_uname, lmer_acc, lmer_stat FROM lmer_table");
+            ResultSet rs = dbc.getData("SELECT lmer_ID as 'ID', lmer_fname as 'First Name',"
+                    + " lmer_lname as 'Last Name', lmer_email as 'Email',"
+                    + " lmer_uname as 'Username', lmer_acc as 'Position', lmer_stat as 'Account Status' FROM lmer_table");
             Users.setModel(DbUtils.resultSetToTableModel(rs));
+            table();
             rs.close();
         }catch(SQLException ex){ 
             System.out.println("Errors: "+ex.getMessage());
@@ -45,13 +76,15 @@ public class UsersAccount extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Users = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
+        refresh = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        nnew = new javax.swing.JLabel();
+        update = new javax.swing.JLabel();
+        Search = new javax.swing.JLabel();
+        delete = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Users = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -66,31 +99,26 @@ public class UsersAccount extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("LIST OF ACCOUNTS");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(11, 10, 740, 40);
+        jLabel1.setBounds(11, 10, 900, 40);
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 760, 60);
+        jPanel2.setBounds(0, 0, 940, 60);
 
-        Users.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
+        refresh.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
+        refresh.setForeground(new java.awt.Color(0, 102, 51));
+        refresh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        refresh.setText("Refresh");
+        refresh.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        refresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                refreshMouseEntered(evt);
             }
-        ));
-        jScrollPane1.setViewportView(Users);
-
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(120, 70, 630, 630);
-
-        jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Refresh");
-        jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(10, 120, 90, 30);
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                refreshMouseExited(evt);
+            }
+        });
+        jPanel1.add(refresh);
+        refresh.setBounds(10, 120, 90, 30);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-back-40.png"))); // NOI18N
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -101,47 +129,100 @@ public class UsersAccount extends javax.swing.JFrame {
         jPanel1.add(jLabel3);
         jLabel3.setBounds(20, 660, 40, 50);
 
-        jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("New");
-        jLabel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        nnew.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
+        nnew.setForeground(new java.awt.Color(0, 102, 51));
+        nnew.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nnew.setText("New");
+        nnew.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        nnew.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                nnewMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                nnewMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                nnewMouseExited(evt);
             }
         });
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(10, 80, 90, 30);
+        jPanel1.add(nnew);
+        nnew.setBounds(10, 80, 90, 30);
 
-        jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Update");
-        jLabel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        update.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
+        update.setForeground(new java.awt.Color(0, 102, 51));
+        update.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        update.setText("Update");
+        update.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        update.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                updateMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                updateMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                updateMouseExited(evt);
             }
         });
-        jPanel1.add(jLabel5);
-        jLabel5.setBounds(10, 160, 90, 30);
+        jPanel1.add(update);
+        update.setBounds(10, 160, 90, 30);
 
-        jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Delete");
-        jLabel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(jLabel6);
-        jLabel6.setBounds(10, 200, 90, 30);
+        Search.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
+        Search.setForeground(new java.awt.Color(0, 102, 51));
+        Search.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Search.setText("Search");
+        Search.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        Search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                SearchMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                SearchMouseExited(evt);
+            }
+        });
+        jPanel1.add(Search);
+        Search.setBounds(820, 110, 90, 30);
+
+        delete.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
+        delete.setForeground(new java.awt.Color(0, 102, 51));
+        delete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        delete.setText("Delete");
+        delete.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                deleteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                deleteMouseExited(evt);
+            }
+        });
+        jPanel1.add(delete);
+        delete.setBounds(10, 200, 90, 30);
+
+        jTextField1.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
+        jPanel1.add(jTextField1);
+        jTextField1.setBounds(470, 110, 340, 30);
+
+        Users.setBackground(new java.awt.Color(0, 102, 0));
+        Users.setForeground(new java.awt.Color(255, 255, 255));
+        Users.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(Users);
+
+        jPanel1.add(jScrollPane2);
+        jScrollPane2.setBounds(120, 150, 790, 530);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,19 +242,84 @@ public class UsersAccount extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void nnewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nnewMouseClicked
         // TODO add your handling code here:
         newAcc na = new newAcc();
         na.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel4MouseClicked
+    }//GEN-LAST:event_nnewMouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
         // TODO add your handling code here:
-        updateAcc ua = new updateAcc();
-        ua.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel5MouseClicked
+        int rowindex = Users.getSelectedRow();
+        
+        if(rowindex < 0){
+            JOptionPane.showMessageDialog(null, "Please select an Account");
+        }else{
+            TableModel model = Users.getModel();
+            updateAcc ua = new updateAcc();
+            ua.id.setText(""+model.getValueAt(rowindex, 0));
+            ua.finame.setText(""+model.getValueAt(rowindex, 1));
+            ua.laname.setText(""+model.getValueAt(rowindex, 2));
+            ua.email1.setText(""+model.getValueAt(rowindex, 3));
+            ua.username1.setText(""+model.getValueAt(rowindex, 4));
+            ua.position1.setSelectedItem(model.getValueAt(rowindex, 5));
+            ua.status.setSelectedItem(model.getValueAt(rowindex, 6));
+            ua.setVisible(true);
+        }
+
+
+    }//GEN-LAST:event_updateMouseClicked
+
+    private void nnewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nnewMouseEntered
+        // TODO add your handling code here:
+        nnew.setBackground(navcolor);
+    }//GEN-LAST:event_nnewMouseEntered
+
+    private void nnewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nnewMouseExited
+        // TODO add your handling code here:
+        nnew.setBackground(bodycolor);
+    }//GEN-LAST:event_nnewMouseExited
+
+    private void refreshMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshMouseEntered
+        // TODO add your handling code here:
+        refresh.setBackground(navcolor);
+    }//GEN-LAST:event_refreshMouseEntered
+
+    private void refreshMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshMouseExited
+        // TODO add your handling code here:
+        refresh.setBackground(bodycolor);
+    }//GEN-LAST:event_refreshMouseExited
+
+    private void updateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseEntered
+        // TODO add your handling code here:
+        update.setBackground(navcolor);
+    }//GEN-LAST:event_updateMouseEntered
+
+    private void updateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseExited
+        // TODO add your handling code here:
+        update.setBackground(bodycolor);
+    }//GEN-LAST:event_updateMouseExited
+
+    private void SearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchMouseEntered
+        // TODO add your handling code here:
+        Search.setBackground(navcolor);
+    }//GEN-LAST:event_SearchMouseEntered
+
+    private void SearchMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchMouseExited
+        // TODO add your handling code here:
+        Search.setBackground(bodycolor);
+    }//GEN-LAST:event_SearchMouseExited
+
+    private void deleteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseEntered
+        // TODO add your handling code here:
+        delete.setBackground(navcolor);
+    }//GEN-LAST:event_deleteMouseEntered
+
+    private void deleteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseExited
+        // TODO add your handling code here:
+        delete.setBackground(bodycolor);
+    }//GEN-LAST:event_deleteMouseExited
 
     /**
      * @param args the command line arguments
@@ -211,15 +357,17 @@ public class UsersAccount extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Search;
     private javax.swing.JTable Users;
+    private javax.swing.JLabel delete;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel nnew;
+    private javax.swing.JLabel refresh;
+    private javax.swing.JLabel update;
     // End of variables declaration//GEN-END:variables
 }

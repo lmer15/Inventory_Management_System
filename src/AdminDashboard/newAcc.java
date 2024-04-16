@@ -65,7 +65,6 @@ public class newAcc extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         user = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -79,6 +78,10 @@ public class newAcc extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         posit = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        hide = new javax.swing.JLabel();
+        show = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -86,25 +89,13 @@ public class newAcc extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 102, 51));
         jPanel1.setLayout(null);
 
-        jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 1, 15)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Log In");
-        jLabel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-        });
-        jPanel1.add(jLabel7);
-        jLabel7.setBounds(240, 480, 120, 30);
-
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Create New Account");
         jLabel8.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(200, 20, 190, 30);
+        jLabel8.setBounds(10, 20, 620, 30);
 
         user.setBackground(new java.awt.Color(0, 102, 51));
         user.setForeground(new java.awt.Color(255, 255, 255));
@@ -171,6 +162,50 @@ public class newAcc extends javax.swing.JFrame {
         jPanel1.add(jLabel14);
         jLabel14.setBounds(100, 340, 120, 30);
 
+        jLabel15.setFont(new java.awt.Font("Microsoft YaHei", 1, 15)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("Log In");
+        jLabel15.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel15MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel15);
+        jLabel15.setBounds(260, 440, 120, 30);
+
+        jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 15)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Cancel");
+        jLabel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(260, 480, 120, 30);
+
+        hide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-invisible-30.png"))); // NOI18N
+        hide.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hideMouseClicked(evt);
+            }
+        });
+        jPanel1.add(hide);
+        hide.setBounds(490, 290, 30, 30);
+
+        show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-eye-30.png"))); // NOI18N
+        show.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                showMouseClicked(evt);
+            }
+        });
+        jPanel1.add(show);
+        show.setBounds(490, 290, 30, 30);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,9 +221,9 @@ public class newAcc extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
         // TODO add your handling code here:
-         if(firstname.getText().isEmpty()
+                        if(firstname.getText().isEmpty()
                 || lastname.getText().isEmpty()
                 || emailadd.getText().isEmpty()
                 || user.getText().isEmpty()
@@ -216,13 +251,31 @@ public class newAcc extends javax.swing.JFrame {
                 }else{
                     JOptionPane.showMessageDialog(null, "Connection Error!");
                 }
-                    LogIn li = new LogIn();
-                    li.setVisible(true);
+                    UsersAccount ua = new UsersAccount();
+                    ua.setVisible(true);
                     this.dispose(); 
             }
-        
-        
-    }//GEN-LAST:event_jLabel7MouseClicked
+    }//GEN-LAST:event_jLabel15MouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        UsersAccount ua = new UsersAccount();
+        ua.setVisible(true);
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void showMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMouseClicked
+        // TODO add your handling code here:
+        show.setVisible(false);
+        hide.setVisible(true);
+        passwo.setEchoChar('*');
+    }//GEN-LAST:event_showMouseClicked
+
+    private void hideMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hideMouseClicked
+        // TODO add your handling code here:
+        show.setVisible(true);
+        hide.setVisible(false);
+        passwo.setEchoChar((char)0);
+    }//GEN-LAST:event_hideMouseClicked
 
     /**
      * @param args the command line arguments
@@ -262,18 +315,21 @@ public class newAcc extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField emailadd;
     private javax.swing.JTextField firstname;
+    private javax.swing.JLabel hide;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField lastname;
     private javax.swing.JPasswordField passwo;
     private javax.swing.JComboBox<String> posit;
+    private javax.swing.JLabel show;
     private javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
 }

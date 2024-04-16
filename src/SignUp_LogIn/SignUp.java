@@ -27,14 +27,9 @@ public class SignUp extends javax.swing.JFrame {
     public SignUp() {
         initComponents();
         signUp.requestFocus();
+
         
     }
-    private Font placeholderFont = new Font("Microsoft YaHei", Font.ITALIC, 15);
-    private Color placeholderColor = new Color(153,153,153);
-
-// Define the font and color for the input text
-    private Font inputFont = new Font("Arial", Font.PLAIN, 18);
-    private Color inputColor = Color.BLACK;
     
     public static String usern, emel;
     
@@ -82,10 +77,17 @@ public class SignUp extends javax.swing.JFrame {
         username = new javax.swing.JTextField();
         position = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        show = new javax.swing.JLabel();
+        hide = new javax.swing.JLabel();
         signUp = new javax.swing.JButton();
         password = new javax.swing.JPasswordField();
         email = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -99,17 +101,18 @@ public class SignUp extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jPanel2.setBackground(new java.awt.Color(0, 153, 51));
+        jPanel2.setBackground(new java.awt.Color(0, 102, 51));
         jPanel2.setLayout(null);
 
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Sign Up");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(190, 20, 95, 30);
+        jLabel4.setBounds(220, 20, 95, 30);
 
+        fname.setBackground(new java.awt.Color(0, 102, 51));
         fname.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
-        fname.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        fname.setForeground(new java.awt.Color(255, 255, 255));
         fname.setToolTipText("");
         fname.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         fname.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -126,11 +129,17 @@ public class SignUp extends javax.swing.JFrame {
                 fnameMouseEntered(evt);
             }
         });
+        fname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fnameActionPerformed(evt);
+            }
+        });
         jPanel2.add(fname);
-        fname.setBounds(110, 120, 260, 40);
+        fname.setBounds(210, 130, 260, 40);
 
+        lname.setBackground(new java.awt.Color(0, 102, 51));
         lname.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
-        lname.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        lname.setForeground(new java.awt.Color(255, 255, 255));
         lname.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         lname.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -146,10 +155,11 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(lname);
-        lname.setBounds(110, 190, 260, 40);
+        lname.setBounds(210, 190, 260, 40);
 
+        username.setBackground(new java.awt.Color(0, 102, 51));
         username.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
-        username.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        username.setForeground(new java.awt.Color(255, 255, 255));
         username.setToolTipText("");
         username.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         username.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -166,12 +176,12 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(username);
-        username.setBounds(110, 320, 260, 40);
+        username.setBounds(210, 310, 260, 40);
 
         position.setForeground(new java.awt.Color(255, 255, 255));
         position.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Inventory-In-Charge" }));
         jPanel2.add(position);
-        position.setBounds(110, 470, 260, 40);
+        position.setBounds(200, 430, 280, 50);
 
         jLabel5.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 255));
@@ -182,9 +192,26 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(160, 50, 200, 30);
+        jLabel5.setBounds(190, 50, 180, 30);
 
-        signUp.setForeground(new java.awt.Color(255, 255, 255));
+        show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-eye-30.png"))); // NOI18N
+        show.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                showMousePressed(evt);
+            }
+        });
+        jPanel2.add(show);
+        show.setBounds(440, 380, 40, 30);
+
+        hide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-invisible-30.png"))); // NOI18N
+        hide.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                hideMousePressed(evt);
+            }
+        });
+        jPanel2.add(hide);
+        hide.setBounds(440, 380, 40, 30);
+
         signUp.setText("Sign Up");
         signUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,12 +219,12 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(signUp);
-        signUp.setBounds(200, 570, 93, 29);
+        signUp.setBounds(230, 590, 93, 29);
 
+        password.setBackground(new java.awt.Color(0, 102, 51));
         password.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
-        password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        password.setForeground(new java.awt.Color(255, 255, 255));
         password.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
-        password.setEchoChar('\u0000');
         password.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 passwordFocusGained(evt);
@@ -212,10 +239,11 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(password);
-        password.setBounds(110, 390, 260, 40);
+        password.setBounds(210, 370, 260, 40);
 
+        email.setBackground(new java.awt.Color(0, 102, 51));
         email.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
-        email.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        email.setForeground(new java.awt.Color(255, 255, 255));
         email.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         email.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -231,14 +259,43 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(email);
-        email.setBounds(110, 250, 260, 40);
+        email.setBounds(210, 250, 260, 40);
 
-        jLabel13.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 17)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Position");
+        jLabel13.setText("First Name:");
         jPanel2.add(jLabel13);
-        jLabel13.setBounds(180, 440, 100, 30);
+        jLabel13.setBounds(70, 130, 120, 40);
+
+        jLabel14.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Position:");
+        jPanel2.add(jLabel14);
+        jLabel14.setBounds(70, 430, 110, 40);
+
+        jLabel15.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Password:");
+        jPanel2.add(jLabel15);
+        jLabel15.setBounds(70, 370, 120, 40);
+
+        jLabel16.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Username:");
+        jPanel2.add(jLabel16);
+        jLabel16.setBounds(70, 310, 120, 40);
+
+        jLabel17.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Email:");
+        jPanel2.add(jLabel17);
+        jLabel17.setBounds(70, 250, 120, 40);
+
+        jLabel18.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Last Name:");
+        jPanel2.add(jLabel18);
+        jLabel18.setBounds(70, 190, 120, 40);
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
         jPanel4.setLayout(null);
@@ -284,7 +341,7 @@ public class SignUp extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,116 +422,64 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_fnameMouseEntered
 
     private void fnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fnameFocusGained
-        if(fname.getText().equals("Enter Firstname")) {
-            // Clear the placeholder text
-            fname.setText("");
-            // Set the input font and color
-            fname.setFont(inputFont);
-            fname.setForeground(inputColor);
-        }
+
     }//GEN-LAST:event_fnameFocusGained
 
     private void fnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fnameFocusLost
-        // TODO add your handling code here:
-        if(fname.getText().trim().isEmpty()) {
-            // Set the placeholder text
-            fname.setText("Enter Firstname");
-            // Set the placeholder font and color
-            fname.setFont(placeholderFont);
-            fname.setForeground(placeholderColor);
-        }
-
 
     }//GEN-LAST:event_fnameFocusLost
 
     private void lnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lnameFocusGained
-        // TODO add your handling code here:
-        if(lname.getText().equals("Enter Lastname")) {
-            // Clear the placeholder text
-            lname.setText("");
-            // Set the input font and color
-            lname.setFont(inputFont);
-            lname.setForeground(inputColor);
-        }
 
     }//GEN-LAST:event_lnameFocusGained
 
     private void lnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lnameFocusLost
-        // TODO add your handling code here:
-        if(lname.getText().trim().isEmpty()) {
-            // Set the placeholder text
-            lname.setText("Enter Lastname");
-            // Set the placeholder font and color
-            lname.setFont(placeholderFont);
-            lname.setForeground(placeholderColor);
-        }
+
     }//GEN-LAST:event_lnameFocusLost
 
     private void emailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFocusGained
-        // TODO add your handling code here:
-        if(email.getText().equals("Enter Email")) {
-            // Clear the placeholder text
-            email.setText("");
-            // Set the input font and color
-            email.setFont(inputFont);
-            email.setForeground(inputColor);
-        }
+
     }//GEN-LAST:event_emailFocusGained
 
     private void emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFocusLost
-        // TODO add your handling code here:
-        if(email.getText().trim().isEmpty()) {
-            // Set the placeholder text
-            email.setText("Enter Email");
-            // Set the placeholder font and color
-            email.setFont(placeholderFont);
-            email.setForeground(placeholderColor);
-        }
+
     }//GEN-LAST:event_emailFocusLost
 
     private void usernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusGained
-        // TODO add your handling code here:
-        if(username.getText().equals("Enter Username")) {
-            // Clear the placeholder text
-            username.setText("");
-            // Set the input font and color
-            username.setFont(inputFont);
-            username.setForeground(inputColor);
-        }
+
     }//GEN-LAST:event_usernameFocusGained
 
     private void usernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusLost
-        // TODO add your handling code here:
-        if(username.getText().trim().isEmpty()) {
-            // Set the placeholder text
-            username.setText("Enter Username");
-            // Set the placeholder font and color
-            username.setFont(placeholderFont);
-            username.setForeground(placeholderColor);
-        }
+
     }//GEN-LAST:event_usernameFocusLost
 
     private void passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusGained
-        // TODO add your handling code here:
-        if(password.getText().equals("Enter Password")) {
-            // Clear the placeholder text
-            password.setText("");
-            // Set the input font and color
-            password.setFont(inputFont);
-            password.setForeground(inputColor);
-        }
+
     }//GEN-LAST:event_passwordFocusGained
 
     private void passwordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusLost
-        // TODO add your handling code here:
-        if(password.getText().trim().isEmpty()) {
-            // Set the placeholder text
-            password.setText("Enter Password");
-            // Set the placeholder font and color
-            password.setFont(placeholderFont);
-            password.setForeground(placeholderColor);
-        }
+
     }//GEN-LAST:event_passwordFocusLost
+
+    private void fnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fnameActionPerformed
+
+    private void showMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMousePressed
+        // TODO add your handling code here:
+        show.setVisible(false);
+        hide.setVisible(true);
+        password.setEchoChar('*');
+        
+    }//GEN-LAST:event_showMousePressed
+
+    private void hideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hideMousePressed
+        // TODO add your handling code here:
+        show.setVisible(true);
+        hide.setVisible(false);
+        password.setEchoChar((char)0);
+
+    }//GEN-LAST:event_hideMousePressed
 
     /**
      * @param args the command line arguments
@@ -514,10 +519,16 @@ public class SignUp extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField email;
     private javax.swing.JTextField fname;
+    private javax.swing.JLabel hide;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -530,6 +541,7 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JTextField lname;
     private javax.swing.JPasswordField password;
     private javax.swing.JComboBox<String> position;
+    private javax.swing.JLabel show;
     private javax.swing.JButton signUp;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables

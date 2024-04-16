@@ -64,7 +64,7 @@ public class user extends javax.swing.JFrame {
 
         jPanel1.setLayout(null);
 
-        jPanel2.setBackground(new java.awt.Color(0, 153, 51));
+        jPanel2.setBackground(new java.awt.Color(0, 102, 51));
         jPanel2.setLayout(null);
 
         userName.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 24)); // NOI18N
@@ -87,7 +87,8 @@ public class user extends javax.swing.JFrame {
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, -3, 1050, 90);
 
-        jPanel3.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel3.setForeground(new java.awt.Color(102, 102, 102));
         jPanel3.setLayout(null);
 
         jLabel9.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
@@ -228,7 +229,7 @@ public class user extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jPanel5.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 40, 710, 420);
+        jScrollPane1.setBounds(10, 40, 720, 420);
 
         jLabel24.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
@@ -236,10 +237,10 @@ public class user extends javax.swing.JFrame {
         jLabel24.setText("AVAILABLE STOCKS");
         jLabel24.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel5.add(jLabel24);
-        jLabel24.setBounds(20, 5, 690, 30);
+        jLabel24.setBounds(0, 5, 740, 30);
 
         jPanel4.add(jPanel5);
-        jPanel5.setBounds(10, 150, 730, 470);
+        jPanel5.setBounds(10, 150, 740, 470);
 
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 153, 51));
