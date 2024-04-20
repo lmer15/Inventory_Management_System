@@ -381,11 +381,11 @@ public class SignUp extends javax.swing.JFrame {
 
     private void signUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpActionPerformed
         // TODO add your handling code here:
-                if(fname.getText().isEmpty()
-                || lname.getText().isEmpty()
-                || email.getText().isEmpty()
-                || username.getText().isEmpty()
-                || password.getText().isEmpty())
+        if(fname.getText().isEmpty()
+        || lname.getText().isEmpty()
+        || email.getText().isEmpty()
+        || username.getText().isEmpty()
+        || password.getText().isEmpty())
             {
             JOptionPane.showMessageDialog(null, "All Fields should be Filled");
             }else if(password.getText().length() < 8){

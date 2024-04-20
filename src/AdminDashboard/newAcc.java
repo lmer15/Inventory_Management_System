@@ -64,7 +64,7 @@ public class newAcc extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        newAccPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         user = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -86,81 +86,86 @@ public class newAcc extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(0, 102, 51));
-        jPanel1.setLayout(null);
+        newAccPanel.setBackground(new java.awt.Color(0, 102, 51));
+        newAccPanel.setLayout(null);
 
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Create New Account");
         jLabel8.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
-        jPanel1.add(jLabel8);
+        newAccPanel.add(jLabel8);
         jLabel8.setBounds(10, 20, 620, 30);
 
         user.setBackground(new java.awt.Color(0, 102, 51));
+        user.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 16)); // NOI18N
         user.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(user);
-        user.setBounds(230, 240, 250, 30);
+        newAccPanel.add(user);
+        user.setBounds(250, 280, 250, 40);
 
         jLabel9.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("First Name:");
-        jPanel1.add(jLabel9);
-        jLabel9.setBounds(100, 90, 90, 30);
+        newAccPanel.add(jLabel9);
+        jLabel9.setBounds(120, 130, 90, 30);
 
         firstname.setBackground(new java.awt.Color(0, 102, 51));
+        firstname.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         firstname.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(firstname);
-        firstname.setBounds(230, 90, 250, 30);
+        newAccPanel.add(firstname);
+        firstname.setBounds(250, 130, 250, 40);
 
         jLabel10.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Last Name:");
-        jPanel1.add(jLabel10);
-        jLabel10.setBounds(100, 140, 90, 30);
+        newAccPanel.add(jLabel10);
+        jLabel10.setBounds(120, 180, 90, 30);
 
         lastname.setBackground(new java.awt.Color(0, 102, 51));
+        lastname.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         lastname.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(lastname);
-        lastname.setBounds(230, 140, 250, 30);
+        newAccPanel.add(lastname);
+        lastname.setBounds(250, 180, 250, 40);
 
         jLabel11.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Email Address:");
-        jPanel1.add(jLabel11);
-        jLabel11.setBounds(100, 190, 120, 30);
+        newAccPanel.add(jLabel11);
+        jLabel11.setBounds(120, 230, 120, 30);
 
         emailadd.setBackground(new java.awt.Color(0, 102, 51));
+        emailadd.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         emailadd.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(emailadd);
-        emailadd.setBounds(230, 190, 250, 30);
+        newAccPanel.add(emailadd);
+        emailadd.setBounds(250, 230, 250, 40);
 
         jLabel12.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Username:");
-        jPanel1.add(jLabel12);
-        jLabel12.setBounds(100, 240, 120, 30);
+        newAccPanel.add(jLabel12);
+        jLabel12.setBounds(120, 280, 120, 30);
 
         passwo.setBackground(new java.awt.Color(0, 102, 51));
+        passwo.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         passwo.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(passwo);
-        passwo.setBounds(230, 290, 250, 30);
+        newAccPanel.add(passwo);
+        passwo.setBounds(250, 330, 250, 40);
 
         jLabel13.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Password:");
-        jPanel1.add(jLabel13);
-        jLabel13.setBounds(100, 290, 120, 30);
+        newAccPanel.add(jLabel13);
+        jLabel13.setBounds(120, 330, 120, 30);
 
         posit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Inventory-In-Charge" }));
-        jPanel1.add(posit);
-        posit.setBounds(230, 340, 250, 30);
+        newAccPanel.add(posit);
+        posit.setBounds(250, 380, 250, 40);
 
         jLabel14.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Position:");
-        jPanel1.add(jLabel14);
-        jLabel14.setBounds(100, 340, 120, 30);
+        newAccPanel.add(jLabel14);
+        jLabel14.setBounds(120, 380, 120, 30);
 
         jLabel15.setFont(new java.awt.Font("Microsoft YaHei", 1, 15)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
@@ -172,8 +177,8 @@ public class newAcc extends javax.swing.JFrame {
                 jLabel15MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel15);
-        jLabel15.setBounds(260, 440, 120, 30);
+        newAccPanel.add(jLabel15);
+        jLabel15.setBounds(280, 480, 120, 30);
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 15)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -185,8 +190,8 @@ public class newAcc extends javax.swing.JFrame {
                 jLabel1MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(260, 480, 120, 30);
+        newAccPanel.add(jLabel1);
+        jLabel1.setBounds(280, 520, 120, 30);
 
         hide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-invisible-30.png"))); // NOI18N
         hide.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -194,8 +199,8 @@ public class newAcc extends javax.swing.JFrame {
                 hideMouseClicked(evt);
             }
         });
-        jPanel1.add(hide);
-        hide.setBounds(490, 290, 30, 30);
+        newAccPanel.add(hide);
+        hide.setBounds(510, 330, 30, 40);
 
         show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-eye-30.png"))); // NOI18N
         show.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -203,18 +208,18 @@ public class newAcc extends javax.swing.JFrame {
                 showMouseClicked(evt);
             }
         });
-        jPanel1.add(show);
-        show.setBounds(490, 290, 30, 30);
+        newAccPanel.add(show);
+        show.setBounds(510, 330, 30, 40);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
+            .addComponent(newAccPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+            .addComponent(newAccPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
         );
 
         pack();
@@ -325,8 +330,8 @@ public class newAcc extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField lastname;
+    public javax.swing.JPanel newAccPanel;
     private javax.swing.JPasswordField passwo;
     private javax.swing.JComboBox<String> posit;
     private javax.swing.JLabel show;

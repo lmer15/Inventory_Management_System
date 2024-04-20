@@ -39,17 +39,29 @@ public class UsersAccount extends javax.swing.JFrame {
     Color headcolor = new Color (102,102,255);
     Color bodycolor =new Color (240,240,240);
     
-private void table(){
-    
+private void table() {
+    // Obtain the JTableHeader object for the Users JTable
     JTableHeader thead = Users.getTableHeader();
     thead.setForeground(Color.BLACK);
-    thead.setBackground(new Color (0,102,51));
-    thead.setFont(new Font("Micosoft YaHei", Font.BOLD, 16));
-    
-    TableColumn coll = Users.getColumnModel().getColumn(0);
-    coll.setPreferredWidth(100);
-  
+    thead.setBackground(new Color(0, 102, 51));
+    thead.setFont(new Font("Microsoft YaHei", Font.BOLD, 16));
+
+    // Define the preferred width for each column except the last one
+    int preferredWidth = 111;
+    TableColumnModel columnModel = Users.getColumnModel();
+    for (int i = 0; i < columnModel.getColumnCount(); i++) {
+        TableColumn column = columnModel.getColumn(i);
+        column.setPreferredWidth(preferredWidth);
+    }
+    //Row height for the table
+    int rowHeight = 20; 
+    Users.setRowHeight(rowHeight);
+    Users.setShowGrid(true);
+    Users.setGridColor(Color.WHITE);
 }
+
+
+
     
  public void displayData(){
         try{
@@ -73,9 +85,10 @@ private void table(){
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        mainpanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         refresh = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         nnew = new javax.swing.JLabel();
@@ -89,20 +102,24 @@ private void table(){
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setLayout(null);
+        mainpanel.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 0));
         jPanel2.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("LIST OF ACCOUNTS");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(11, 10, 900, 40);
+        jLabel1.setBounds(50, 10, 200, 40);
 
-        jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 940, 60);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-list-25.png"))); // NOI18N
+        jPanel2.add(jLabel2);
+        jLabel2.setBounds(20, 20, 30, 20);
+
+        mainpanel.add(jPanel2);
+        jPanel2.setBounds(0, 0, 930, 60);
 
         refresh.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         refresh.setForeground(new java.awt.Color(0, 102, 51));
@@ -110,6 +127,9 @@ private void table(){
         refresh.setText("Refresh");
         refresh.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         refresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                refreshMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 refreshMouseEntered(evt);
             }
@@ -117,7 +137,7 @@ private void table(){
                 refreshMouseExited(evt);
             }
         });
-        jPanel1.add(refresh);
+        mainpanel.add(refresh);
         refresh.setBounds(10, 120, 90, 30);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-back-40.png"))); // NOI18N
@@ -126,7 +146,7 @@ private void table(){
                 jLabel3MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel3);
+        mainpanel.add(jLabel3);
         jLabel3.setBounds(20, 660, 40, 50);
 
         nnew.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -145,7 +165,7 @@ private void table(){
                 nnewMouseExited(evt);
             }
         });
-        jPanel1.add(nnew);
+        mainpanel.add(nnew);
         nnew.setBounds(10, 80, 90, 30);
 
         update.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -164,7 +184,7 @@ private void table(){
                 updateMouseExited(evt);
             }
         });
-        jPanel1.add(update);
+        mainpanel.add(update);
         update.setBounds(10, 160, 90, 30);
 
         Search.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -180,8 +200,8 @@ private void table(){
                 SearchMouseExited(evt);
             }
         });
-        jPanel1.add(Search);
-        Search.setBounds(820, 110, 90, 30);
+        mainpanel.add(Search);
+        Search.setBounds(810, 110, 90, 30);
 
         delete.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         delete.setForeground(new java.awt.Color(0, 102, 51));
@@ -189,6 +209,9 @@ private void table(){
         delete.setText("Delete");
         delete.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 deleteMouseEntered(evt);
             }
@@ -196,14 +219,15 @@ private void table(){
                 deleteMouseExited(evt);
             }
         });
-        jPanel1.add(delete);
+        mainpanel.add(delete);
         delete.setBounds(10, 200, 90, 30);
 
         jTextField1.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
-        jPanel1.add(jTextField1);
-        jTextField1.setBounds(470, 110, 340, 30);
+        mainpanel.add(jTextField1);
+        jTextField1.setBounds(460, 110, 340, 30);
 
         Users.setBackground(new java.awt.Color(0, 102, 0));
+        Users.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         Users.setForeground(new java.awt.Color(255, 255, 255));
         Users.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -213,21 +237,22 @@ private void table(){
 
             }
         ));
+        Users.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane2.setViewportView(Users);
 
-        jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(120, 150, 790, 530);
+        mainpanel.add(jScrollPane2);
+        jScrollPane2.setBounds(120, 150, 780, 530);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
+            .addComponent(mainpanel, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mainpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -321,6 +346,33 @@ private void table(){
         delete.setBackground(bodycolor);
     }//GEN-LAST:event_deleteMouseExited
 
+    private void refreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshMouseClicked
+        // TODO add your handling code here:
+        displayData();
+    }//GEN-LAST:event_refreshMouseClicked
+
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+        // TODO add your handling code here:
+        int rowIndex = Users.getSelectedRow();
+        if(rowIndex<0){
+            JOptionPane.showMessageDialog(null, "Please Select an Account");
+        }else{
+            TableModel model = Users.getModel();
+            Object ide = model.getValueAt(rowIndex, 0);
+            Object finame = model.getValueAt(rowIndex, 1);
+            Object laname = model.getValueAt(rowIndex, 2);
+            
+            String id = ide.toString();
+            int a = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this account?"+finame+" "+laname);
+            if(a == JOptionPane.YES_OPTION){
+                dbConnector dbc = new dbConnector();
+                int l_id = Integer.parseInt(id);
+                dbc.deleteData(l_id, "lmer_table");
+                displayData();
+            }
+        }
+    }//GEN-LAST:event_deleteMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -361,11 +413,12 @@ private void table(){
     private javax.swing.JTable Users;
     private javax.swing.JLabel delete;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel mainpanel;
     private javax.swing.JLabel nnew;
     private javax.swing.JLabel refresh;
     private javax.swing.JLabel update;

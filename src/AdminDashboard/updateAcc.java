@@ -66,7 +66,8 @@ public class updateAcc extends javax.swing.JFrame {
         jPanel1.add(jLabel1);
         jLabel1.setBounds(30, 560, 40, 40);
 
-        update.setFont(new java.awt.Font("Microsoft YaHei", 1, 20)); // NOI18N
+        update.setBackground(new java.awt.Color(255, 255, 255));
+        update.setFont(new java.awt.Font("Microsoft YaHei", 1, 15)); // NOI18N
         update.setForeground(new java.awt.Color(255, 255, 255));
         update.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         update.setText("Update");
@@ -78,7 +79,7 @@ public class updateAcc extends javax.swing.JFrame {
             }
         });
         jPanel1.add(update);
-        update.setBounds(250, 490, 80, 32);
+        update.setBounds(250, 500, 80, 32);
 
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 1, 20)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));

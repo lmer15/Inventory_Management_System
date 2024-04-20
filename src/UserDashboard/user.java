@@ -5,6 +5,8 @@
  */
 package UserDashboard;
 
+import SignUp_LogIn.LogIn;
+
 /**
  *
  * @author Elmer Rapon
@@ -17,7 +19,7 @@ public class user extends javax.swing.JFrame {
     public user() {
         initComponents();
     }
-
+    static String user;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,6 +103,11 @@ public class user extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 0, 0));
         jLabel6.setText("Log Out");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
         jPanel3.add(jLabel6);
         jLabel6.setBounds(50, 110, 180, 30);
 
@@ -114,6 +121,11 @@ public class user extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Profile Info");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
         jPanel3.add(jLabel8);
         jLabel8.setBounds(50, 80, 180, 30);
 
@@ -267,6 +279,27 @@ public class user extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        LogIn li = new LogIn();
+        li.setVisible(true);
+        
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        
+        userProfileInfo usi = new userProfileInfo();
+
+        usi.u_username.setText("@" + LogIn.l_username);
+        usi.u_position.setText(LogIn.type);
+        usi.u_fullname.setText(LogIn.fullname);
+        usi.u_email.setText(LogIn.emiel);
+        usi.u_accountstat.setText(LogIn.status);
+
+
+        usi.setVisible(true);
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments

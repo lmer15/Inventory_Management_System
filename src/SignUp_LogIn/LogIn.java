@@ -7,6 +7,7 @@ package SignUp_LogIn;
 
 import AdminDashboard.admin;
 import UserDashboard.user;
+import UserDashboard.userProfileInfo;
 import config.dbConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,11 +25,14 @@ public class LogIn extends javax.swing.JFrame {
     public LogIn() {
         initComponents();
     }
-    static String surnam;
-    static String names;
-    static String status;
-    static String type;
-    static String fullname;
+    
+    public static String surnam;
+    public static String names;
+    public static String status;
+    public static String type;
+    public static String fullname;
+    public static String l_username;
+    public static String emiel;
     
     public static boolean loginAcc(String uname, String pass){
         dbConnector connector = new dbConnector();
@@ -36,6 +40,8 @@ public class LogIn extends javax.swing.JFrame {
             String query = "SELECT * FROM lmer_table  WHERE lmer_uname = '" + uname + "' AND lmer_pass = '" + pass + "' AND lmer_stat = 'Active'";
             ResultSet resultSet = connector.getData(query);       
             if(resultSet.next()){
+                emiel = resultSet.getString("lmer_email");
+                l_username = resultSet.getString("lmer_uname");
                 status = resultSet.getString("lmer_stat");
                 type = resultSet.getString("lmer_acc");
                 names = resultSet.getString("lmer_fname");
@@ -198,6 +204,7 @@ public class LogIn extends javax.swing.JFrame {
                 usr.userPosition.setText("" +type);
                 usr.setVisible(true);
                 this.dispose();
+
             }
             this.dispose();
         }else{
