@@ -12,12 +12,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.Utilities;
 import net.proteanit.sql.DbUtils;
 
@@ -68,7 +70,8 @@ private void table() {
             dbConnector dbc = new dbConnector();
             ResultSet rs = dbc.getData("SELECT lmer_ID as 'ID', lmer_fname as 'First Name',"
                     + " lmer_lname as 'Last Name', lmer_email as 'Email',"
-                    + " lmer_uname as 'Username', lmer_acc as 'Position', lmer_stat as 'Account Status' FROM lmer_table");
+                    + " lmer_uname as 'Username', lmer_acc as 'Position', "
+                    + " lmer_stat as 'Account Status' FROM lmer_table");
             Users.setModel(DbUtils.resultSetToTableModel(rs));
             table();
             rs.close();
@@ -95,7 +98,7 @@ private void table() {
         update = new javax.swing.JLabel();
         Search = new javax.swing.JLabel();
         delete = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        searchText = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         Users = new javax.swing.JTable();
 
@@ -193,6 +196,9 @@ private void table() {
         Search.setText("Search");
         Search.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         Search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SearchMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 SearchMouseEntered(evt);
             }
@@ -222,9 +228,14 @@ private void table() {
         mainpanel.add(delete);
         delete.setBounds(10, 200, 90, 30);
 
-        jTextField1.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
-        mainpanel.add(jTextField1);
-        jTextField1.setBounds(460, 110, 340, 30);
+        searchText.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
+        searchText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchTextKeyReleased(evt);
+            }
+        });
+        mainpanel.add(searchText);
+        searchText.setBounds(460, 110, 340, 30);
 
         Users.setBackground(new java.awt.Color(0, 102, 0));
         Users.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -373,6 +384,22 @@ private void table() {
         }
     }//GEN-LAST:event_deleteMouseClicked
 
+    private void SearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchMouseClicked
+        // TODO add your handling code here:
+        TableModel search = Users.getModel();
+        TableRowSorter<TableModel> srch = new TableRowSorter<>(search);
+        Users.setRowSorter(srch);
+        srch.setRowFilter(RowFilter.regexFilter("(?i)" +searchText.getText()));
+    }//GEN-LAST:event_SearchMouseClicked
+
+    private void searchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextKeyReleased
+        // TODO add your handling code here:
+        TableModel search = Users.getModel();
+        TableRowSorter<TableModel> srch = new TableRowSorter<>(search);
+        Users.setRowSorter(srch);
+        srch.setRowFilter(RowFilter.regexFilter("(?i)" +searchText.getText()));
+    }//GEN-LAST:event_searchTextKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -417,10 +444,10 @@ private void table() {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel mainpanel;
     private javax.swing.JLabel nnew;
     private javax.swing.JLabel refresh;
+    private javax.swing.JTextField searchText;
     private javax.swing.JLabel update;
     // End of variables declaration//GEN-END:variables
 }

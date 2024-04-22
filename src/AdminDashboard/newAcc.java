@@ -7,6 +7,7 @@ package AdminDashboard;
 
 import SignUp_LogIn.LogIn;
 import static SignUp_LogIn.SignUp.emel;
+import static SignUp_LogIn.SignUp.hashPass;
 import static SignUp_LogIn.SignUp.usern;
 import config.dbConnector;
 import java.sql.ResultSet;
@@ -95,7 +96,7 @@ public class newAcc extends javax.swing.JFrame {
         jLabel8.setText("Create New Account");
         jLabel8.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         newAccPanel.add(jLabel8);
-        jLabel8.setBounds(10, 20, 620, 30);
+        jLabel8.setBounds(10, 0, 620, 50);
 
         user.setBackground(new java.awt.Color(0, 102, 51));
         user.setFont(new java.awt.Font("Microsoft YaHei Light", 0, 16)); // NOI18N
@@ -215,7 +216,7 @@ public class newAcc extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(newAccPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
+            .addComponent(newAccPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +229,9 @@ public class newAcc extends javax.swing.JFrame {
 
     private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
         // TODO add your handling code here:
-                        if(firstname.getText().isEmpty()
+        
+                String pass = hashPass(passwo.getText());
+                if(firstname.getText().isEmpty()
                 || lastname.getText().isEmpty()
                 || emailadd.getText().isEmpty()
                 || user.getText().isEmpty()
@@ -249,7 +252,7 @@ public class newAcc extends javax.swing.JFrame {
                     + " '"+lastname.getText()+"',"
                     + " '"+emailadd.getText()+"', "
                     + " '"+user.getText()+"', "
-                    + "'"+passwo.getText()+"', "
+                    + "'"+pass+"', "
                     + "'"+posit.getSelectedItem()+"', 'Pending' ) ")){
 
                     JOptionPane.showMessageDialog(null, "Inserted Successfully!");

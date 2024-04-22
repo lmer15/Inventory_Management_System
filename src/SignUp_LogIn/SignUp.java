@@ -8,6 +8,7 @@ package SignUp_LogIn;
 import config.dbConnector;
 import java.awt.Color;
 import java.awt.Font;
+import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -59,6 +60,24 @@ public class SignUp extends javax.swing.JFrame {
             System.out.println("" +ex);
             return false;
         }
+    }
+    
+    
+    public static String hashPass(String password){
+        try{
+            MessageDigest md = MessageDigest.getInstance("SHA");
+            md.update(password.getBytes());
+            byte[] rbt = md.digest();
+            StringBuilder sb = new StringBuilder();
+            
+            for(byte b: rbt){
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString(); 
+            
+        }catch(Exception e){ 
+        }
+        return null;
     }
 
     /**
@@ -381,6 +400,8 @@ public class SignUp extends javax.swing.JFrame {
 
     private void signUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpActionPerformed
         // TODO add your handling code here:
+        
+        String pass = hashPass(password.getText());     
         if(fname.getText().isEmpty()
         || lname.getText().isEmpty()
         || email.getText().isEmpty()
@@ -402,7 +423,7 @@ public class SignUp extends javax.swing.JFrame {
                     + " '"+lname.getText()+"',"
                     + " '"+email.getText()+"', "
                     + " '"+username.getText()+"', "
-                    + "'"+password.getText()+"', "
+                    + "'"+pass+"', "
                     + "'"+position.getSelectedItem()+"', 'Pending' ) ")){
 
                     JOptionPane.showMessageDialog(null, "Inserted Successfully!");

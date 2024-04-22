@@ -21,7 +21,6 @@ public class updateAcc extends javax.swing.JFrame {
     public updateAcc() {
         initComponents();
     }
-    public String action;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,8 +120,9 @@ public class updateAcc extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Update Account");
         jLabel9.setToolTipText("");
+        jLabel9.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(10, 28, 560, 50);
+        jLabel9.setBounds(10, 10, 560, 40);
 
         jLabel10.setFont(new java.awt.Font("Microsoft YaHei", 1, 20)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));

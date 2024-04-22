@@ -6,6 +6,7 @@
 package SignUp_LogIn;
 
 import AdminDashboard.admin;
+import static SignUp_LogIn.SignUp.hashPass;
 import UserDashboard.user;
 import UserDashboard.userProfileInfo;
 import config.dbConnector;
@@ -33,13 +34,16 @@ public class LogIn extends javax.swing.JFrame {
     public static String fullname;
     public static String l_username;
     public static String emiel;
+    public static String passw;
     
     public static boolean loginAcc(String uname, String pass){
+        
         dbConnector connector = new dbConnector();
         try{
             String query = "SELECT * FROM lmer_table  WHERE lmer_uname = '" + uname + "' AND lmer_pass = '" + pass + "' AND lmer_stat = 'Active'";
             ResultSet resultSet = connector.getData(query);       
             if(resultSet.next()){
+                passw = resultSet.getString("lmer_pass");
                 emiel = resultSet.getString("lmer_email");
                 l_username = resultSet.getString("lmer_uname");
                 status = resultSet.getString("lmer_stat");
@@ -50,7 +54,7 @@ public class LogIn extends javax.swing.JFrame {
                 
                 return true;
             }else{
-                return false;
+                return false; 
             }
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Database Connection Error!");
@@ -187,10 +191,9 @@ public class LogIn extends javax.swing.JFrame {
 
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
         // TODO add your handling code here:
-        dbConnector connector = new dbConnector();
-        
-        
-        if(loginAcc(username.getText(), password.getText())){
+        String pass = hashPass(password.getText());
+        dbConnector connector = new dbConnector();   
+        if(loginAcc(username.getText(), pass)){
             String userna = username.getText();
             if(checkAdmin(userna)){
                 admin ads = new admin();

@@ -41,6 +41,10 @@ public class userProfileInfo extends javax.swing.JFrame {
         u_accountstat = new javax.swing.JLabel();
         u_fullname = new javax.swing.JLabel();
         u_email = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -100,12 +104,17 @@ public class userProfileInfo extends javax.swing.JFrame {
         jPanel1.add(jLabel6);
         jLabel6.setBounds(90, 320, 60, 30);
 
-        jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 2, 16)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 1, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Click to change password!");
+        jLabel7.setText("BACK");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(10, 570, 590, 20);
+        jLabel7.setBounds(270, 570, 70, 30);
 
         u_accountstat.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         u_accountstat.setForeground(new java.awt.Color(255, 255, 255));
@@ -122,6 +131,33 @@ public class userProfileInfo extends javax.swing.JFrame {
         jPanel1.add(u_email);
         u_email.setBounds(290, 320, 290, 30);
 
+        jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 2, 16)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("or");
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(290, 540, 30, 30);
+
+        jLabel9.setFont(new java.awt.Font("Microsoft YaHei", 2, 16)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Change Password");
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel9);
+        jLabel9.setBounds(220, 520, 170, 20);
+
+        jLabel10.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        jPanel1.add(jLabel10);
+        jLabel10.setBounds(320, 540, 280, 20);
+
+        jLabel11.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        jPanel1.add(jLabel11);
+        jLabel11.setBounds(10, 540, 280, 20);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,6 +172,20 @@ public class userProfileInfo extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:\
+        user usr = new user();
+        usr.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        // TODO add your handling code here:
+        changePass cp = new changePass();
+        cp.setVisible(true);     
+       
+    }//GEN-LAST:event_jLabel9MouseClicked
 
     /**
      * @param args the command line arguments
@@ -175,12 +225,16 @@ public class userProfileInfo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public javax.swing.JLabel u_accountstat;

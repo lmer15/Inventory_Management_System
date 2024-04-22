@@ -11,6 +11,9 @@ import config.dbConnector;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -25,7 +28,17 @@ public class admin extends javax.swing.JFrame {
      */
     public admin() {
         initComponents();
+        datetime();
     }
+    
+    public void datetime(){
+        DateTimeFormatter d = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter t = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        date.setText(d.format(now));
+        time.setText(t.format(now));  
+    }
+    
     
     Color navcolor = new Color (0,0,0,0);
     Color headcolor = new Color (153,153,153);
@@ -40,6 +53,8 @@ public class admin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         adminPosition = new javax.swing.JLabel();
         adminName = new javax.swing.JLabel();
+        time = new javax.swing.JLabel();
+        date = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         pi = new javax.swing.JLabel();
@@ -97,6 +112,16 @@ public class admin extends javax.swing.JFrame {
         adminName.setText("Admin Name");
         jPanel2.add(adminName);
         adminName.setBounds(110, 20, 410, 30);
+
+        time.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
+        time.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel2.add(time);
+        time.setBounds(900, 50, 130, 20);
+
+        date.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
+        date.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel2.add(date);
+        date.setBounds(900, 20, 130, 20);
 
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 1050, 90);
@@ -158,7 +183,7 @@ public class admin extends javax.swing.JFrame {
 
         vua.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         vua.setForeground(new java.awt.Color(255, 255, 255));
-        vua.setText("View User Account");
+        vua.setText("Manage Account");
         vua.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 vuaMouseClicked(evt);
@@ -453,6 +478,7 @@ public class admin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel adminName;
     public javax.swing.JLabel adminPosition;
+    private javax.swing.JLabel date;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
@@ -487,6 +513,7 @@ public class admin extends javax.swing.JFrame {
     private javax.swing.JLabel lo;
     private javax.swing.JLabel pi;
     private javax.swing.JLabel si;
+    private javax.swing.JLabel time;
     private javax.swing.JLabel vua;
     // End of variables declaration//GEN-END:variables
 }
