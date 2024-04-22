@@ -183,7 +183,8 @@ public class userProfileInfo extends javax.swing.JFrame {
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         // TODO add your handling code here:
         changePass cp = new changePass();
-        cp.setVisible(true);     
+        cp.setVisible(true);  
+        this.dispose();
        
     }//GEN-LAST:event_jLabel9MouseClicked
 

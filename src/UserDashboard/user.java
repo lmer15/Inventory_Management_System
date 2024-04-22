@@ -304,19 +304,20 @@ public class user extends javax.swing.JFrame {
         // TODO add your handling code here:
         LogIn li = new LogIn();
         li.setVisible(true);
+        this.dispose();
         
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         
         userProfileInfo usi = new userProfileInfo();
-
         usi.u_username.setText("@" + LogIn.l_username);
         usi.u_position.setText(LogIn.type);
         usi.u_fullname.setText(LogIn.fullname);
         usi.u_email.setText(LogIn.emiel);
         usi.u_accountstat.setText(LogIn.status);
         usi.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
 
     /**

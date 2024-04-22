@@ -5,6 +5,7 @@
  */
 package AdminDashboard;
 
+import SignUp_LogIn.SignUp;
 import config.dbConnector;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
@@ -196,10 +197,20 @@ public class updateAcc extends javax.swing.JFrame {
         // TODO add your handling code here:
         UsersAccount ua = new UsersAccount();
         ua.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
-  
+    
+        SignUp su = new SignUp();
+    
+        boolean dupli = su.duplicateCheck();
+        
+        if(dupli = true){
+            JOptionPane.showMessageDialog(null, "Email");
+            email1.getText();
+            username1.getText();
+        }else{
         dbConnector dbc = new dbConnector();
         String updateQuery = "UPDATE lmer_table SET lmer_fname = '" + finame.getText() + "', "
                             + "lmer_lname = '" + laname.getText() + "', "
@@ -208,9 +219,13 @@ public class updateAcc extends javax.swing.JFrame {
                             + "lmer_acc = '" + position1.getSelectedItem() + "',"
                             + "lmer_stat = '" + status.getSelectedItem() + "' "
                             + "WHERE lmer_ID = '" + id.getText() + "'";
+        
+        
         dbc.updateData(updateQuery);
         UsersAccount ua = new UsersAccount();
         ua.setVisible(true);
+        this.dispose();
+        }
     }//GEN-LAST:event_updateMouseClicked
 
     /**

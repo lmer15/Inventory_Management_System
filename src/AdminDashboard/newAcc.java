@@ -269,6 +269,7 @@ public class newAcc extends javax.swing.JFrame {
         // TODO add your handling code here:
         UsersAccount ua = new UsersAccount();
         ua.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void showMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMouseClicked

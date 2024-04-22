@@ -73,6 +73,11 @@ public class changePass extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("CANCEL");
         jLabel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
         jPanel1.add(jLabel3);
         jLabel3.setBounds(260, 300, 80, 30);
 
@@ -145,12 +150,11 @@ public class changePass extends javax.swing.JFrame {
     }//GEN-LAST:event_orgPasswoActionPerformed
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        
-        
+  
         String pass = hashPass(newPass.getText());
-        String orgPassw = orgPasswo.getText();
+        String orig = hashPass(orgPasswo.getText());
         String newPassw = pass;
-        if (!orgPassw.equals(origPass)) {
+        if (!orig.equals(origPass)) {
             JOptionPane.showMessageDialog(null, "Original password is incorrect.");
             return;
         }
@@ -160,6 +164,13 @@ public class changePass extends javax.swing.JFrame {
         u.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+        userProfileInfo upi = new userProfileInfo();
+        upi.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments

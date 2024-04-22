@@ -27,9 +27,7 @@ public class SignUp extends javax.swing.JFrame {
      */
     public SignUp() {
         initComponents();
-        signUp.requestFocus();
-
-        
+        signUp.requestFocus();    
     }
     
     public static String usern, emel;

@@ -62,8 +62,6 @@ private void table() {
     Users.setGridColor(Color.WHITE);
 }
 
-
-
     
  public void displayData(){
         try{
@@ -302,6 +300,7 @@ private void table() {
             ua.position1.setSelectedItem(model.getValueAt(rowindex, 5));
             ua.status.setSelectedItem(model.getValueAt(rowindex, 6));
             ua.setVisible(true);
+            this.dispose();
         }
 
 
