@@ -6,9 +6,9 @@
 package SignUp_LogIn;
 
 import AdminDashboard.admin;
+import Config.session;
 import static SignUp_LogIn.SignUp.hashPass;
 import UserDashboard.user;
-import UserDashboard.userProfileInfo;
 import config.dbConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +31,6 @@ public class LogIn extends javax.swing.JFrame {
     public static String names;
     public static String status;
     public static String type;
-    public static String fullname;
     public static String l_username;
     public static String emiel;
     public static String passw;
@@ -39,10 +38,11 @@ public class LogIn extends javax.swing.JFrame {
     public static boolean loginAcc(String uname, String pass){
         
         dbConnector connector = new dbConnector();
+   
         try{
             String query = "SELECT * FROM lmer_table  WHERE lmer_uname = '" + uname + "' AND lmer_pass = '" + pass + "' AND lmer_stat = 'Active'";
             ResultSet resultSet = connector.getData(query);       
-            if(resultSet.next()){
+            if(resultSet.next()){               
                 passw = resultSet.getString("lmer_pass");
                 emiel = resultSet.getString("lmer_email");
                 l_username = resultSet.getString("lmer_uname");
@@ -50,8 +50,15 @@ public class LogIn extends javax.swing.JFrame {
                 type = resultSet.getString("lmer_acc");
                 names = resultSet.getString("lmer_fname");
                 surnam = resultSet.getString("lmer_lname");
-                fullname = names + " " + surnam;
-                
+                session ss = session.getInstance();
+                ss.setId(resultSet.getInt("lmer_ID"));
+                ss.setFname(resultSet.getString("lmer_fname"));
+                ss.setLname(resultSet.getString("lmer_lname"));
+                ss.setEmail(resultSet.getString("lmer_email"));
+                ss.setUsername(resultSet.getString("lmer_uname"));
+                ss.setPosition(resultSet.getString("lmer_acc"));
+                ss.setStatus(resultSet.getString("lmer_stat"));
+                  
                 return true;
             }else{
                 return false; 
@@ -194,22 +201,24 @@ public class LogIn extends javax.swing.JFrame {
         String pass = hashPass(password.getText());
         dbConnector connector = new dbConnector();   
         if(loginAcc(username.getText(), pass)){
-            String userna = username.getText();
-            if(checkAdmin(userna)){
-                admin ads = new admin();
-                ads.adminName.setText("" +fullname);
-                ads.adminPosition.setText("" +type);
+            
+            if(!status.equals("Active")){
+                JOptionPane.showMessageDialog(null, "In-Active Account, please notify the Manager");
+            }else{
+            if(type.equals("Manager")){
+                admin ads = new admin();;
                 ads.setVisible(true);
                 this.dispose();
-            }else{
+            }else if(type.equals("Inventory-In-Charge")){
                 user usr = new user();
-                usr.userName.setText("" +fullname);
-                usr.userPosition.setText("" +type);
                 usr.setVisible(true);
                 this.dispose();
 
+            }else{
+                JOptionPane.showMessageDialog(null, "No Account Found,Contact the Manager");
             }
-            this.dispose();
+          
+            }
         }else{
             JOptionPane.showMessageDialog(null, "Log In Failed");        
         }

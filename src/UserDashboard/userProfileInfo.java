@@ -5,6 +5,8 @@
  */
 package UserDashboard;
 
+import java.awt.Color;
+
 /**
  *
  * @author Elmer Rapon
@@ -17,6 +19,9 @@ public class userProfileInfo extends javax.swing.JFrame {
     public userProfileInfo() {
         initComponents();
     }
+    Color navcolor = new Color (153,153,153);
+    Color headcolor = new Color (153,153,153);
+    Color bodycolor =new Color (102,102,102);;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,12 +42,12 @@ public class userProfileInfo extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        back = new javax.swing.JLabel();
         u_accountstat = new javax.swing.JLabel();
         u_fullname = new javax.swing.JLabel();
         u_email = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        pass = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
@@ -104,17 +109,25 @@ public class userProfileInfo extends javax.swing.JFrame {
         jPanel1.add(jLabel6);
         jLabel6.setBounds(90, 320, 60, 30);
 
-        jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 1, 16)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("BACK");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+        back.setBackground(new java.awt.Color(102, 102, 102));
+        back.setFont(new java.awt.Font("Microsoft YaHei", 1, 16)); // NOI18N
+        back.setForeground(new java.awt.Color(255, 255, 255));
+        back.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        back.setText("BACK");
+        back.setOpaque(true);
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
+                backMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backMouseExited(evt);
             }
         });
-        jPanel1.add(jLabel7);
-        jLabel7.setBounds(270, 570, 70, 30);
+        jPanel1.add(back);
+        back.setBounds(270, 570, 70, 30);
 
         u_accountstat.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         u_accountstat.setForeground(new java.awt.Color(255, 255, 255));
@@ -138,17 +151,25 @@ public class userProfileInfo extends javax.swing.JFrame {
         jPanel1.add(jLabel8);
         jLabel8.setBounds(290, 540, 30, 30);
 
-        jLabel9.setFont(new java.awt.Font("Microsoft YaHei", 2, 16)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Change Password");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+        pass.setBackground(new java.awt.Color(102, 102, 102));
+        pass.setFont(new java.awt.Font("Microsoft YaHei", 2, 16)); // NOI18N
+        pass.setForeground(new java.awt.Color(255, 255, 255));
+        pass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pass.setText("Change Password");
+        pass.setOpaque(true);
+        pass.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
+                passMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                passMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                passMouseExited(evt);
             }
         });
-        jPanel1.add(jLabel9);
-        jLabel9.setBounds(220, 520, 170, 20);
+        jPanel1.add(pass);
+        pass.setBounds(220, 520, 170, 30);
 
         jLabel10.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
         jPanel1.add(jLabel10);
@@ -173,20 +194,42 @@ public class userProfileInfo extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
         // TODO add your handling code here:\
         user usr = new user();
         usr.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel7MouseClicked
+    }//GEN-LAST:event_backMouseClicked
 
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+    private void passMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passMouseClicked
         // TODO add your handling code here:
         changePass cp = new changePass();
         cp.setVisible(true);  
         this.dispose();
        
-    }//GEN-LAST:event_jLabel9MouseClicked
+    }//GEN-LAST:event_passMouseClicked
+
+    private void passMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passMouseEntered
+        // TODO add your handling code here:
+        pass.setBackground(navcolor);  
+    }//GEN-LAST:event_passMouseEntered
+
+    private void passMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passMouseExited
+        // TODO add your handling code here:
+        pass.setBackground(bodycolor);  
+      
+    }//GEN-LAST:event_passMouseExited
+
+    private void backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseEntered
+        // TODO add your handling code here:
+        back.setBackground(navcolor);         
+    }//GEN-LAST:event_backMouseEntered
+
+    private void backMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseExited
+        // TODO add your handling code here:
+        back.setBackground(bodycolor);  
+
+    }//GEN-LAST:event_backMouseExited
 
     /**
      * @param args the command line arguments
@@ -225,6 +268,7 @@ public class userProfileInfo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel back;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -233,11 +277,10 @@ public class userProfileInfo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel pass;
     public javax.swing.JLabel u_accountstat;
     public javax.swing.JLabel u_email;
     public javax.swing.JLabel u_fullname;

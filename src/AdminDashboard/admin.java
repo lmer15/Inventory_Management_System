@@ -5,16 +5,20 @@
  */
 package AdminDashboard;
 
+import Config.session;
 import SignUp_LogIn.LogIn;
 import static SignUp_LogIn.LogIn.loginAcc;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.time;
 import config.dbConnector;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -28,21 +32,35 @@ public class admin extends javax.swing.JFrame {
      */
     public admin() {
         initComponents();
-        datetime();
+        date();
+        time();
+        
     }
     
-    public void datetime(){
-        DateTimeFormatter d = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        DateTimeFormatter t = DateTimeFormatter.ofPattern("HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        date.setText(d.format(now));
-        time.setText(t.format(now));  
+    private void date(){
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        String dt = sdf.format(d);
+        date.setText(dt);
+        
+    }
+    Timer t;
+    SimpleDateFormat st;
+    
+    private void time(){
+        t = new Timer(0, (ActionEvent ae) ->{
+            Date dt = new Date();
+            st = new SimpleDateFormat("hh:mm:ss a");
+            String tm = st.format(dt);
+            time.setText(tm);
+        });
+        t.start();
     }
     
     
-    Color navcolor = new Color (0,0,0,0);
+    Color navcolor = new Color (153,153,153);
     Color headcolor = new Color (153,153,153);
-    Color bodycolor =new Color (240,240,240);;
+    Color bodycolor =new Color (102,102,102);;
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -56,23 +74,23 @@ public class admin extends javax.swing.JFrame {
         time = new javax.swing.JLabel();
         date = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         pi = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         lo = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        vua = new javax.swing.JLabel();
+        manageAcc = new javax.swing.JLabel();
         si = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        oi = new javax.swing.JLabel();
+        wia = new javax.swing.JLabel();
+        dr = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        da = new javax.swing.JLabel();
+        ts = new javax.swing.JLabel();
+        ar = new javax.swing.JLabel();
+        vers = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
+        rbs = new javax.swing.JLabel();
+        cd = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -84,14 +102,17 @@ public class admin extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-
-        jPanel1.setLayout(null);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 0));
         jPanel2.setLayout(null);
@@ -107,6 +128,7 @@ public class admin extends javax.swing.JFrame {
         jPanel2.add(adminPosition);
         adminPosition.setBounds(110, 50, 380, 30);
 
+        adminName.setBackground(new java.awt.Color(51, 255, 255));
         adminName.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 24)); // NOI18N
         adminName.setForeground(new java.awt.Color(255, 255, 255));
         adminName.setText("Admin Name");
@@ -123,17 +145,14 @@ public class admin extends javax.swing.JFrame {
         jPanel2.add(date);
         date.setBounds(900, 20, 130, 20);
 
-        jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 1050, 90);
+        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel3.setLayout(null);
-        jPanel3.add(jLabel1);
-        jLabel1.setBounds(40, 40, 0, 0);
-
+        pi.setBackground(new java.awt.Color(102, 102, 102));
         pi.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         pi.setForeground(new java.awt.Color(255, 255, 255));
         pi.setText("Profile Info");
+        pi.setOpaque(true);
         pi.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 piMouseMoved(evt);
@@ -147,19 +166,19 @@ public class admin extends javax.swing.JFrame {
                 piMouseExited(evt);
             }
         });
-        jPanel3.add(pi);
-        pi.setBounds(50, 80, 220, 30);
+        jPanel3.add(pi, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 230, 30));
 
         jLabel7.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("About Us");
         jLabel7.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel3.add(jLabel7);
-        jLabel7.setBounds(30, 600, 220, 30);
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 600, 220, 30));
 
+        lo.setBackground(new java.awt.Color(102, 102, 102));
         lo.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         lo.setForeground(new java.awt.Color(255, 51, 51));
         lo.setText("Log Out");
+        lo.setOpaque(true);
         lo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loMouseClicked(evt);
@@ -171,36 +190,37 @@ public class admin extends javax.swing.JFrame {
                 loMouseExited(evt);
             }
         });
-        jPanel3.add(lo);
-        lo.setBounds(50, 140, 220, 30);
+        jPanel3.add(lo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 230, 30));
 
         jLabel9.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Profile");
         jLabel9.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel3.add(jLabel9);
-        jLabel9.setBounds(30, 50, 220, 30);
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 220, 30));
 
-        vua.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        vua.setForeground(new java.awt.Color(255, 255, 255));
-        vua.setText("Manage Account");
-        vua.addMouseListener(new java.awt.event.MouseAdapter() {
+        manageAcc.setBackground(new java.awt.Color(102, 102, 102));
+        manageAcc.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        manageAcc.setForeground(new java.awt.Color(255, 255, 255));
+        manageAcc.setText("Manage Account");
+        manageAcc.setOpaque(true);
+        manageAcc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                vuaMouseClicked(evt);
+                manageAccMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                vuaMouseEntered(evt);
+                manageAccMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                vuaMouseExited(evt);
+                manageAccMouseExited(evt);
             }
         });
-        jPanel3.add(vua);
-        vua.setBounds(50, 110, 220, 30);
+        jPanel3.add(manageAcc, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 230, 30));
 
+        si.setBackground(new java.awt.Color(102, 102, 102));
         si.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         si.setForeground(new java.awt.Color(255, 255, 255));
         si.setText("Sales Inventory");
+        si.setOpaque(true);
         si.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 siMouseEntered(evt);
@@ -209,100 +229,185 @@ public class admin extends javax.swing.JFrame {
                 siMouseExited(evt);
             }
         });
-        jPanel3.add(si);
-        si.setBounds(50, 240, 220, 30);
+        jPanel3.add(si, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 230, 30));
 
-        jLabel13.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Output Inventory");
-        jPanel3.add(jLabel13);
-        jLabel13.setBounds(50, 270, 220, 30);
+        oi.setBackground(new java.awt.Color(102, 102, 102));
+        oi.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        oi.setForeground(new java.awt.Color(255, 255, 255));
+        oi.setText("Output Inventory");
+        oi.setOpaque(true);
+        oi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                oiMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                oiMouseExited(evt);
+            }
+        });
+        jPanel3.add(oi, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 230, 30));
 
-        jLabel14.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("Walk-In Accounts");
-        jPanel3.add(jLabel14);
-        jLabel14.setBounds(50, 300, 220, 30);
+        wia.setBackground(new java.awt.Color(102, 102, 102));
+        wia.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        wia.setForeground(new java.awt.Color(255, 255, 255));
+        wia.setText("Walk-In Accounts");
+        wia.setOpaque(true);
+        wia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                wiaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                wiaMouseExited(evt);
+            }
+        });
+        jPanel3.add(wia, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 230, 30));
 
-        jLabel15.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("Damage/Reject");
-        jPanel3.add(jLabel15);
-        jLabel15.setBounds(50, 540, 220, 30);
+        dr.setBackground(new java.awt.Color(102, 102, 102));
+        dr.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        dr.setForeground(new java.awt.Color(255, 255, 255));
+        dr.setText("Damage/Reject");
+        dr.setOpaque(true);
+        dr.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                drMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                drMouseExited(evt);
+            }
+        });
+        jPanel3.add(dr, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 230, 30));
 
         jLabel16.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Dashboard");
         jLabel16.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel3.add(jLabel16);
-        jLabel16.setBounds(30, 200, 220, 30);
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 220, 30));
 
-        jLabel17.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setText("Distributor Accounts");
-        jPanel3.add(jLabel17);
-        jLabel17.setBounds(50, 330, 220, 30);
+        da.setBackground(new java.awt.Color(102, 102, 102));
+        da.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        da.setForeground(new java.awt.Color(255, 255, 255));
+        da.setText("Distributor Accounts");
+        da.setOpaque(true);
+        da.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                daMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                daMouseExited(evt);
+            }
+        });
+        jPanel3.add(da, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 230, 30));
 
-        jLabel18.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setText("Total Sales");
-        jPanel3.add(jLabel18);
-        jLabel18.setBounds(50, 450, 220, 30);
+        ts.setBackground(new java.awt.Color(102, 102, 102));
+        ts.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        ts.setForeground(new java.awt.Color(255, 255, 255));
+        ts.setText("Total Sales");
+        ts.setOpaque(true);
+        ts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                tsMouseExited(evt);
+            }
+        });
+        jPanel3.add(ts, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 440, 230, 30));
 
-        jLabel19.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel19.setText("Accounts Receivable");
-        jPanel3.add(jLabel19);
-        jLabel19.setBounds(50, 480, 220, 30);
+        ar.setBackground(new java.awt.Color(102, 102, 102));
+        ar.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        ar.setForeground(new java.awt.Color(255, 255, 255));
+        ar.setText("Accounts Receivable");
+        ar.setOpaque(true);
+        ar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                arMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                arMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                arMouseExited(evt);
+            }
+        });
+        jPanel3.add(ar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 470, 230, 30));
 
-        jLabel20.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel20.setText("Version 1.0.00.0");
-        jPanel3.add(jLabel20);
-        jLabel20.setBounds(50, 640, 200, 30);
+        vers.setBackground(new java.awt.Color(102, 102, 102));
+        vers.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        vers.setForeground(new java.awt.Color(255, 255, 255));
+        vers.setText("Version 1.0.00.0");
+        vers.setOpaque(true);
+        vers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                versMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                versMouseExited(evt);
+            }
+        });
+        jPanel3.add(vers, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 640, 230, 30));
 
         jLabel21.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
         jLabel21.setText("Reports");
         jLabel21.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel3.add(jLabel21);
-        jLabel21.setBounds(30, 400, 220, 30);
+        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 220, 30));
 
-        jLabel22.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel22.setText("Returned/BO Stocks");
-        jPanel3.add(jLabel22);
-        jLabel22.setBounds(50, 510, 220, 30);
+        rbs.setBackground(new java.awt.Color(102, 102, 102));
+        rbs.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        rbs.setForeground(new java.awt.Color(255, 255, 255));
+        rbs.setText("Returned/BO Stocks");
+        rbs.setOpaque(true);
+        rbs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                rbsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                rbsMouseExited(evt);
+            }
+        });
+        jPanel3.add(rbs, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 500, 230, 30));
 
-        jPanel1.add(jPanel3);
-        jPanel3.setBounds(0, 90, 280, 680);
+        cd.setBackground(new java.awt.Color(102, 102, 102));
+        cd.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        cd.setForeground(new java.awt.Color(255, 255, 255));
+        cd.setText("Company's Details");
+        cd.setOpaque(true);
+        cd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cdMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cdMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                cdMouseExited(evt);
+            }
+        });
+        jPanel3.add(cd, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 230, 30));
 
         jPanel4.setBackground(new java.awt.Color(98, 180, 98));
         jPanel4.setLayout(null);
 
         jLabel10.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Pulled Out Stocks");
+        jLabel10.setText("Total Sold");
         jLabel10.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel4.add(jLabel10);
         jLabel10.setBounds(20, 30, 280, 25);
 
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 1, 50)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("-234,567");
         jPanel4.add(jLabel4);
-        jLabel4.setBounds(70, 70, 240, 120);
+        jLabel4.setBounds(10, 70, 320, 120);
 
-        jLabel23.setText("from July 26 to December 16");
+        jLabel23.setText("As of December 16, 2024");
         jPanel4.add(jLabel23);
         jLabel23.setBounds(30, 200, 210, 30);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-time-25.png"))); // NOI18N
         jPanel4.add(jLabel3);
         jLabel3.setBounds(0, 200, 25, 30);
-
-        jPanel1.add(jPanel4);
-        jPanel4.setBounds(300, 120, 340, 240);
 
         jPanel6.setBackground(new java.awt.Color(98, 180, 98));
         jPanel6.setLayout(null);
@@ -330,25 +435,19 @@ public class admin extends javax.swing.JFrame {
         jPanel6.add(jScrollPane1);
         jScrollPane1.setBounds(20, 50, 690, 310);
 
-        jPanel1.add(jPanel6);
-        jPanel6.setBounds(300, 390, 730, 370);
-
         jPanel7.setBackground(new java.awt.Color(98, 180, 98));
         jPanel7.setLayout(null);
 
         jLabel25.setFont(new java.awt.Font("Microsoft YaHei", 1, 50)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel25.setText("+100,000");
         jPanel7.add(jLabel25);
-        jLabel25.setBounds(40, 70, 250, 120);
-
-        jLabel26.setText("from July 26 to December 16");
-        jPanel7.add(jLabel26);
-        jLabel26.setBounds(40, 200, 210, 30);
+        jLabel25.setBounds(10, 70, 330, 130);
 
         jLabel27.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel27.setText("Pulled In Stocks");
+        jLabel27.setText("Total Outputs");
         jLabel27.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel7.add(jLabel27);
         jLabel27.setBounds(20, 30, 280, 25);
@@ -357,8 +456,41 @@ public class admin extends javax.swing.JFrame {
         jPanel7.add(jLabel5);
         jLabel5.setBounds(10, 200, 25, 30);
 
-        jPanel1.add(jPanel7);
-        jPanel7.setBounds(679, 119, 350, 240);
+        jLabel28.setText("As of December 16, 2024");
+        jPanel7.add(jLabel28);
+        jLabel28.setBounds(40, 200, 210, 30);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -370,19 +502,19 @@ public class admin extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void vuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vuaMouseClicked
+    private void manageAccMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageAccMouseClicked
         // TODO add your handling code here:
         UsersAccount ua = new UsersAccount();
         ua.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_vuaMouseClicked
+    }//GEN-LAST:event_manageAccMouseClicked
 
     private void loMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loMouseClicked
         // TODO add your handling code here:
@@ -393,25 +525,27 @@ public class admin extends javax.swing.JFrame {
 
     private void piMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_piMouseEntered
         // TODO add your handling code here:
+        pi.setOpaque(true);
         pi.setBackground(navcolor);       
     }//GEN-LAST:event_piMouseEntered
 
     private void piMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_piMouseExited
         // TODO add your handling code here:
+        pi.setOpaque(true);
         pi.setBackground(bodycolor);       
     
     }//GEN-LAST:event_piMouseExited
 
-    private void vuaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vuaMouseEntered
+    private void manageAccMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageAccMouseEntered
         // TODO add your handling code here:
-        vua.setBackground(navcolor);       
-    }//GEN-LAST:event_vuaMouseEntered
+        manageAcc.setBackground(navcolor);       
+    }//GEN-LAST:event_manageAccMouseEntered
 
-    private void vuaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vuaMouseExited
+    private void manageAccMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageAccMouseExited
         // TODO add your handling code here:
-        vua.setBackground(bodycolor);       
+        manageAcc.setBackground(bodycolor);       
 
-    }//GEN-LAST:event_vuaMouseExited
+    }//GEN-LAST:event_manageAccMouseExited
 
     private void loMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loMouseEntered
         // TODO add your handling code here:
@@ -439,6 +573,125 @@ public class admin extends javax.swing.JFrame {
     private void piMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_piMouseMoved
 
     }//GEN-LAST:event_piMouseMoved
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        session ss = session.getInstance();
+        String firstname = ss.getFname();
+        String lastname = ss.getLname();
+        String fullname = firstname + " " +lastname;
+        if(ss.getId() == 0){
+            JOptionPane.showMessageDialog(null, "No account, Log In First");
+            LogIn li = new LogIn();
+            li.setVisible(true);
+            this.dispose();    
+        }else{
+            adminName.setText(""+fullname);
+            adminPosition.setText(""+ss.getPosition());  
+        }     
+    }//GEN-LAST:event_formWindowActivated
+
+    private void oiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_oiMouseEntered
+        // TODO add your handling code here:
+        oi.setBackground(navcolor);
+    }//GEN-LAST:event_oiMouseEntered
+
+    private void oiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_oiMouseExited
+        // TODO add your handling code here:
+        oi.setBackground(bodycolor);
+    }//GEN-LAST:event_oiMouseExited
+
+    private void wiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wiaMouseEntered
+        // TODO add your handling code here:
+        wia.setBackground(navcolor);
+    }//GEN-LAST:event_wiaMouseEntered
+
+    private void wiaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wiaMouseExited
+        // TODO add your handling code here:
+        wia.setBackground(bodycolor);
+    }//GEN-LAST:event_wiaMouseExited
+
+    private void daMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daMouseEntered
+        // TODO add your handling code here:
+        da.setBackground(navcolor);      
+    }//GEN-LAST:event_daMouseEntered
+
+    private void daMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daMouseExited
+        // TODO add your handling code here:
+        da.setBackground(bodycolor);      
+    }//GEN-LAST:event_daMouseExited
+
+    private void tsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tsMouseEntered
+        // TODO add your handling code here:
+        ts.setBackground(navcolor);
+    }//GEN-LAST:event_tsMouseEntered
+
+    private void tsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tsMouseExited
+        // TODO add your handling code here:
+        ts.setBackground(bodycolor);
+    }//GEN-LAST:event_tsMouseExited
+
+    private void arMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_arMouseClicked
+
+    private void arMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arMouseEntered
+        // TODO add your handling code here:
+        ar.setBackground(navcolor);
+    }//GEN-LAST:event_arMouseEntered
+
+    private void arMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arMouseExited
+        // TODO add your handling code here:
+        ar.setBackground(bodycolor);
+    }//GEN-LAST:event_arMouseExited
+
+    private void rbsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbsMouseEntered
+        // TODO add your handling code here:
+       rbs.setBackground(navcolor);
+    }//GEN-LAST:event_rbsMouseEntered
+
+    private void rbsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbsMouseExited
+        // TODO add your handling code here:\
+        rbs.setBackground(bodycolor);
+    }//GEN-LAST:event_rbsMouseExited
+
+    private void drMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_drMouseEntered
+        // TODO add your handling code here:
+        dr.setBackground(navcolor);
+    }//GEN-LAST:event_drMouseEntered
+
+    private void drMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_drMouseExited
+        // TODO add your handling code here:
+        dr.setBackground(bodycolor);
+    }//GEN-LAST:event_drMouseExited
+
+    private void versMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_versMouseEntered
+        // TODO add your handling code here:
+        vers.setBackground(navcolor);
+    }//GEN-LAST:event_versMouseEntered
+
+    private void versMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_versMouseExited
+        // TODO add your handling code here:
+       vers.setBackground(bodycolor);
+    }//GEN-LAST:event_versMouseExited
+
+    private void cdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cdMouseClicked
+        // TODO add your handling code here:
+        Company_Profile cp = new Company_Profile();
+        cp.setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_cdMouseClicked
+
+    private void cdMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cdMouseEntered
+        // TODO add your handling code here:
+        cd.setBackground(navcolor);
+    }//GEN-LAST:event_cdMouseEntered
+
+    private void cdMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cdMouseExited
+        // TODO add your handling code here:
+        cd.setBackground(bodycolor);
+    }//GEN-LAST:event_cdMouseExited
 
     /**
      * @param args the command line arguments
@@ -478,25 +731,20 @@ public class admin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel adminName;
     public javax.swing.JLabel adminPosition;
+    private javax.swing.JLabel ar;
+    private javax.swing.JLabel cd;
+    private javax.swing.JLabel da;
     private javax.swing.JLabel date;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel dr;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -511,9 +759,14 @@ public class admin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lo;
+    private javax.swing.JLabel manageAcc;
+    private javax.swing.JLabel oi;
     private javax.swing.JLabel pi;
+    private javax.swing.JLabel rbs;
     private javax.swing.JLabel si;
     private javax.swing.JLabel time;
-    private javax.swing.JLabel vua;
+    private javax.swing.JLabel ts;
+    private javax.swing.JLabel vers;
+    private javax.swing.JLabel wia;
     // End of variables declaration//GEN-END:variables
 }

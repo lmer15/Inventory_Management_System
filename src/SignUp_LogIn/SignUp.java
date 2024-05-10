@@ -77,7 +77,7 @@ public class SignUp extends javax.swing.JFrame {
         }
         return null;
     }
-
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -422,16 +422,18 @@ public class SignUp extends javax.swing.JFrame {
                     + " '"+email.getText()+"', "
                     + " '"+username.getText()+"', "
                     + "'"+pass+"', "
-                    + "'"+position.getSelectedItem()+"', 'Pending' ) ")){
+                    + "'"+position.getSelectedItem()+"',"
+                    + " 'Pending' ) ")){
 
-                    JOptionPane.showMessageDialog(null, "Inserted Successfully!");
-                }else{
+                    JOptionPane.showMessageDialog(null, "Sign Up Successfully!");
+                }
+                else{
                     JOptionPane.showMessageDialog(null, "Connection Error!");
                 }
                     LogIn li = new LogIn();
                     li.setVisible(true);
                     this.dispose(); 
-            }
+        }
         
     }//GEN-LAST:event_signUpActionPerformed
 

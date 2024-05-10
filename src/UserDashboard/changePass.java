@@ -5,6 +5,7 @@
  */
 package UserDashboard;
 
+import Config.session;
 import SignUp_LogIn.LogIn;
 import static SignUp_LogIn.SignUp.hashPass;
 import config.dbConnector;
@@ -32,6 +33,7 @@ public class changePass extends javax.swing.JFrame {
         connector.updateData(query);
         
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -150,25 +152,39 @@ public class changePass extends javax.swing.JFrame {
     }//GEN-LAST:event_orgPasswoActionPerformed
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-  
+
         String pass = hashPass(newPass.getText());
         String orig = hashPass(orgPasswo.getText());
         String newPassw = pass;
-        if (!orig.equals(origPass)) {
-            JOptionPane.showMessageDialog(null, "Original password is incorrect.");
+        if(orgPasswo.getText().isEmpty() || newPass.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Field is empty, Fill the form");
+        }else if(!orig.equals(origPass)){               
+           JOptionPane.showMessageDialog(null, "Original password is incorrect.");
             return;
-        }
+        }else{
         updatePassword(newPassw);
         JOptionPane.showMessageDialog(null, "Password updated successfully!.");
         user u = new user();
         u.setVisible(true);
         this.dispose();
+        }
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
-        userProfileInfo upi = new userProfileInfo();
-        upi.setVisible(true);
+        userProfileInfo usi = new userProfileInfo();
+        session ss = session.getInstance();
+        String firstname = ss.getFname();
+        String lastname = ss.getLname();
+        String fullname = firstname + " " +lastname;
+        usi.u_username.setText("@" + ss.getUsername());
+        usi.u_position.setText(ss.getPosition());
+        usi.u_fullname.setText(fullname);
+        usi.u_email.setText(ss.getEmail());
+        usi.u_accountstat.setText(ss.getStatus());
+        usi.setVisible(true);
+        this.dispose();
+        usi.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
 
