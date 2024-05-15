@@ -5,7 +5,7 @@
  */
 package UserDashboard;
 
-import AdminDashboard.updateAcc;
+
 import Config.session;
 import SignUp_LogIn.LogIn;
 import java.awt.Color;
@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.event.AncestorListener;
 
 /**
  *
@@ -53,6 +54,8 @@ public class user extends javax.swing.JFrame {
     Color navcolor = new Color (153,153,153);
     Color headcolor = new Color (153,153,153);
     Color bodycolor =new Color (102,102,102);;
+    Color transColor = new Color (240,240,240);
+    Color newTrans =new Color(255,255,255);
     
     static String user;
     @SuppressWarnings("unchecked")
@@ -72,7 +75,6 @@ public class user extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         pi = new javax.swing.JLabel();
         da = new javax.swing.JLabel();
-        wic = new javax.swing.JLabel();
         drp = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         list = new javax.swing.JLabel();
@@ -84,6 +86,7 @@ public class user extends javax.swing.JFrame {
         vers = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         ra = new javax.swing.JLabel();
+        userDesktop = new javax.swing.JDesktopPane();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -91,7 +94,7 @@ public class user extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel24 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        trans = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -104,37 +107,32 @@ public class user extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 51));
-        jPanel2.setLayout(null);
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         userName.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 24)); // NOI18N
         userName.setForeground(new java.awt.Color(255, 255, 255));
         userName.setText("User Name");
-        jPanel2.add(userName);
-        userName.setBounds(110, 20, 340, 30);
+        jPanel2.add(userName, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 340, 30));
 
         userPosition.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 17)); // NOI18N
         userPosition.setForeground(new java.awt.Color(255, 255, 255));
         userPosition.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         userPosition.setText("Position");
-        jPanel2.add(userPosition);
-        userPosition.setBounds(110, 50, 290, 30);
+        jPanel2.add(userPosition, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 290, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-user-70.png"))); // NOI18N
-        jPanel2.add(jLabel2);
-        jLabel2.setBounds(20, 10, 80, 80);
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 80, 80));
 
         time.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         time.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.add(time);
-        time.setBounds(910, 50, 120, 20);
+        jPanel2.add(time, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 50, 120, 20));
 
         date.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         date.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.add(date);
-        date.setBounds(910, 20, 120, 20);
+        jPanel2.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, 120, 20));
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, -3, 1050, 90);
+        jPanel2.setBounds(0, -3, 1040, 90);
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
         jPanel3.setForeground(new java.awt.Color(102, 102, 102));
@@ -150,7 +148,7 @@ public class user extends javax.swing.JFrame {
         logOut.setBackground(new java.awt.Color(102, 102, 102));
         logOut.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         logOut.setForeground(new java.awt.Color(255, 0, 0));
-        logOut.setText("Log Out");
+        logOut.setText("          Log Out");
         logOut.setOpaque(true);
         logOut.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -164,19 +162,19 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(logOut);
-        logOut.setBounds(50, 118, 200, 30);
+        logOut.setBounds(0, 110, 280, 30);
 
         jLabel10.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Profile");
         jLabel10.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel3.add(jLabel10);
-        jLabel10.setBounds(30, 50, 220, 30);
+        jLabel10.setBounds(30, 40, 220, 30);
 
         pi.setBackground(new java.awt.Color(102, 102, 102));
         pi.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         pi.setForeground(new java.awt.Color(255, 255, 255));
-        pi.setText("Profile Info");
+        pi.setText("          Profile Info");
         pi.setOpaque(true);
         pi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -190,12 +188,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(pi);
-        pi.setBounds(50, 88, 200, 30);
+        pi.setBounds(0, 80, 280, 30);
 
         da.setBackground(new java.awt.Color(102, 102, 102));
         da.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         da.setForeground(new java.awt.Color(255, 255, 255));
-        da.setText("Distributor Accounts");
+        da.setText("          Distributor Accounts");
         da.setOpaque(true);
         da.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -206,28 +204,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(da);
-        da.setBounds(50, 230, 200, 30);
-
-        wic.setBackground(new java.awt.Color(102, 102, 102));
-        wic.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        wic.setForeground(new java.awt.Color(255, 255, 255));
-        wic.setText("Walk-in Customer");
-        wic.setOpaque(true);
-        wic.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                wicMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                wicMouseExited(evt);
-            }
-        });
-        jPanel3.add(wic);
-        wic.setBounds(50, 320, 200, 30);
+        da.setBounds(0, 230, 280, 30);
 
         drp.setBackground(new java.awt.Color(102, 102, 102));
         drp.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         drp.setForeground(new java.awt.Color(255, 255, 255));
-        drp.setText("Damage/Reject Products");
+        drp.setText("          Damage/Reject Products");
         drp.setOpaque(true);
         drp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -238,7 +220,7 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(drp);
-        drp.setBounds(50, 260, 200, 30);
+        drp.setBounds(0, 260, 280, 30);
 
         jLabel15.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
@@ -250,7 +232,7 @@ public class user extends javax.swing.JFrame {
         list.setBackground(new java.awt.Color(102, 102, 102));
         list.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         list.setForeground(new java.awt.Color(255, 255, 255));
-        list.setText("List of Products");
+        list.setText("          List of Products");
         list.setOpaque(true);
         list.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -261,12 +243,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(list);
-        list.setBounds(50, 200, 200, 30);
+        list.setBounds(0, 200, 280, 30);
 
         ts.setBackground(new java.awt.Color(102, 102, 102));
         ts.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         ts.setForeground(new java.awt.Color(255, 255, 255));
-        ts.setText("Total Sales");
+        ts.setText("          Total Sales");
         ts.setOpaque(true);
         ts.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -277,12 +259,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(ts);
-        ts.setBounds(50, 420, 190, 30);
+        ts.setBounds(0, 420, 280, 30);
 
         tep.setBackground(new java.awt.Color(102, 102, 102));
         tep.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         tep.setForeground(new java.awt.Color(255, 255, 255));
-        tep.setText("Total Expected Profit");
+        tep.setText("          Total Expected Profit");
         tep.setOpaque(true);
         tep.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -293,12 +275,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(tep);
-        tep.setBounds(50, 450, 190, 30);
+        tep.setBounds(0, 450, 280, 30);
 
         rbp.setBackground(new java.awt.Color(102, 102, 102));
         rbp.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         rbp.setForeground(new java.awt.Color(255, 255, 255));
-        rbp.setText("Returned/BO Products");
+        rbp.setText("          Returned/BO Products");
         rbp.setOpaque(true);
         rbp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -309,12 +291,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(rbp);
-        rbp.setBounds(50, 290, 200, 30);
+        rbp.setBounds(0, 290, 280, 30);
 
         tl.setBackground(new java.awt.Color(102, 102, 102));
         tl.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         tl.setForeground(new java.awt.Color(255, 255, 255));
-        tl.setText("Total Lost");
+        tl.setText("          Total Lost");
         tl.setOpaque(true);
         tl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -325,12 +307,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(tl);
-        tl.setBounds(50, 480, 190, 30);
+        tl.setBounds(0, 480, 280, 30);
 
         to.setBackground(new java.awt.Color(102, 102, 102));
         to.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         to.setForeground(new java.awt.Color(255, 255, 255));
-        to.setText("Total Outputs");
+        to.setText("          Total Outputs");
         to.setOpaque(true);
         to.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -341,12 +323,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(to);
-        to.setBounds(50, 510, 190, 30);
+        to.setBounds(0, 510, 280, 30);
 
         vers.setBackground(new java.awt.Color(102, 102, 102));
         vers.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         vers.setForeground(new java.awt.Color(255, 255, 255));
-        vers.setText("version 1.0.00.0");
+        vers.setText("         version 1.0.00.0");
         vers.setOpaque(true);
         vers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -357,7 +339,7 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(vers);
-        vers.setBounds(50, 640, 190, 30);
+        vers.setBounds(0, 640, 280, 30);
 
         jLabel23.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
@@ -369,7 +351,7 @@ public class user extends javax.swing.JFrame {
         ra.setBackground(new java.awt.Color(102, 102, 102));
         ra.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         ra.setForeground(new java.awt.Color(255, 255, 255));
-        ra.setText("Receivable Accounts");
+        ra.setText("          Receivable Accounts");
         ra.setOpaque(true);
         ra.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -380,11 +362,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(ra);
-        ra.setBounds(50, 540, 190, 30);
+        ra.setBounds(0, 540, 280, 30);
 
         jPanel1.add(jPanel3);
-        jPanel3.setBounds(0, 80, 280, 700);
+        jPanel3.setBounds(0, 80, 280, 690);
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
@@ -392,13 +375,13 @@ public class user extends javax.swing.JFrame {
         jLabel1.setText("<html>TrackIn is your go-to inventory management system, offering real-time tracking and automated reordering to streamline your operations and boost efficiency. Experience seamless multi-location management and customizable reporting with TrackIn, elevating your business and simplifying your inventory control.</html>");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel4.add(jLabel1);
-        jLabel1.setBounds(20, 60, 730, 60);
+        jLabel1.setBounds(20, 70, 730, 60);
 
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 153, 51));
         jLabel3.setText("Welcome to TrackIn!");
         jPanel4.add(jLabel3);
-        jLabel3.setBounds(20, 10, 270, 40);
+        jLabel3.setBounds(20, 20, 270, 40);
 
         jPanel5.setBackground(new java.awt.Color(98, 180, 98));
         jPanel5.setLayout(null);
@@ -414,7 +397,7 @@ public class user extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jPanel5.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 40, 720, 420);
+        jScrollPane1.setBounds(10, 40, 690, 410);
 
         jLabel24.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 18)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
@@ -422,31 +405,47 @@ public class user extends javax.swing.JFrame {
         jLabel24.setText("AVAILABLE STOCKS");
         jLabel24.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel5.add(jLabel24);
-        jLabel24.setBounds(0, 5, 740, 30);
+        jLabel24.setBounds(0, 5, 710, 30);
 
         jPanel4.add(jPanel5);
-        jPanel5.setBounds(10, 150, 740, 470);
+        jPanel5.setBounds(20, 150, 710, 460);
 
-        jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 153, 51));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("CLICK FOR TRANSACTION!");
-        jLabel4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 51)));
-        jPanel4.add(jLabel4);
-        jLabel4.setBounds(210, 620, 340, 40);
+        trans.setBackground(new java.awt.Color(255, 255, 255));
+        trans.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
+        trans.setForeground(new java.awt.Color(0, 153, 51));
+        trans.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        trans.setText("CLICK FOR TRANSACTION!");
+        trans.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 153, 51)));
+        trans.setOpaque(true);
+        trans.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                transMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                transMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                transMouseExited(evt);
+            }
+        });
+        jPanel4.add(trans);
+        trans.setBounds(10, 620, 740, 30);
 
-        jPanel1.add(jPanel4);
-        jPanel4.setBounds(280, 90, 760, 680);
+        userDesktop.add(jPanel4);
+        jPanel4.setBounds(0, 0, 760, 670);
+
+        jPanel1.add(userDesktop);
+        userDesktop.setBounds(280, 90, 760, 690);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1042, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1035, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -554,16 +553,6 @@ public class user extends javax.swing.JFrame {
         rbp.setBackground(bodycolor); 
     }//GEN-LAST:event_rbpMouseExited
 
-    private void wicMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wicMouseEntered
-        // TODO add your handling code here:
-        wic.setBackground(navcolor);
-    }//GEN-LAST:event_wicMouseEntered
-
-    private void wicMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wicMouseExited
-        // TODO add your handling code here:
-        wic.setBackground(bodycolor);
-    }//GEN-LAST:event_wicMouseExited
-
     private void tsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tsMouseEntered
         // TODO add your handling code here:
         ts.setBackground(navcolor); 
@@ -624,6 +613,27 @@ public class user extends javax.swing.JFrame {
         vers.setBackground(bodycolor);
     }//GEN-LAST:event_versMouseExited
 
+    private void transMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transMouseClicked
+        // TODO add your handling code here:
+        transaction tran = new transaction();
+        newProduct prod = new newProduct();
+        Output op = new Output();
+        userDesktop.add(tran).setVisible(true);
+        userDesktop.add(prod);
+        userDesktop.add(op);
+        
+    }//GEN-LAST:event_transMouseClicked
+
+    private void transMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transMouseEntered
+        // TODO add your handling code here:
+        trans.setBackground(transColor);
+    }//GEN-LAST:event_transMouseEntered
+
+    private void transMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transMouseExited
+        // TODO add your handling code here:
+        trans.setBackground(newTrans);
+    }//GEN-LAST:event_transMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -656,6 +666,7 @@ public class user extends javax.swing.JFrame {
             public void run() {
                 new user().setVisible(true);
             }
+            
         });
     }
 
@@ -670,7 +681,6 @@ public class user extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -688,10 +698,11 @@ public class user extends javax.swing.JFrame {
     private javax.swing.JLabel time;
     private javax.swing.JLabel tl;
     private javax.swing.JLabel to;
+    private javax.swing.JLabel trans;
     private javax.swing.JLabel ts;
+    public javax.swing.JDesktopPane userDesktop;
     public javax.swing.JLabel userName;
     public javax.swing.JLabel userPosition;
     private javax.swing.JLabel vers;
-    private javax.swing.JLabel wic;
     // End of variables declaration//GEN-END:variables
 }

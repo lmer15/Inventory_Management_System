@@ -12,7 +12,7 @@ public class session {
     private String status;
 
     private session(){
-        //Private constructor to prevent instantiate anotherinstance
+        //Private constructor to prevent instantiate another instance
           
     }
     public static synchronized session getInstance() {

@@ -48,15 +48,8 @@ private void table() {
     thead.setBackground(new Color(0, 102, 51));
     thead.setFont(new Font("Microsoft YaHei", Font.BOLD, 16));
 
-    // Define the preferred width for each column except the last one
-    int preferredWidth = 111;
-    TableColumnModel columnModel = Users.getColumnModel();
-    for (int i = 0; i < columnModel.getColumnCount(); i++) {
-        TableColumn column = columnModel.getColumn(i);
-        column.setPreferredWidth(preferredWidth);
-    }
     //Row height for the table
-    int rowHeight = 20; 
+    int rowHeight = 30; 
     Users.setRowHeight(rowHeight);
     Users.setShowGrid(true);
     Users.setGridColor(Color.WHITE);
@@ -120,7 +113,7 @@ private void table() {
         jLabel2.setBounds(20, 20, 30, 20);
 
         mainpanel.add(jPanel2);
-        jPanel2.setBounds(0, 0, 930, 60);
+        jPanel2.setBounds(0, 0, 1040, 60);
 
         refresh.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         refresh.setForeground(new java.awt.Color(0, 102, 51));
@@ -148,7 +141,7 @@ private void table() {
             }
         });
         mainpanel.add(jLabel3);
-        jLabel3.setBounds(20, 660, 40, 50);
+        jLabel3.setBounds(30, 710, 40, 50);
 
         nnew.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         nnew.setForeground(new java.awt.Color(0, 102, 51));
@@ -205,7 +198,7 @@ private void table() {
             }
         });
         mainpanel.add(Search);
-        Search.setBounds(810, 110, 90, 30);
+        Search.setBounds(930, 110, 90, 30);
 
         delete.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
         delete.setForeground(new java.awt.Color(0, 102, 51));
@@ -233,7 +226,7 @@ private void table() {
             }
         });
         mainpanel.add(searchText);
-        searchText.setBounds(460, 110, 340, 30);
+        searchText.setBounds(570, 110, 340, 30);
 
         Users.setBackground(new java.awt.Color(0, 102, 0));
         Users.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -246,23 +239,22 @@ private void table() {
 
             }
         ));
-        Users.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        Users.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        Users.setSelectionBackground(new java.awt.Color(110, 170, 120));
         jScrollPane2.setViewportView(Users);
 
         mainpanel.add(jScrollPane2);
-        jScrollPane2.setBounds(120, 150, 780, 530);
+        jScrollPane2.setBounds(120, 150, 900, 590);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainpanel, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
+            .addComponent(mainpanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1042, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(mainpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(mainpanel, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
         );
 
         pack();

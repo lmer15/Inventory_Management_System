@@ -125,7 +125,7 @@ public class SignUp extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Sign Up");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(220, 20, 95, 30);
+        jLabel4.setBounds(240, 70, 95, 30);
 
         fname.setBackground(new java.awt.Color(0, 102, 51));
         fname.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -152,7 +152,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(fname);
-        fname.setBounds(210, 130, 260, 40);
+        fname.setBounds(230, 180, 260, 40);
 
         lname.setBackground(new java.awt.Color(0, 102, 51));
         lname.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -172,7 +172,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(lname);
-        lname.setBounds(210, 190, 260, 40);
+        lname.setBounds(230, 240, 260, 40);
 
         username.setBackground(new java.awt.Color(0, 102, 51));
         username.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -193,12 +193,12 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(username);
-        username.setBounds(210, 310, 260, 40);
+        username.setBounds(230, 360, 260, 40);
 
         position.setForeground(new java.awt.Color(255, 255, 255));
         position.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Inventory-In-Charge" }));
         jPanel2.add(position);
-        position.setBounds(200, 430, 280, 50);
+        position.setBounds(220, 480, 280, 50);
 
         jLabel5.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 255));
@@ -209,7 +209,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(190, 50, 180, 30);
+        jLabel5.setBounds(210, 100, 180, 30);
 
         show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-eye-30.png"))); // NOI18N
         show.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -218,7 +218,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(show);
-        show.setBounds(440, 380, 40, 30);
+        show.setBounds(460, 430, 40, 30);
 
         hide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-invisible-30.png"))); // NOI18N
         hide.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -227,7 +227,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(hide);
-        hide.setBounds(440, 380, 40, 30);
+        hide.setBounds(460, 430, 40, 30);
 
         signUp.setText("Sign Up");
         signUp.addActionListener(new java.awt.event.ActionListener() {
@@ -236,7 +236,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(signUp);
-        signUp.setBounds(230, 590, 93, 29);
+        signUp.setBounds(250, 640, 93, 29);
 
         password.setBackground(new java.awt.Color(0, 102, 51));
         password.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -256,7 +256,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(password);
-        password.setBounds(210, 370, 260, 40);
+        password.setBounds(230, 420, 260, 40);
 
         email.setBackground(new java.awt.Color(0, 102, 51));
         email.setFont(new java.awt.Font("Microsoft YaHei", 0, 15)); // NOI18N
@@ -276,80 +276,80 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
         jPanel2.add(email);
-        email.setBounds(210, 250, 260, 40);
+        email.setBounds(230, 300, 260, 40);
 
         jLabel13.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("First Name:");
         jPanel2.add(jLabel13);
-        jLabel13.setBounds(70, 130, 120, 40);
+        jLabel13.setBounds(90, 180, 120, 40);
 
         jLabel14.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Position:");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(70, 430, 110, 40);
+        jLabel14.setBounds(90, 480, 110, 40);
 
         jLabel15.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Password:");
         jPanel2.add(jLabel15);
-        jLabel15.setBounds(70, 370, 120, 40);
+        jLabel15.setBounds(90, 420, 120, 40);
 
         jLabel16.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Username:");
         jPanel2.add(jLabel16);
-        jLabel16.setBounds(70, 310, 120, 40);
+        jLabel16.setBounds(90, 360, 120, 40);
 
         jLabel17.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Email:");
         jPanel2.add(jLabel17);
-        jLabel17.setBounds(70, 250, 120, 40);
+        jLabel17.setBounds(90, 300, 120, 40);
 
         jLabel18.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Last Name:");
         jPanel2.add(jLabel18);
-        jLabel18.setBounds(70, 190, 120, 40);
+        jLabel18.setBounds(90, 240, 120, 40);
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
         jPanel4.setLayout(null);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/INVENTORY__1_-removebg-preview_1.png"))); // NOI18N
         jPanel4.add(jLabel1);
-        jLabel1.setBounds(80, 10, 280, 220);
+        jLabel1.setBounds(80, 40, 280, 220);
 
         jLabel2.setFont(new java.awt.Font("Microsoft New Tai Lue", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("<html>TrackIn is a smart inventory management system that simplifies how you track and manage your stock. It offers real-time monitoring, automated reordering, and insightful reporting to keep your business running smoothly. Seamlessly integrate it with other systems and easily manage multiple locations for streamlined operations. Elevate your business with TrackIn and enjoy more control and efficiency in your inventory management.</html>");
         jPanel4.add(jLabel2);
-        jLabel2.setBounds(20, 240, 450, 250);
+        jLabel2.setBounds(20, 270, 440, 250);
 
         jLabel6.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel4.add(jLabel6);
-        jLabel6.setBounds(60, 589, 310, 1);
+        jLabel6.setBounds(60, 620, 310, 1);
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-twitterx-50.png"))); // NOI18N
         jPanel4.add(jLabel7);
-        jLabel7.setBounds(290, 590, 50, 50);
+        jLabel7.setBounds(290, 620, 50, 50);
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-email-50.png"))); // NOI18N
         jPanel4.add(jLabel8);
-        jLabel8.setBounds(80, 600, 50, 30);
+        jLabel8.setBounds(80, 630, 50, 30);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-facebook-48.png"))); // NOI18N
         jPanel4.add(jLabel9);
-        jLabel9.setBounds(130, 590, 50, 50);
+        jLabel9.setBounds(130, 620, 50, 50);
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-instagram-48.png"))); // NOI18N
         jPanel4.add(jLabel10);
-        jLabel10.setBounds(180, 590, 50, 50);
+        jLabel10.setBounds(180, 620, 50, 50);
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-tiktok-50.png"))); // NOI18N
         jPanel4.add(jLabel11);
-        jLabel11.setBounds(230, 590, 50, 50);
+        jLabel11.setBounds(230, 620, 50, 50);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -358,15 +358,12 @@ public class SignUp extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();

@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class dbConnector {
   
-    private Connection Connect;
+    public Connection Connect;
     public dbConnector(){
             try{
                 Connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/lmerdb", "root", "");
@@ -78,5 +78,48 @@ public class dbConnector {
             System.out.println("Connection Error!"+ex);
         }
     }
+        public boolean insertImageData(String sql, byte[] imageData) {
+        try {
+            PreparedStatement pst = Connect.prepareStatement(sql);
+            // Set the image data as a byte array parameter
+            pst.setBytes(1, imageData);
+            pst.executeUpdate();
+            System.out.println("Image inserted Successfully!");
+            pst.close();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Connection Error: " + ex);
+            return false;
+        }
+    }
+        
+    public boolean hasCompanyProfileData() {
+        try {
+            String query = "SELECT COUNT(*) AS count FROM companyprofile "
+                         + "UNION ALL "
+                         + "SELECT COUNT(*) AS count FROM business_address "
+                         + "UNION ALL "
+                         + "SELECT COUNT(*) AS count FROM ceo_profile";
+            Statement statement = Connect.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            int totalCount = 0;
+            while (resultSet.next()) {
+                totalCount += resultSet.getInt("count");
+            }
+
+            // Close resources
+            resultSet.close();
+            statement.close();
+
+            return totalCount > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+        public Connection getConnection() {
+        return this.Connect;
+        }
 
 }

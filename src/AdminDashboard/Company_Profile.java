@@ -1,8 +1,22 @@
 
 package AdminDashboard;
 
+import Config.insertImage;
 import config.dbConnector;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,16 +27,15 @@ import javax.swing.event.DocumentListener;
  */
 public class Company_Profile extends javax.swing.JFrame {
     private String selectedGender;
-    
+ 
     public Company_Profile() {
         initComponents();
         ErrorHandling();
     }
     
-    Color navcolor = new Color (153,153,153);
+    Color navcolor = new Color (204,204,204);
     Color headcolor = new Color (153,153,153);
     Color bodycolor =new Color (240,240,240);;
-    
     
       private void ErrorHandling() {
         emError.setVisible(false);
@@ -186,8 +199,8 @@ public class Company_Profile extends javax.swing.JFrame {
     
     //Validate Number
     private void validateNumber() {
-    String websiteText = number.getText();
-    if (!validateWebsite(websiteText)) {
+    String numberText = number.getText();
+    if (!validatePhoneNumber(numberText)) {
         numError.setVisible(true);
     } else {
         numError.setVisible(false);
@@ -196,8 +209,8 @@ public class Company_Profile extends javax.swing.JFrame {
     
     //Validate TIN
     private void validateTIN() {
-    String websiteText = noTIN.getText();
-    if (!validateWebsite(websiteText)) {
+    String TINN = noTIN.getText();
+    if (!validation(TINN, "TIN")) {
         tinError.setVisible(true);
     } else {
         tinError.setVisible(false);
@@ -206,8 +219,8 @@ public class Company_Profile extends javax.swing.JFrame {
 
     //Validate BIR
     private void validateBIR() {
-    String websiteText = noBIR.getText();
-    if (!validateWebsite(websiteText)) {
+    String BIRR = noBIR.getText();
+    if (!validation(BIRR, "BIR")) {
         birError.setVisible(true);
     } else {
         birError.setVisible(false);
@@ -216,8 +229,8 @@ public class Company_Profile extends javax.swing.JFrame {
 
     //Validate Mayor's Permit
     private void validatePermit() {
-    String websiteText = noMayor.getText();
-    if (!validateWebsite(websiteText)) {
+    String permit = noMayor.getText();
+    if (!validation(permit, "MAYORS_PERMIT")) {
         permitError.setVisible(true);
     } else {
         permitError.setVisible(false);
@@ -226,8 +239,8 @@ public class Company_Profile extends javax.swing.JFrame {
     
     //Validate BRN
     private void validateBRN() {
-    String websiteText = noBRN.getText();
-    if (!validateWebsite(websiteText)) {
+    String BRNN = noBRN.getText();
+    if (!validation(BRNN, "BRN")) {
         brnError.setVisible(true);
     } else {
         brnError.setVisible(false);
@@ -236,8 +249,8 @@ public class Company_Profile extends javax.swing.JFrame {
     
 //Validate BRN
     private void validateBIN() {
-    String websiteText = noBIN.getText();
-    if (!validateWebsite(websiteText)) {
+    String BINN = noBIN.getText();
+    if (!validation(BINN, "BIN")) {
         binError.setVisible(true);
     } else {
         binError.setVisible(false);
@@ -283,10 +296,56 @@ public class Company_Profile extends javax.swing.JFrame {
         String pattern = "^\\d{3}-\\d{3}-\\d{4}$";
         return phoneNumber.matches(pattern);
     }
-    public static boolean validateTelephoneNumber(String telephoneNumber) {
-        String pattern = "^\\(\\d{3}\\) \\d{3}-\\d{4}$";
-        return telephoneNumber.matches(pattern);
+
+    
+     public boolean FileExistenceChecker(String path){
+        File file = new File(path);
+        String fileName = file.getName();
+        
+        Path filePath = Paths.get("src/images", fileName);
+        return Files.exists(filePath);
     }
+
+    
+    public int getHeightFromWidth(String imagePath, int desiredWidth) {
+        try {
+            File imageFile = new File(imagePath);
+            BufferedImage image = ImageIO.read(imageFile);
+
+            int originalWidth = image.getWidth();
+            int originalHeight = image.getHeight();
+
+            int newHeight = (int) ((double) desiredWidth / originalWidth * originalHeight);
+            return newHeight;
+        } catch (IOException ex) {
+            System.out.println("No image found: " + ex.getMessage());
+        }
+        return -1;
+    }
+    public ImageIcon ResizeImage(String imagePath, JLabel label) {
+        ImageIcon myImage = new ImageIcon(imagePath);
+        int newHeight = getHeightFromWidth(imagePath, label.getWidth());
+
+        if (newHeight == -1) {
+            return null;
+        }
+
+        Image img = myImage.getImage();
+        Image newImg = img.getScaledInstance(label.getWidth(), newHeight, Image.SCALE_SMOOTH);
+        return new ImageIcon(newImg);
+    }
+    public boolean isImage(String filename) {
+        String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif", ".bmp"};
+        for (String extension : imageExtensions) {
+            if (filename.toLowerCase().endsWith(extension)) {
+                return true;
+            }
+        }  
+        return false;
+        }
+    
+    
+    
     
     
     @SuppressWarnings("unchecked")
@@ -303,7 +362,6 @@ public class Company_Profile extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         ceoFname = new javax.swing.JTextField();
-        cLogo = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         c_Brgy = new javax.swing.JTextField();
@@ -320,7 +378,7 @@ public class Company_Profile extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         c_Prov = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        cLogo = new javax.swing.JLabel();
         busType = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -358,10 +416,10 @@ public class Company_Profile extends javax.swing.JFrame {
         permitError = new javax.swing.JLabel();
         brnError = new javax.swing.JLabel();
         register = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         female = new javax.swing.JCheckBox();
         male = new javax.swing.JCheckBox();
+        jLabel28 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -373,17 +431,18 @@ public class Company_Profile extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("COMPANY'S PROFILE");
+        jLabel1.setText("UPDATE COMPANY'S PROFILE");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(50, 10, 240, 40);
+        jLabel1.setBounds(50, 10, 430, 40);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-list-25.png"))); // NOI18N
         jPanel2.add(jLabel2);
         jLabel2.setBounds(20, 20, 30, 20);
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 1040, 60);
+        jPanel2.setBounds(0, 0, 1050, 60);
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 51), 2));
         jPanel3.setLayout(null);
 
@@ -416,17 +475,6 @@ public class Company_Profile extends javax.swing.JFrame {
         ceoFname.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 0)));
         jPanel3.add(ceoFname);
         ceoFname.setBounds(570, 49, 160, 22);
-
-        cLogo.setFont(new java.awt.Font("Microsoft YaHei", 2, 14)); // NOI18N
-        cLogo.setText("Attached image here!");
-        cLogo.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
-        cLogo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cLogoActionPerformed(evt);
-            }
-        });
-        jPanel3.add(cLogo);
-        cLogo.setBounds(160, 80, 260, 27);
 
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 102, 0));
@@ -526,11 +574,25 @@ public class Company_Profile extends javax.swing.JFrame {
         jPanel3.add(jLabel6);
         jLabel6.setBounds(460, 20, 220, 22);
 
-        jLabel10.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel10.setText("Company Logo:");
-        jPanel3.add(jLabel10);
-        jLabel10.setBounds(20, 80, 130, 30);
+        cLogo.setBackground(new java.awt.Color(255, 255, 255));
+        cLogo.setFont(new java.awt.Font("Microsoft YaHei", 2, 16)); // NOI18N
+        cLogo.setForeground(new java.awt.Color(102, 102, 102));
+        cLogo.setText(" Upload File Here!");
+        cLogo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        cLogo.setOpaque(true);
+        cLogo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cLogoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cLogoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                cLogoMouseExited(evt);
+            }
+        });
+        jPanel3.add(cLogo);
+        cLogo.setBounds(160, 78, 260, 30);
 
         busType.setBackground(new java.awt.Color(240, 240, 240));
         busType.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
@@ -563,7 +625,6 @@ public class Company_Profile extends javax.swing.JFrame {
         jPanel5.add(jLabel19);
         jLabel19.setBounds(20, 40, 20, 20);
 
-        number.setBackground(new java.awt.Color(240, 240, 240));
         number.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         number.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 0)));
         jPanel5.add(number);
@@ -670,7 +731,7 @@ public class Company_Profile extends javax.swing.JFrame {
         noTIN.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         noTIN.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 0)));
         jPanel7.add(noTIN);
-        noTIN.setBounds(100, 50, 430, 30);
+        noTIN.setBounds(100, 60, 430, 20);
 
         jLabel25.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(0, 102, 0));
@@ -744,7 +805,7 @@ public class Company_Profile extends javax.swing.JFrame {
         register.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         register.setForeground(new java.awt.Color(0, 102, 0));
         register.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        register.setText("REGISTER");
+        register.setText("UPDATE");
         register.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         register.setOpaque(true);
         register.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -760,11 +821,6 @@ public class Company_Profile extends javax.swing.JFrame {
         });
         jPanel3.add(register);
         register.setBounds(410, 620, 140, 30);
-
-        jLabel29.setFont(new java.awt.Font("Microsoft YaHei", 2, 14)); // NOI18N
-        jLabel29.setText("(Click here of more than one)");
-        jPanel3.add(jLabel29);
-        jLabel29.setBounds(680, 20, 220, 19);
 
         jLabel30.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(0, 102, 0));
@@ -792,6 +848,12 @@ public class Company_Profile extends javax.swing.JFrame {
         jPanel3.add(male);
         male.setBounds(830, 70, 65, 30);
 
+        jLabel28.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(0, 102, 0));
+        jLabel28.setText("Company Logo:");
+        jPanel3.add(jLabel28);
+        jLabel28.setBounds(20, 80, 130, 30);
+
         jPanel1.add(jPanel3);
         jPanel3.setBounds(10, 80, 1020, 670);
 
@@ -809,11 +871,6 @@ public class Company_Profile extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cLogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cLogoActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_cLogoActionPerformed
 
     private void registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerMouseClicked
         // TODO add your handling code here:   
@@ -841,101 +898,96 @@ public class Company_Profile extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "All Fields should be Filled");
         }else if(!validateEmail(email.getText())){
-            if(!validateEmail(email.getText())){
-                emError.setVisible(true);
-                email.setText("");
-            }else{
-                emError.setVisible(false);
-            }
+            JOptionPane.showMessageDialog(null, "Input Email Correctly!");
+            email.setText("");
         }else if(!validateWebsite(web.getText())){
-            if(!validateWebsite(web.getText())){
-                webError.setVisible(true);
-                web.setText("");
-            }else{
-                webError.setVisible(false);
-            }
-        }else if(!validatePhoneNumber(number.getText()) || !validateTelephoneNumber(number.getText()) ){
-            if(!validatePhoneNumber(number.getText()) || !validateTelephoneNumber(number.getText()) ){
-                numError.setVisible(true);
-                web.setText("");
-            }else{
-                numError.setVisible(false);
-            }
+            JOptionPane.showMessageDialog(null, "Input Website Correctly!");
+            web.setText("");
+        }else if(!validatePhoneNumber(number.getText()) ){
+            JOptionPane.showMessageDialog(null, "Input Number Correctly!");
+            number.setText("");
         }else if(!validation(noTIN.getText(), "TIN")){
-            if(!validation(noTIN.getText(), "TIN")){
-                tinError.setVisible(true);
-                noTIN.setText("");
-            }else{
-                tinError.setVisible(false);
-            }
+            JOptionPane.showMessageDialog(null, "Input TIN Number Correctly!");
+            noTIN.setText("");
         }else if(!validation(noBIR.getText(), "BIR")){
-            if(!validation(noBIR.getText(), "BIR")){
-                birError.setVisible(true);
-                noBIR.setText("");
-            }else{
-                birError.setVisible(false);
-            }
+            JOptionPane.showMessageDialog(null, "Input BIR Number Correctly!");
+            noBIR.setText("");
         }else if(!validation(noMayor.getText(), "MAYORS_PERMIT")){
-            if(!validation(noMayor.getText(), "MAYORS_PERMIT")){
-                permitError.setVisible(true);
-                noMayor.setText("");
-            }else{
-                permitError.setVisible(false);
-            }
+            JOptionPane.showMessageDialog(null, "Input Mayor's Permit Number Correctly!");
+            noMayor.setText("");
         }else if(!validation(noBRN.getText(), "BRN")){
-            if(!validation(noBRN.getText(), "BRN")){
-                brnError.setVisible(true);
-                noBRN.setText("");
-            }else{
-                brnError.setVisible(false);
-            }
+            JOptionPane.showMessageDialog(null, "Input BRN Number Correctly!");
+            noBRN.setText("");
         }else if(!validation(noBIN.getText(), "BIN")){
-            if(!validation(noBIN.getText(), "BIN")){
-                binError.setVisible(true);
-                noBIN.setText("");
-            }else{
-                binError.setVisible(false);
-            }
+            JOptionPane.showMessageDialog(null, "Input BIN Number Correctly!");
+            noBIN.setText("");
         }else{
             if (male.isSelected()) {
                 selectedGender = "Male";
             } else if (female.isSelected()) {
                 selectedGender = "Female";
             }
-            dbConnector db = new dbConnector();
+    dbConnector db = new dbConnector();
 
-            if(db.insertData("INSERT INTO companyprofile (Company_Name, Business_Type, Company_Logo, Contact_Number, Email_Address,"
-                + "Website, Facebook, Tagline, TIN_Number, BIR_NUmber, Mayors_Permit, BRN_Number, BIN_Number) "
-                + "VALUES "
-                + "('"+comName.getText()+"',"
-                + " '"+busType.getText()+"',"
-                + " '"+cLogo.getText()+"',"
-                + " '"+number.getText()+"',"
-                + " '"+email.getText()+"',"
-                + " '"+web.getText()+"',"
-                + " '"+fb.getText()+"',"
-                + " '"+tag.getText()+"',"
-                + " '"+noTIN.getText()+"',"
-                + " '"+noBIR.getText()+"',"
-                + " '"+noMayor.getText()+"',"
-                + " '"+noBRN.getText()+"',"
-                + " '"+noBIN.getText()+"'),")){
-            }else if(db.insertData("INSERT INTO business_address (Purok, Baranggay, Municipality, ZIP_Code, Province, Country)"
-            + "VALUES"
-            + " '"+c_Purok.getText()+"',"
-            + " '"+c_Brgy.getText()+"',"
-            + " '"+c_Mun.getText()+"',"
-            + " '"+c_Zip.getText()+"',"
-            + " '"+c_Prov.getText()+"',"
-            + " '"+c_Country.getText()+"'),")){
-            }else if(db.insertData("INSERT INTO ceo_profile (CEO_FirstName, CEO_LastName, CEO_Gender)"
-            + "VALUES"
-            + " '"+ceoFname.getText()+"',"
-            + " '"+ceoLname.getText()+"',"
-            + " '"+selectedGender+"'),")){
+    String tagText = tag.getText();
 
+    // Read the image file as a byte array
+    byte[] imageData = null;
+        try {
+            File imageFile = new File(filename);
+            FileInputStream fis = new FileInputStream(imageFile);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                bos.write(buf, 0, readNum);
+            }
+            imageData = bos.toByteArray();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
 
+    // Insert company profile data with the image data
+    if (db.insertImageData("INSERT INTO companyprofile (Company_Name, Business_Type, Company_Logo, Contact_Number, Email_Address,"
+            + "Website, Facebook, Tagline, TIN_Number, BIR_Number, Mayors_Permit, BRN_Number, BIN_Number) "
+            + "VALUES "
+            + "('" + comName.getText() + "',"
+            + " '" + busType.getText() + "',"
+            + " ?,"
+            + " '" + number.getText() + "',"
+            + " '" + email.getText() + "',"
+            + " '" + web.getText() + "',"
+            + " '" + fb.getText() + "',"
+            + " '" + tagText+ "',"
+            + " '" + noTIN.getText() + "',"
+            + " '" + noBIR.getText() + "',"
+            + " '" + noMayor.getText() + "',"
+            + " '" + noBRN.getText() + "',"
+            + " '" + noBIN.getText() + "')", imageData)) {
+        // Insert business address data
+        if (db.insertData("INSERT INTO business_address (Purok, Baranggay, Municipality, ZIP_Code, Province, Country)"
+                + " VALUES "
+                + "('" + c_Purok.getText() + "',"
+                + " '" + c_Brgy.getText() + "',"
+                + " '" + c_Mun.getText() + "',"
+                + " '" + c_Zip.getText() + "',"
+                + " '" + c_Prov.getText() + "',"
+                + " '" + c_Country.getText() + "')")) {
+            // Insert CEO profile data
+            if (db.insertData("INSERT INTO ceo_profile (CEO_FirstName, CEO_LastName, CEO_Gender)"
+                    + " VALUES "
+                    + "('" + ceoFname.getText() + "',"
+                    + " '" + ceoLname.getText() + "',"
+                    + " '" + selectedGender + "')")) {
+                JOptionPane.showMessageDialog(null, "Data Saved Successfully");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error inserting CEO profile data");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error inserting business address data");
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Error inserting company profile data");
+    }
         }
     }//GEN-LAST:event_registerMouseClicked
 
@@ -966,6 +1018,48 @@ public class Company_Profile extends javax.swing.JFrame {
         register.setBackground(bodycolor);
     }//GEN-LAST:event_registerMouseExited
 
+    private void cLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cLogoMouseClicked
+        
+    insertImage in = new insertImage();
+
+    JFileChooser fileChooser = new JFileChooser();
+
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            try {
+                File f = fileChooser.getSelectedFile();
+                destination = "src/images/" + f.getName();
+                filename = f.getAbsolutePath();
+
+                if (FileExistenceChecker(filename)) {
+                    JOptionPane.showMessageDialog(null, "File Already Exist, Rename or Choose another!");
+                    destination = "";
+                    filename = "";
+                } else {
+                    if (!filename.isEmpty() && isImage(filename)) {
+                        cLogo.setText(filename);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Selected file is not an image or cannot be read.");
+                        destination = "";
+                        filename = "";
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println("File Error!");
+            }
+        } 
+    }//GEN-LAST:event_cLogoMouseClicked
+
+    private void cLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cLogoMouseEntered
+        // TODO add your handling code here:
+        cLogo.setBackground(navcolor);
+    }//GEN-LAST:event_cLogoMouseEntered
+
+    private void cLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cLogoMouseExited
+        // TODO add your handling code here:
+        cLogo.setBackground(bodycolor);  
+    }//GEN-LAST:event_cLogoMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -975,6 +1069,7 @@ public class Company_Profile extends javax.swing.JFrame {
             new Company_Profile().setVisible(true);
         });
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Company_Profile().setVisible(true);
             }
@@ -986,7 +1081,7 @@ public class Company_Profile extends javax.swing.JFrame {
     private javax.swing.JLabel birError;
     private javax.swing.JLabel brnError;
     private javax.swing.JTextField busType;
-    private javax.swing.JButton cLogo;
+    public javax.swing.JLabel cLogo;
     private javax.swing.JTextField c_Brgy;
     private javax.swing.JTextField c_Country;
     private javax.swing.JTextField c_Mun;
@@ -1001,7 +1096,6 @@ public class Company_Profile extends javax.swing.JFrame {
     private javax.swing.JTextField fb;
     private javax.swing.JCheckBox female;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -1020,7 +1114,7 @@ public class Company_Profile extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
@@ -1052,4 +1146,8 @@ public class Company_Profile extends javax.swing.JFrame {
     private javax.swing.JTextField web;
     private javax.swing.JLabel webError;
     // End of variables declaration//GEN-END:variables
+
+String filename=null;
+String destination=null;
 }
+

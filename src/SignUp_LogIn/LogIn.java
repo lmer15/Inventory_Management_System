@@ -155,8 +155,9 @@ public class LogIn extends javax.swing.JFrame {
         jPanel1.add(check);
         check.setBounds(200, 460, 170, 20);
 
-        logIn.setForeground(new java.awt.Color(0, 153, 51));
-        logIn.setText("Log In");
+        logIn.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
+        logIn.setForeground(new java.awt.Color(255, 0, 51));
+        logIn.setText("LOG IN");
         logIn.setToolTipText("");
         logIn.setActionCommand("");
         logIn.addActionListener(new java.awt.event.ActionListener() {
@@ -165,7 +166,7 @@ public class LogIn extends javax.swing.JFrame {
             }
         });
         jPanel1.add(logIn);
-        logIn.setBounds(220, 529, 100, 30);
+        logIn.setBounds(200, 520, 150, 40);
 
         username.setBackground(new java.awt.Color(204, 204, 204));
         username.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
