@@ -26,6 +26,8 @@ public class transaction extends javax.swing.JInternalFrame {
         newProduct prod = new newProduct();
         JDesktopPane desktopPane = (JDesktopPane) getParent();
         desktopPane.add(prod);
+        prod.remove.setEnabled(false);
+        prod.upload.setEnabled(true);
         prod.setVisible(true);
         setVisible(false);
     }
@@ -41,7 +43,18 @@ public class transaction extends javax.swing.JInternalFrame {
         setVisible(false);
     }
     });
-
+    
+    delRe.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        drGenerator dr = new drGenerator();
+        JDesktopPane desktopPane = (JDesktopPane) getParent();
+        desktopPane.add(dr);
+        dr.setVisible(true);
+        setVisible(false);
+    }
+    });
+    
     }   
    
 
@@ -75,10 +88,10 @@ public class transaction extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        ot = new javax.swing.JLabel();
         nnew = new javax.swing.JLabel();
         op = new javax.swing.JLabel();
         delRe = new javax.swing.JLabel();
+        ot = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
@@ -102,7 +115,7 @@ public class transaction extends javax.swing.JInternalFrame {
         jLabel11.setBackground(new java.awt.Color(50, 150, 122));
         jLabel11.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("  New");
+        jLabel11.setText(" Total Product Available");
         jLabel11.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 2, 2, 0, new java.awt.Color(255, 255, 255)));
         jLabel11.setOpaque(true);
         Anew.add(jLabel11);
@@ -162,7 +175,7 @@ public class transaction extends javax.swing.JInternalFrame {
         jLabel5.setBackground(new java.awt.Color(50, 150, 122));
         jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("  Delivery Receipt");
+        jLabel5.setText("  Total Product Sold");
         jLabel5.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 2, 2, 0, new java.awt.Color(255, 255, 255)));
         jLabel5.setOpaque(true);
         dr.add(jLabel5);
@@ -192,7 +205,7 @@ public class transaction extends javax.swing.JInternalFrame {
         jLabel2.setBackground(new java.awt.Color(50, 150, 122));
         jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("  Others");
+        jLabel2.setText(" Total Expired/BO Products ");
         jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 2, 2, 0, new java.awt.Color(255, 255, 255)));
         jLabel2.setOpaque(true);
         other.add(jLabel2);
@@ -214,29 +227,12 @@ public class transaction extends javax.swing.JInternalFrame {
         jPanel1.add(jLabel1);
         jLabel1.setBounds(30, 30, 710, 40);
 
-        ot.setBackground(new java.awt.Color(0, 102, 102));
-        ot.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
-        ot.setForeground(new java.awt.Color(255, 255, 255));
-        ot.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ot.setText("Others");
-        ot.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        ot.setOpaque(true);
-        ot.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                otMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                otMouseExited(evt);
-            }
-        });
-        jPanel1.add(ot);
-        ot.setBounds(590, 100, 120, 40);
-
         nnew.setBackground(new java.awt.Color(0, 102, 102));
         nnew.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         nnew.setForeground(new java.awt.Color(255, 255, 255));
         nnew.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        nnew.setText("  New");
+        nnew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-plus-sign-20.png"))); // NOI18N
+        nnew.setText("New");
         nnew.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         nnew.setOpaque(true);
         nnew.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -257,7 +253,8 @@ public class transaction extends javax.swing.JInternalFrame {
         op.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         op.setForeground(new java.awt.Color(255, 255, 255));
         op.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        op.setText("Output");
+        op.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-input-20.png"))); // NOI18N
+        op.setText(" Output");
         op.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         op.setOpaque(true);
         op.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -275,10 +272,14 @@ public class transaction extends javax.swing.JInternalFrame {
         delRe.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         delRe.setForeground(new java.awt.Color(255, 255, 255));
         delRe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        delRe.setText("DR");
+        delRe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-receipt-20.png"))); // NOI18N
+        delRe.setText(" DR");
         delRe.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         delRe.setOpaque(true);
         delRe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                delReMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 delReMouseEntered(evt);
             }
@@ -288,6 +289,25 @@ public class transaction extends javax.swing.JInternalFrame {
         });
         jPanel1.add(delRe);
         delRe.setBounds(410, 100, 120, 40);
+
+        ot.setBackground(new java.awt.Color(0, 102, 102));
+        ot.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
+        ot.setForeground(new java.awt.Color(255, 255, 255));
+        ot.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-menu-vertical-20.png"))); // NOI18N
+        ot.setText("Others");
+        ot.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ot.setOpaque(true);
+        ot.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                otMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                otMouseExited(evt);
+            }
+        });
+        jPanel1.add(ot);
+        ot.setBounds(590, 100, 120, 40);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -353,7 +373,7 @@ public class transaction extends javax.swing.JInternalFrame {
 
     private void opMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opMouseEntered
         // TODO add your handling code here:
-        op.setBackground(newBack);  
+        op.setBackground(newBack); 
     }//GEN-LAST:event_opMouseEntered
 
     private void opMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opMouseExited
@@ -368,27 +388,26 @@ public class transaction extends javax.swing.JInternalFrame {
 
     private void delReMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_delReMouseExited
         // TODO add your handling code here:
-        delRe.setBackground(label);
+        delRe.setBackground(label);    
     }//GEN-LAST:event_delReMouseExited
 
     private void otMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_otMouseEntered
         // TODO add your handling code here:
-        ot.setBackground(newBack);
+        ot.setBackground(newBack);   
     }//GEN-LAST:event_otMouseEntered
 
     private void otMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_otMouseExited
         // TODO add your handling code here:
-        ot.setBackground(label);
+        ot.setBackground(label);    
     }//GEN-LAST:event_otMouseExited
 
     private void nnewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nnewMouseClicked
-        
-        newProduct prod = new newProduct();
-        user us = new user();
-        prod.remove.setEnabled(false);
-        prod.upload.setEnabled(true);
-        us.userDesktop.add(prod).setVisible(true);
+   
     }//GEN-LAST:event_nnewMouseClicked
+
+    private void delReMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_delReMouseClicked
+        // TODO add your handling code here:              
+    }//GEN-LAST:event_delReMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

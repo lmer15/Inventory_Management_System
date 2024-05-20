@@ -5,28 +5,36 @@
  */
 package UserDashboard;
 
-
 import Config.session;
 import SignUp_LogIn.LogIn;
+import config.dbConnector;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-import javax.swing.event.AncestorListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author Elmer Rapon
  */
-public class user extends javax.swing.JFrame {
+public final class user extends javax.swing.JFrame {
 
     /**
      * Creates new form user
      */
     public user() {
         initComponents();
+        displayProduct();
         date();
         time();
     }
@@ -57,6 +65,58 @@ public class user extends javax.swing.JFrame {
     Color transColor = new Color (240,240,240);
     Color newTrans =new Color(255,255,255);
     
+    
+public void displayProduct() {
+    try {
+        dbConnector dbc = new dbConnector();
+        try (ResultSet rs = dbc.getData("SELECT product_information.P_Code AS 'CODE', "
+                + "product_information.P_Name AS 'NAME', "
+                + "product_information.P_Flavor AS 'FLAVOR', "
+                + "product_information.P_Price AS 'PRICE', "
+                + "product_information.P_Net AS 'NET WEIGHT', "
+                + "product_information.P_Unit AS 'UNIT', "
+                + "COALESCE(SUM(output.O_Quantity), 0) AS 'QUANTITY' "
+                + "FROM product_information "
+                + "LEFT JOIN output ON product_information.P_Code = output.product_ID "
+                + "GROUP BY product_information.P_Code, "
+                + "product_information.P_Name, "
+                + "product_information.P_Flavor, "
+                + "product_information.P_Price, "
+                + "product_information.P_Net, "
+                + "product_information.P_Unit;")) {
+            DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(rs);
+            String[] columnNames = {"CODE", "NAME", "FLAVOR", "PRICE", "NET WEIGHT", "UNIT", "QUANTITY"};
+            tableModel.setColumnIdentifiers(columnNames);
+            TableStocks.setModel(tableModel);
+            
+            // Set table properties
+            TableStocks.setBackground(new Color(102, 102, 102));
+            TableStocks.setForeground(new Color(240, 240, 240));
+            TableStocks.setRowHeight(20);
+            TableStocks.setShowGrid(true);
+            TableStocks.setGridColor(Color.BLACK);
+            JTableHeader thead = TableStocks.getTableHeader();
+            thead.setForeground(Color.BLACK);
+            thead.setBackground(new Color(0, 102, 51));
+            thead.setFont(new Font("Microsoft YaHei", Font.BOLD, 16));
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+            centerRenderer.setFont(TableStocks.getFont().deriveFont(Font.BOLD));
+            
+            // Set cell renderer for each column
+            for (int i = 0; i < TableStocks.getColumnCount(); i++) {
+                TableStocks.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                thead.setDefaultRenderer(centerRenderer);
+            }
+        }
+    } catch (SQLException ex) {
+        System.out.println("Errors: " + ex.getMessage());
+    }
+}
+
+
+
+    
     static String user;
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -77,22 +137,21 @@ public class user extends javax.swing.JFrame {
         da = new javax.swing.JLabel();
         drp = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        list = new javax.swing.JLabel();
+        HOME = new javax.swing.JLabel();
         ts = new javax.swing.JLabel();
-        tep = new javax.swing.JLabel();
         rbp = new javax.swing.JLabel();
         tl = new javax.swing.JLabel();
         to = new javax.swing.JLabel();
         vers = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        ra = new javax.swing.JLabel();
+        list1 = new javax.swing.JLabel();
         userDesktop = new javax.swing.JDesktopPane();
-        jPanel4 = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TableStocks = new javax.swing.JTable();
         jLabel24 = new javax.swing.JLabel();
         trans = new javax.swing.JLabel();
 
@@ -162,14 +221,14 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(logOut);
-        logOut.setBounds(0, 110, 280, 30);
+        logOut.setBounds(0, 130, 280, 30);
 
         jLabel10.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Profile");
         jLabel10.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel3.add(jLabel10);
-        jLabel10.setBounds(30, 40, 220, 30);
+        jLabel10.setBounds(30, 30, 220, 30);
 
         pi.setBackground(new java.awt.Color(102, 102, 102));
         pi.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -188,12 +247,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(pi);
-        pi.setBounds(0, 80, 280, 30);
+        pi.setBounds(0, 100, 280, 30);
 
         da.setBackground(new java.awt.Color(102, 102, 102));
         da.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         da.setForeground(new java.awt.Color(255, 255, 255));
-        da.setText("          Distributor Accounts");
+        da.setText("          Customer's Accounts");
         da.setOpaque(true);
         da.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -204,7 +263,7 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(da);
-        da.setBounds(0, 230, 280, 30);
+        da.setBounds(0, 260, 280, 30);
 
         drp.setBackground(new java.awt.Color(102, 102, 102));
         drp.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -220,30 +279,33 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(drp);
-        drp.setBounds(0, 260, 280, 30);
+        drp.setBounds(0, 290, 280, 30);
 
         jLabel15.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Dashboard");
         jLabel15.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel3.add(jLabel15);
-        jLabel15.setBounds(30, 160, 220, 30);
+        jLabel15.setBounds(30, 190, 220, 30);
 
-        list.setBackground(new java.awt.Color(102, 102, 102));
-        list.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        list.setForeground(new java.awt.Color(255, 255, 255));
-        list.setText("          List of Products");
-        list.setOpaque(true);
-        list.addMouseListener(new java.awt.event.MouseAdapter() {
+        HOME.setBackground(new java.awt.Color(102, 102, 102));
+        HOME.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        HOME.setForeground(new java.awt.Color(255, 255, 255));
+        HOME.setText("          HOME");
+        HOME.setOpaque(true);
+        HOME.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                HOMEMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                listMouseEntered(evt);
+                HOMEMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                listMouseExited(evt);
+                HOMEMouseExited(evt);
             }
         });
-        jPanel3.add(list);
-        list.setBounds(0, 200, 280, 30);
+        jPanel3.add(HOME);
+        HOME.setBounds(0, 70, 280, 30);
 
         ts.setBackground(new java.awt.Color(102, 102, 102));
         ts.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -259,28 +321,12 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(ts);
-        ts.setBounds(0, 420, 280, 30);
-
-        tep.setBackground(new java.awt.Color(102, 102, 102));
-        tep.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        tep.setForeground(new java.awt.Color(255, 255, 255));
-        tep.setText("          Total Expected Profit");
-        tep.setOpaque(true);
-        tep.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                tepMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                tepMouseExited(evt);
-            }
-        });
-        jPanel3.add(tep);
-        tep.setBounds(0, 450, 280, 30);
+        ts.setBounds(0, 440, 280, 30);
 
         rbp.setBackground(new java.awt.Color(102, 102, 102));
         rbp.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         rbp.setForeground(new java.awt.Color(255, 255, 255));
-        rbp.setText("          Returned/BO Products");
+        rbp.setText("          Expired Products");
         rbp.setOpaque(true);
         rbp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -291,7 +337,7 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(rbp);
-        rbp.setBounds(0, 290, 280, 30);
+        rbp.setBounds(0, 320, 280, 30);
 
         tl.setBackground(new java.awt.Color(102, 102, 102));
         tl.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -307,7 +353,7 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(tl);
-        tl.setBounds(0, 480, 280, 30);
+        tl.setBounds(0, 470, 280, 30);
 
         to.setBackground(new java.awt.Color(102, 102, 102));
         to.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -323,7 +369,7 @@ public class user extends javax.swing.JFrame {
             }
         });
         jPanel3.add(to);
-        to.setBounds(0, 510, 280, 30);
+        to.setBounds(0, 500, 280, 30);
 
         vers.setBackground(new java.awt.Color(102, 102, 102));
         vers.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -346,47 +392,47 @@ public class user extends javax.swing.JFrame {
         jLabel23.setText("Reports");
         jLabel23.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel3.add(jLabel23);
-        jLabel23.setBounds(30, 380, 220, 30);
+        jLabel23.setBounds(30, 400, 220, 30);
 
-        ra.setBackground(new java.awt.Color(102, 102, 102));
-        ra.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        ra.setForeground(new java.awt.Color(255, 255, 255));
-        ra.setText("          Receivable Accounts");
-        ra.setOpaque(true);
-        ra.addMouseListener(new java.awt.event.MouseAdapter() {
+        list1.setBackground(new java.awt.Color(102, 102, 102));
+        list1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        list1.setForeground(new java.awt.Color(255, 255, 255));
+        list1.setText("          List of Products");
+        list1.setOpaque(true);
+        list1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                raMouseEntered(evt);
+                list1MouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                raMouseExited(evt);
+                list1MouseExited(evt);
             }
         });
-        jPanel3.add(ra);
-        ra.setBounds(0, 540, 280, 30);
+        jPanel3.add(list1);
+        list1.setBounds(0, 230, 280, 30);
 
         jPanel1.add(jPanel3);
         jPanel3.setBounds(0, 80, 280, 690);
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setLayout(null);
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
+        mainPanel.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 153, 51));
         jLabel1.setText("<html>TrackIn is your go-to inventory management system, offering real-time tracking and automated reordering to streamline your operations and boost efficiency. Experience seamless multi-location management and customizable reporting with TrackIn, elevating your business and simplifying your inventory control.</html>");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel4.add(jLabel1);
+        mainPanel.add(jLabel1);
         jLabel1.setBounds(20, 70, 730, 60);
 
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 153, 51));
         jLabel3.setText("Welcome to TrackIn!");
-        jPanel4.add(jLabel3);
+        mainPanel.add(jLabel3);
         jLabel3.setBounds(20, 20, 270, 40);
 
         jPanel5.setBackground(new java.awt.Color(98, 180, 98));
         jPanel5.setLayout(null);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TableStocks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -394,7 +440,8 @@ public class user extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        TableStocks.setEnabled(false);
+        jScrollPane1.setViewportView(TableStocks);
 
         jPanel5.add(jScrollPane1);
         jScrollPane1.setBounds(10, 40, 690, 410);
@@ -407,7 +454,7 @@ public class user extends javax.swing.JFrame {
         jPanel5.add(jLabel24);
         jLabel24.setBounds(0, 5, 710, 30);
 
-        jPanel4.add(jPanel5);
+        mainPanel.add(jPanel5);
         jPanel5.setBounds(20, 150, 710, 460);
 
         trans.setBackground(new java.awt.Color(255, 255, 255));
@@ -428,11 +475,11 @@ public class user extends javax.swing.JFrame {
                 transMouseExited(evt);
             }
         });
-        jPanel4.add(trans);
+        mainPanel.add(trans);
         trans.setBounds(10, 620, 740, 30);
 
-        userDesktop.add(jPanel4);
-        jPanel4.setBounds(0, 0, 760, 670);
+        userDesktop.add(mainPanel);
+        mainPanel.setBounds(0, 0, 760, 670);
 
         jPanel1.add(userDesktop);
         userDesktop.setBounds(280, 90, 760, 690);
@@ -513,15 +560,15 @@ public class user extends javax.swing.JFrame {
         logOut.setBackground(bodycolor);
     }//GEN-LAST:event_logOutMouseExited
 
-    private void listMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseEntered
+    private void HOMEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseEntered
         // TODO add your handling code here:
-        list.setBackground(navcolor);
-    }//GEN-LAST:event_listMouseEntered
+        HOME.setBackground(navcolor);
+    }//GEN-LAST:event_HOMEMouseEntered
 
-    private void listMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseExited
+    private void HOMEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseExited
         // TODO add your handling code here:
-        list.setBackground(bodycolor);
-    }//GEN-LAST:event_listMouseExited
+        HOME.setBackground(bodycolor);
+    }//GEN-LAST:event_HOMEMouseExited
 
     private void daMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daMouseEntered
         // TODO add your handling code here:
@@ -563,16 +610,6 @@ public class user extends javax.swing.JFrame {
         ts.setBackground(bodycolor); 
     }//GEN-LAST:event_tsMouseExited
 
-    private void tepMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tepMouseEntered
-        // TODO add your handling code here:
-        tep.setBackground(navcolor); 
-    }//GEN-LAST:event_tepMouseEntered
-
-    private void tepMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tepMouseExited
-        // TODO add your handling code here:
-        tep.setBackground(bodycolor); 
-    }//GEN-LAST:event_tepMouseExited
-
     private void tlMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tlMouseEntered
         // TODO add your handling code here:
         tl.setBackground(navcolor);
@@ -593,16 +630,6 @@ public class user extends javax.swing.JFrame {
         to.setBackground(bodycolor); 
     }//GEN-LAST:event_toMouseExited
 
-    private void raMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_raMouseEntered
-        // TODO add your handling code here:
-        ra.setBackground(navcolor); 
-    }//GEN-LAST:event_raMouseEntered
-
-    private void raMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_raMouseExited
-        // TODO add your handling code here:
-        ra.setBackground(bodycolor); 
-    }//GEN-LAST:event_raMouseExited
-
     private void versMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_versMouseEntered
         // TODO add your handling code here:
         vers.setBackground(navcolor); 
@@ -616,11 +643,9 @@ public class user extends javax.swing.JFrame {
     private void transMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transMouseClicked
         // TODO add your handling code here:
         transaction tran = new transaction();
-        newProduct prod = new newProduct();
-        Output op = new Output();
+        OrderForm dr = new OrderForm();
         userDesktop.add(tran).setVisible(true);
-        userDesktop.add(prod);
-        userDesktop.add(op);
+        userDesktop.add(dr);    
         
     }//GEN-LAST:event_transMouseClicked
 
@@ -633,6 +658,22 @@ public class user extends javax.swing.JFrame {
         // TODO add your handling code here:
         trans.setBackground(newTrans);
     }//GEN-LAST:event_transMouseExited
+
+    private void list1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list1MouseEntered
+        // TODO add your handling code here:
+        list1.setBackground(navcolor); 
+    }//GEN-LAST:event_list1MouseEntered
+
+    private void list1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list1MouseExited
+        // TODO add your handling code here:
+        list1.setBackground(bodycolor);
+    }//GEN-LAST:event_list1MouseExited
+
+    private void HOMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOMEMouseClicked
+        user us = new user();
+        us.setVisible(true);
+        dispose(); 
+    }//GEN-LAST:event_HOMEMouseClicked
 
     /**
      * @param args the command line arguments
@@ -671,6 +712,8 @@ public class user extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel HOME;
+    private javax.swing.JTable TableStocks;
     private javax.swing.JLabel da;
     private javax.swing.JLabel date;
     private javax.swing.JLabel drp;
@@ -685,16 +728,13 @@ public class user extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel list;
+    private javax.swing.JLabel list1;
     private javax.swing.JLabel logOut;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel pi;
-    private javax.swing.JLabel ra;
     private javax.swing.JLabel rbp;
-    private javax.swing.JLabel tep;
     private javax.swing.JLabel time;
     private javax.swing.JLabel tl;
     private javax.swing.JLabel to;

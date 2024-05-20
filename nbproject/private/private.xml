@@ -5,17 +5,31 @@
             <url>src/UserDashboard/user.java</url>
             <bookmark id="1">
                 <name/>
-                <line>470</line>
+                <line>534</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Elmer%20Rapon/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/newProduct.java</file>
-            <file>file:/C:/Users/Elmer%20Rapon/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/transaction.java</file>
-            <file>file:/C:/Users/Elmer%20Rapon/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/user.java</file>
-            <file>file:/C:/Users/Elmer%20Rapon/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/Output.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/AdminDashboard/Company_Profile.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/PrintingDR.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/Output.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/AdminDashboard/UsersAccount.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/OrderForm.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/userProfileInfo.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/user.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/drGenerator.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/AdminDashboard/UpdateCompanyProfile.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/SignUp_LogIn/LogIn.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/newProduct.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/CustomerInfo.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/SignUp_LogIn/SignUp.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/AdminDashboard/newAcc.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/transaction.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/UserDashboard/changePass.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/AdminDashboard/admin.java</file>
+            <file>file:/C:/Users/Elmer%20Rapon/OneDrive/Desktop/IMS_System/Inventory_Management_System/src/AdminDashboard/updateAcc.java</file>
         </group>
     </open-files>
 </project-private>

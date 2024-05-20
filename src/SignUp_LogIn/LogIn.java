@@ -35,6 +35,36 @@ public class LogIn extends javax.swing.JFrame {
     public static String emiel;
     public static String passw;
     
+     public static String getCashierID() {
+        String cashierID = null;
+        // Retrieve the cashier ID using the logged-in user's username and password
+        session ss = session.getInstance();
+        String username = ss.getUsername();
+        String email = ss.getEmail();
+        
+        cashierID = getAccountID(username, email);
+
+        return cashierID;
+    }
+
+    public static String getAccountID(String username, String email) {
+            String cashierID = null;
+            dbConnector connector = new dbConnector();
+            try {
+                String query = "SELECT lmer_ID FROM lmer_table WHERE lmer_uname = '" + username + "' AND lmer_email = '" + email + "'";
+                ResultSet resultSet = connector.getData(query);
+                if (resultSet.next()) {
+                    cashierID = resultSet.getString("lmer_ID");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid username or email");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Database Connection Error!");
+            }
+            return cashierID;
+        }
+
+    
     public static boolean loginAcc(String uname, String pass){
         
         dbConnector connector = new dbConnector();
@@ -199,8 +229,7 @@ public class LogIn extends javax.swing.JFrame {
 
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
         // TODO add your handling code here:
-        String pass = hashPass(password.getText());
-        dbConnector connector = new dbConnector();   
+        String pass = hashPass(password.getText());  
         if(loginAcc(username.getText(), pass)){
             
             if(!status.equals("Active")){
@@ -279,7 +308,7 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton logIn;
-    private javax.swing.JPasswordField password;
-    private javax.swing.JTextField username;
+    public javax.swing.JPasswordField password;
+    public javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

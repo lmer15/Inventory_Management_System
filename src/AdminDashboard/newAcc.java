@@ -5,10 +5,7 @@
  */
 package AdminDashboard;
 
-import SignUp_LogIn.LogIn;
-import static SignUp_LogIn.SignUp.emel;
 import static SignUp_LogIn.SignUp.hashPass;
-import static SignUp_LogIn.SignUp.usern;
 import config.dbConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;

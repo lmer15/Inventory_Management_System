@@ -1,6 +1,4 @@
-
 package AdminDashboard;
-
 import Config.insertImage;
 import config.dbConnector;
 import java.awt.Color;
@@ -13,6 +11,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -32,6 +33,11 @@ public class Company_Profile extends javax.swing.JFrame {
         initComponents();
         ErrorHandling();
     }
+    
+    public String destination = "";
+    File selectedFile;
+    public String oldPath;
+    public String path;
     
     Color navcolor = new Color (204,204,204);
     Color headcolor = new Color (153,153,153);
@@ -393,7 +399,6 @@ public class Company_Profile extends javax.swing.JFrame {
         webError = new javax.swing.JLabel();
         numError = new javax.swing.JLabel();
         emError = new javax.swing.JLabel();
-        comName = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -420,6 +425,7 @@ public class Company_Profile extends javax.swing.JFrame {
         female = new javax.swing.JCheckBox();
         male = new javax.swing.JCheckBox();
         jLabel28 = new javax.swing.JLabel();
+        comName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -671,12 +677,6 @@ public class Company_Profile extends javax.swing.JFrame {
         jPanel3.add(jPanel5);
         jPanel5.setBounds(20, 120, 410, 200);
 
-        comName.setBackground(new java.awt.Color(240, 240, 240));
-        comName.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
-        comName.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 0)));
-        jPanel3.add(comName);
-        comName.setBounds(160, 20, 260, 20);
-
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 0)));
         jPanel6.setLayout(null);
 
@@ -802,6 +802,7 @@ public class Company_Profile extends javax.swing.JFrame {
         jPanel3.add(jPanel7);
         jPanel7.setBounds(450, 340, 550, 260);
 
+        register.setBackground(new java.awt.Color(255, 255, 255));
         register.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         register.setForeground(new java.awt.Color(0, 102, 0));
         register.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -853,6 +854,12 @@ public class Company_Profile extends javax.swing.JFrame {
         jLabel28.setText("Company Logo:");
         jPanel3.add(jLabel28);
         jLabel28.setBounds(20, 80, 130, 30);
+
+        comName.setBackground(new java.awt.Color(240, 240, 240));
+        comName.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        comName.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        jPanel3.add(comName);
+        comName.setBounds(160, 10, 260, 30);
 
         jPanel1.add(jPanel3);
         jPanel3.setBounds(10, 80, 1020, 670);
@@ -931,28 +938,13 @@ public class Company_Profile extends javax.swing.JFrame {
 
     String tagText = tag.getText();
 
-    // Read the image file as a byte array
-    byte[] imageData = null;
-        try {
-            File imageFile = new File(filename);
-            FileInputStream fis = new FileInputStream(imageFile);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
-            for (int readNum; (readNum = fis.read(buf)) != -1;) {
-                bos.write(buf, 0, readNum);
-            }
-            imageData = bos.toByteArray();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
     // Insert company profile data with the image data
-    if (db.insertImageData("INSERT INTO companyprofile (Company_Name, Business_Type, Company_Logo, Contact_Number, Email_Address,"
+    if (db.insertData("INSERT INTO companyprofile (Company_Name, Business_Type, Company_Logo, Contact_Number, Email_Address,"
             + "Website, Facebook, Tagline, TIN_Number, BIR_Number, Mayors_Permit, BRN_Number, BIN_Number) "
             + "VALUES "
             + "('" + comName.getText() + "',"
             + " '" + busType.getText() + "',"
-            + " ?,"
+            + " '" + destination+ "',"
             + " '" + number.getText() + "',"
             + " '" + email.getText() + "',"
             + " '" + web.getText() + "',"
@@ -962,7 +954,7 @@ public class Company_Profile extends javax.swing.JFrame {
             + " '" + noBIR.getText() + "',"
             + " '" + noMayor.getText() + "',"
             + " '" + noBRN.getText() + "',"
-            + " '" + noBIN.getText() + "')", imageData)) {
+            + " '" + noBIN.getText() + "')")) {
         // Insert business address data
         if (db.insertData("INSERT INTO business_address (Purok, Baranggay, Municipality, ZIP_Code, Province, Country)"
                 + " VALUES "
@@ -978,13 +970,21 @@ public class Company_Profile extends javax.swing.JFrame {
                     + "('" + ceoFname.getText() + "',"
                     + " '" + ceoLname.getText() + "',"
                     + " '" + selectedGender + "')")) {
-                JOptionPane.showMessageDialog(null, "Data Saved Successfully");
             } else {
                 JOptionPane.showMessageDialog(null, "Error inserting CEO profile data");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Error inserting business address data");
         }
+                try {
+                    Files.copy(selectedFile.toPath(), new File(destination).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(Company_Profile.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JOptionPane.showMessageDialog(null, "SAVE!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                admin ads = new admin();
+                ads.setVisible(true);
+                this.dispose();
     } else {
         JOptionPane.showMessageDialog(null, "Error inserting company profile data");
     }
@@ -1019,35 +1019,29 @@ public class Company_Profile extends javax.swing.JFrame {
     }//GEN-LAST:event_registerMouseExited
 
     private void cLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cLogoMouseClicked
-        
-    insertImage in = new insertImage();
-
+    insertImage im = new insertImage();
     JFileChooser fileChooser = new JFileChooser();
-
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            try {
-                File f = fileChooser.getSelectedFile();
-                destination = "src/images/" + f.getName();
-                filename = f.getAbsolutePath();
-
-                if (FileExistenceChecker(filename)) {
-                    JOptionPane.showMessageDialog(null, "File Already Exist, Rename or Choose another!");
-                    destination = "";
-                    filename = "";
-                } else {
-                    if (!filename.isEmpty() && isImage(filename)) {
-                        cLogo.setText(filename);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Selected file is not an image or cannot be read.");
-                        destination = "";
-                        filename = "";
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        selectedFile = fileChooser.getSelectedFile();
+                        destination = "src/ProductImages/" + selectedFile.getName();
+                        path  = selectedFile.getAbsolutePath();
+                        
+                        
+                        if(im.FileExistenceChecker(path) == 1){
+                          JOptionPane.showMessageDialog(null, "File Already Exist, Rename or Choose another!");
+                            destination = "";
+                            path="";
+                        }else{
+                            cLogo.setText(path);
+                        }
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "File is not an Image", "Error", JOptionPane.ERROR_MESSAGE);
+                        System.out.println("File Error!");
                     }
                 }
-            } catch (Exception ex) {
-                System.out.println("File Error!");
-            }
-        } 
+
     }//GEN-LAST:event_cLogoMouseClicked
 
     private void cLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cLogoMouseEntered
@@ -1146,8 +1140,5 @@ public class Company_Profile extends javax.swing.JFrame {
     private javax.swing.JTextField web;
     private javax.swing.JLabel webError;
     // End of variables declaration//GEN-END:variables
-
-String filename=null;
-String destination=null;
 }
 

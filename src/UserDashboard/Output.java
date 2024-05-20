@@ -1,24 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package UserDashboard;
 
 import Config.insertImage;
-import Config.session;
 import config.dbConnector;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -37,11 +28,46 @@ public class Output extends javax.swing.JInternalFrame {
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI bi = (BasicInternalFrameUI)this.getUI();
         bi.setNorthPane(null);
+        
+        
+        back.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            transaction transi = new transaction();
+            JDesktopPane desktopPane = (JDesktopPane) getParent();
+            desktopPane.add(transi);
+            transi.setVisible(true);
+            setVisible(false);
+        }
+        });
     }
 
     Color orig = new Color(240,240,240);
     Color newColor =new Color(204,204,204);
     
+    
+    public static int checkQuantity(int code){
+        dbConnector connect = new dbConnector();
+        String query = "SELECT SUM(O_Quantity) AS totalQuantity FROM output WHERE product_ID = '" + code + "'";
+        try (ResultSet resultSet = connect.getData(query)) {
+            if (resultSet.next()) {
+                return resultSet.getInt("totalQuantity");
+            }
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    
+    public boolean isNumber(String input) {
+    try {
+        Double.parseDouble(input);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -55,18 +81,18 @@ public class Output extends javax.swing.JInternalFrame {
         OPrice = new javax.swing.JLabel();
         OName = new javax.swing.JLabel();
         OFlavor = new javax.swing.JLabel();
-        OQuantity = new javax.swing.JLabel();
-        OStatus = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        status = new javax.swing.JLabel();
+        quanti = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         OCode = new javax.swing.JTextField();
         back = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        ExpiryDate = new com.toedter.calendar.JDateChooser();
         jLabel19 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        ManufacturingDate = new com.toedter.calendar.JDateChooser();
         ok = new javax.swing.JLabel();
         save = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
+        quantity = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
@@ -100,7 +126,7 @@ public class Output extends javax.swing.JInternalFrame {
         OPrice.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         OPrice.setOpaque(true);
         jPanel2.add(OPrice);
-        OPrice.setBounds(310, 140, 440, 30);
+        OPrice.setBounds(310, 160, 440, 30);
 
         OName.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         OName.setForeground(new java.awt.Color(50, 150, 122));
@@ -108,7 +134,7 @@ public class Output extends javax.swing.JInternalFrame {
         OName.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         OName.setOpaque(true);
         jPanel2.add(OName);
-        OName.setBounds(310, 60, 440, 30);
+        OName.setBounds(310, 80, 440, 30);
 
         OFlavor.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         OFlavor.setForeground(new java.awt.Color(50, 150, 122));
@@ -116,31 +142,23 @@ public class Output extends javax.swing.JInternalFrame {
         OFlavor.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         OFlavor.setOpaque(true);
         jPanel2.add(OFlavor);
-        OFlavor.setBounds(310, 100, 440, 30);
+        OFlavor.setBounds(310, 120, 440, 30);
 
-        OQuantity.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
-        OQuantity.setForeground(new java.awt.Color(50, 150, 122));
-        OQuantity.setText("Quantity");
-        OQuantity.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        OQuantity.setOpaque(true);
-        jPanel2.add(OQuantity);
-        OQuantity.setBounds(310, 180, 440, 30);
+        status.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
+        status.setForeground(new java.awt.Color(50, 150, 122));
+        status.setText("Status:");
+        status.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        status.setOpaque(true);
+        jPanel2.add(status);
+        status.setBounds(310, 240, 440, 30);
 
-        OStatus.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
-        OStatus.setForeground(new java.awt.Color(50, 150, 122));
-        OStatus.setText("Status:");
-        OStatus.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        OStatus.setOpaque(true);
-        jPanel2.add(OStatus);
-        OStatus.setBounds(310, 220, 440, 30);
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        quanti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                quantiActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField1);
-        jTextField1.setBounds(430, 350, 270, 40);
+        jPanel2.add(quanti);
+        quanti.setBounds(430, 350, 270, 40);
 
         jLabel16.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(50, 150, 122));
@@ -158,6 +176,7 @@ public class Output extends javax.swing.JInternalFrame {
         jPanel2.add(OCode);
         OCode.setBounds(30, 350, 190, 40);
 
+        back.setBackground(new java.awt.Color(255, 255, 255));
         back.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         back.setForeground(new java.awt.Color(50, 150, 122));
         back.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -177,8 +196,8 @@ public class Output extends javax.swing.JInternalFrame {
         });
         jPanel2.add(back);
         back.setBounds(30, 530, 270, 30);
-        jPanel2.add(jDateChooser1);
-        jDateChooser1.setBounds(430, 530, 270, 40);
+        jPanel2.add(ExpiryDate);
+        ExpiryDate.setBounds(430, 530, 270, 40);
 
         jLabel19.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(50, 150, 122));
@@ -187,9 +206,10 @@ public class Output extends javax.swing.JInternalFrame {
         jLabel19.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel2.add(jLabel19);
         jLabel19.setBounds(430, 400, 270, 30);
-        jPanel2.add(jDateChooser2);
-        jDateChooser2.setBounds(430, 440, 270, 40);
+        jPanel2.add(ManufacturingDate);
+        ManufacturingDate.setBounds(430, 440, 270, 40);
 
+        ok.setBackground(new java.awt.Color(255, 255, 255));
         ok.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         ok.setForeground(new java.awt.Color(255, 0, 51));
         ok.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -210,6 +230,7 @@ public class Output extends javax.swing.JInternalFrame {
         jPanel2.add(ok);
         ok.setBounds(230, 350, 90, 40);
 
+        save.setBackground(new java.awt.Color(255, 255, 255));
         save.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         save.setForeground(new java.awt.Color(255, 51, 51));
         save.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -238,6 +259,14 @@ public class Output extends javax.swing.JInternalFrame {
         jPanel2.add(jLabel26);
         jLabel26.setBounds(430, 310, 270, 30);
 
+        quantity.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
+        quantity.setForeground(new java.awt.Color(50, 150, 122));
+        quantity.setText("Quantity:");
+        quantity.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        quantity.setOpaque(true);
+        jPanel2.add(quantity);
+        quantity.setBounds(310, 200, 440, 30);
+
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 770, 690);
 
@@ -255,18 +284,89 @@ public class Output extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void quantiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_quantiActionPerformed
 
     private void OCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OCodeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_OCodeActionPerformed
 
     private void saveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseClicked
-        // TODO add your handling code here:
         
         
+        Date checkDate = ManufacturingDate.getDate();
+        Date checkDate2 = ExpiryDate.getDate();
+
+            if (checkDate == null || checkDate2 == null) {
+                JOptionPane.showMessageDialog(null, "Manufacturing date and expiry date must be filled", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String manufacturing = dateFormat.format(checkDate);
+                String expiry = dateFormat.format(checkDate2);
+
+                String code = OCode.getText();
+                String quantit = quanti.getText();
+
+        if (code.isEmpty() || quantit.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Product code and quantity must be filled", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int cod;
+        try {
+            cod = Integer.parseInt(code);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Invalid product code", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int newStock;
+        try {
+            newStock = Integer.parseInt(quantit);
+            if (newStock <= 0) {
+                JOptionPane.showMessageDialog(null, "Quantity must be a positive number", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Quantity must be a valid counting number", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int oldStock = checkQuantity(cod);
+
+        String status;
+        if (oldStock + newStock > 50) {
+            status = "IN STOCK";
+        } else if (oldStock + newStock > 0) {
+            status = "LOW STOCK";
+        } else {
+            status = "NO STOCK";
+        }
+
+        dbConnector db = new dbConnector();
+
+        if (db.insertData("INSERT INTO output (product_ID, O_Quantity, O_ManufacturingDate, O_ExpiryDate, O_Status) " +
+                "VALUES"
+                + " ('" + code + "',"
+                + " '" + newStock + "',"
+                + " '" + manufacturing + "',"
+                + " '" + expiry + "', "
+                + "'" + status + "')")) {
+            JOptionPane.showMessageDialog(null, "Data Saved!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Connection Error!");
+        }
+
+        transaction trans = new transaction();
+        JDesktopPane desktopPane = (JDesktopPane) getParent();
+        desktopPane.add(trans);
+        trans.setVisible(true);
+        setVisible(false);
+
+
     }//GEN-LAST:event_saveMouseClicked
 
     private void saveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseEntered
@@ -292,16 +392,6 @@ public class Output extends javax.swing.JInternalFrame {
 
     private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
         // TODO add your handling code here:
-    back.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            transaction trans = new transaction();
-            JDesktopPane desktopPane = (JDesktopPane) getParent();
-            desktopPane.add(trans);
-            trans.setVisible(true);
-            setVisible(false);
-        }
-        });
     }//GEN-LAST:event_backMouseClicked
 
     private void okMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okMouseEntered
@@ -319,82 +409,82 @@ public class Output extends javax.swing.JInternalFrame {
     dbConnector dbc = new dbConnector();
     newProduct np = new newProduct();
     insertImage im = new insertImage();
-    
-      try {
-          
-          String code = OCode.getText();
 
-          if (code.isEmpty()) {
-              JOptionPane.showMessageDialog(null, "INPUT PRODUCT CODE FIRST", "Warning", JOptionPane.WARNING_MESSAGE);
-          } else {
-              String sql = "SELECT *, SUM(P_Quantity) AS totalQuantity FROM product_information WHERE P_Code = '" + code + "'";
-              ResultSet rs = dbc.getData(sql);
+        try {
+            String code = OCode.getText();
+
+            if (code.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "INPUT PRODUCT CODE FIRST", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                String sql = "SELECT * FROM product_information WHERE P_Code = '" + code + "'";
+                ResultSet rs = dbc.getData(sql);
 
                 if (rs.next()) {
-                  
-                  int productCode = rs.getInt("P_Code");
+                    int productCode = rs.getInt("P_Code");
 
-                  if (code.equals(String.valueOf(productCode))) {
-                      int productPrice = rs.getInt("P_Price");
-                      int quantity = rs.getInt("totalQuantity");
+                    if (code.equals(String.valueOf(productCode))) {
+                        int productPrice = rs.getInt("P_Price");
+                        int quan = checkQuantity(productCode); // get the quantity for the specific product
 
-                      OName.setText("Name: " + rs.getString("P_Name"));
-                      OFlavor.setText("Flavor: " + rs.getString("P_Flavor"));
-                      OPrice.setText("Price: " + productPrice);
-                      OQuantity.setText("Quantity: " + quantity);
+                        String statu;
+                        if (quan > 50) {
+                            statu = "IN STOCK";
+                        } else if (quan > 0) {
+                            statu = "LOW STOCK";
+                        } else {
+                            statu = "NO STOCK";
+                        }
 
-                      if (quantity > 0) {
-                          OStatus.setText("Status: IN STOCK");
-                      } else {
-                          OStatus.setText("Status: NO STOCK");
-                      }
+                        OName.setText("Name: " + rs.getString("P_Name"));
+                        OFlavor.setText("Flavor: " + rs.getString("P_Flavor"));
+                        OPrice.setText("Price: " + productPrice);
+                        quantity.setText("Quantity: " + quan);
+                        status.setText("Status: " + statu);
 
-                      String photoPath = rs.getString("P_Photo");
-                      if (photoPath != null && !photoPath.isEmpty()) {
-                          OLogo.setIcon(im.ResizeImage(photoPath, null, OLogo));
-                          np.oldPath = photoPath;
-                          np.path = photoPath;
-                          np.destination = photoPath;
-                      } else {
-                          // If no photo is available, clear the icon and paths
-                          OLogo.setIcon(null);
-                          np.oldPath = "";
-                          np.path = "";
-                          np.destination = "";
-                      }
-                  } else {
-                  JOptionPane.showMessageDialog(null, "NO PRODUCT FOUND", "Error", JOptionPane.ERROR_MESSAGE);
-                  OName.setText("");
-                  OFlavor.setText("");
-                  OPrice.setText("");
-                  OQuantity.setText("");
-                  OStatus.setText("");
-                  OLogo.setIcon(null); // Clear the icon
-                  np.oldPath = "";
-                  np.path = "";
-                  np.destination = "";
-              }
+                        String photoPath = rs.getString("P_Photo");
+                        if (photoPath != null && !photoPath.isEmpty()) {
+                            OLogo.setIcon(im.ResizeImage(photoPath, null, OLogo));
+                            np.oldPath = photoPath;
+                            np.path = photoPath;
+                            np.destination = photoPath;
+                        } else {
+                            // If no photo is available, clear the icon and paths
+                            OLogo.setIcon(null);
+                            np.oldPath = "";
+                            np.path = "";
+                            np.destination = "";
+                        }
+                    }
+                } else {
+                    // No rows found
+                    JOptionPane.showMessageDialog(null, "NO PRODUCT FOUND", "Error", JOptionPane.ERROR_MESSAGE);
+                    OName.setText("");
+                    OFlavor.setText("");
+                    OPrice.setText("");
+                    quantity.setText("");
+                    status.setText("");
+                    OLogo.setIcon(null); // Clear the icon
+                    np.oldPath = "";
+                    np.path = "";
+                    np.destination = "";
+                }
             }
-          }
-      } catch(SQLException ex) {
-          System.out.println("Invalid Connection: " + ex.getMessage());
-      }
+        } catch (SQLException ex) {
+            System.out.println("Invalid Connection: " + ex.getMessage());
+        }
 
-          
     }//GEN-LAST:event_okMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser ExpiryDate;
+    private com.toedter.calendar.JDateChooser ManufacturingDate;
     private javax.swing.JTextField OCode;
     public javax.swing.JLabel OFlavor;
     public javax.swing.JLabel OLogo;
     public javax.swing.JLabel OName;
     public javax.swing.JLabel OPrice;
-    public javax.swing.JLabel OQuantity;
-    public javax.swing.JLabel OStatus;
     private javax.swing.JLabel back;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
@@ -402,8 +492,10 @@ public class Output extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel ok;
+    private javax.swing.JTextField quanti;
+    public javax.swing.JLabel quantity;
     private javax.swing.JLabel save;
+    public javax.swing.JLabel status;
     // End of variables declaration//GEN-END:variables
 }

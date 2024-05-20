@@ -10,17 +10,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import javax.swing.text.Utilities;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -41,7 +35,7 @@ public class UsersAccount extends javax.swing.JFrame {
     Color headcolor = new Color (102,102,255);
     Color bodycolor =new Color (240,240,240);
     
-private void table() {
+public void table() {
     // Obtain the JTableHeader object for the Users JTable
     JTableHeader thead = Users.getTableHeader();
     thead.setForeground(Color.BLACK);

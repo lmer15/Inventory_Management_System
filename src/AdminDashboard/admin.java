@@ -7,7 +7,6 @@ package AdminDashboard;
 
 import Config.session;
 import SignUp_LogIn.LogIn;
-import config.dbConnector;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
@@ -75,16 +74,15 @@ public class admin extends javax.swing.JFrame {
         manageAcc = new javax.swing.JLabel();
         si = new javax.swing.JLabel();
         oi = new javax.swing.JLabel();
-        wia = new javax.swing.JLabel();
         dr = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         da = new javax.swing.JLabel();
         ts = new javax.swing.JLabel();
-        ar = new javax.swing.JLabel();
         vers = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         rbs = new javax.swing.JLabel();
         cd = new javax.swing.JLabel();
+        dr1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -240,25 +238,10 @@ public class admin extends javax.swing.JFrame {
         });
         jPanel3.add(oi, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 280, 30));
 
-        wia.setBackground(new java.awt.Color(102, 102, 102));
-        wia.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        wia.setForeground(new java.awt.Color(255, 255, 255));
-        wia.setText("          Walk-In Accounts");
-        wia.setOpaque(true);
-        wia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                wiaMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                wiaMouseExited(evt);
-            }
-        });
-        jPanel3.add(wia, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 280, 30));
-
         dr.setBackground(new java.awt.Color(102, 102, 102));
         dr.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         dr.setForeground(new java.awt.Color(255, 255, 255));
-        dr.setText("          Damage/Reject");
+        dr.setText("          Expired Items");
         dr.setOpaque(true);
         dr.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -268,7 +251,7 @@ public class admin extends javax.swing.JFrame {
                 drMouseExited(evt);
             }
         });
-        jPanel3.add(dr, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 280, 30));
+        jPanel3.add(dr, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 280, 30));
 
         jLabel16.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
@@ -289,7 +272,7 @@ public class admin extends javax.swing.JFrame {
                 daMouseExited(evt);
             }
         });
-        jPanel3.add(da, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 280, 30));
+        jPanel3.add(da, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 280, 30));
 
         ts.setBackground(new java.awt.Color(102, 102, 102));
         ts.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -304,25 +287,7 @@ public class admin extends javax.swing.JFrame {
                 tsMouseExited(evt);
             }
         });
-        jPanel3.add(ts, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 280, 30));
-
-        ar.setBackground(new java.awt.Color(102, 102, 102));
-        ar.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        ar.setForeground(new java.awt.Color(255, 255, 255));
-        ar.setText("          Accounts Receivable");
-        ar.setOpaque(true);
-        ar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                arMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                arMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                arMouseExited(evt);
-            }
-        });
-        jPanel3.add(ar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 280, 30));
+        jPanel3.add(ts, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 280, 30));
 
         vers.setBackground(new java.awt.Color(102, 102, 102));
         vers.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -343,7 +308,7 @@ public class admin extends javax.swing.JFrame {
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
         jLabel21.setText("Reports");
         jLabel21.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 220, 30));
+        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 220, 30));
 
         rbs.setBackground(new java.awt.Color(102, 102, 102));
         rbs.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -358,7 +323,7 @@ public class admin extends javax.swing.JFrame {
                 rbsMouseExited(evt);
             }
         });
-        jPanel3.add(rbs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 500, 280, 30));
+        jPanel3.add(rbs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 280, 30));
 
         cd.setBackground(new java.awt.Color(102, 102, 102));
         cd.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -377,6 +342,21 @@ public class admin extends javax.swing.JFrame {
             }
         });
         jPanel3.add(cd, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 280, 30));
+
+        dr1.setBackground(new java.awt.Color(102, 102, 102));
+        dr1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        dr1.setForeground(new java.awt.Color(255, 255, 255));
+        dr1.setText("          Damage/Reject");
+        dr1.setOpaque(true);
+        dr1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                dr1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                dr1MouseExited(evt);
+            }
+        });
+        jPanel3.add(dr1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 280, 30));
 
         jPanel4.setBackground(new java.awt.Color(98, 180, 98));
         jPanel4.setLayout(null);
@@ -595,16 +575,6 @@ public class admin extends javax.swing.JFrame {
         oi.setBackground(bodycolor);
     }//GEN-LAST:event_oiMouseExited
 
-    private void wiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wiaMouseEntered
-        // TODO add your handling code here:
-        wia.setBackground(navcolor);
-    }//GEN-LAST:event_wiaMouseEntered
-
-    private void wiaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_wiaMouseExited
-        // TODO add your handling code here:
-        wia.setBackground(bodycolor);
-    }//GEN-LAST:event_wiaMouseExited
-
     private void daMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daMouseEntered
         // TODO add your handling code here:
         da.setBackground(navcolor);      
@@ -624,20 +594,6 @@ public class admin extends javax.swing.JFrame {
         // TODO add your handling code here:
         ts.setBackground(bodycolor);
     }//GEN-LAST:event_tsMouseExited
-
-    private void arMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_arMouseClicked
-
-    private void arMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arMouseEntered
-        // TODO add your handling code here:
-        ar.setBackground(navcolor);
-    }//GEN-LAST:event_arMouseEntered
-
-    private void arMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arMouseExited
-        // TODO add your handling code here:
-        ar.setBackground(bodycolor);
-    }//GEN-LAST:event_arMouseExited
 
     private void rbsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbsMouseEntered
         // TODO add your handling code here:
@@ -695,6 +651,14 @@ public class admin extends javax.swing.JFrame {
         cd.setBackground(bodycolor);
     }//GEN-LAST:event_cdMouseExited
 
+    private void dr1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dr1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dr1MouseEntered
+
+    private void dr1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dr1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dr1MouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -733,11 +697,11 @@ public class admin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel adminName;
     public javax.swing.JLabel adminPosition;
-    private javax.swing.JLabel ar;
     private javax.swing.JLabel cd;
     private javax.swing.JLabel da;
     private javax.swing.JLabel date;
     private javax.swing.JLabel dr;
+    private javax.swing.JLabel dr1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
@@ -769,6 +733,5 @@ public class admin extends javax.swing.JFrame {
     private javax.swing.JLabel time;
     private javax.swing.JLabel ts;
     private javax.swing.JLabel vers;
-    private javax.swing.JLabel wia;
     // End of variables declaration//GEN-END:variables
 }
