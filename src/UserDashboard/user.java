@@ -6,17 +6,27 @@
 package UserDashboard;
 
 import Config.session;
+import Reports.AccountsReceivable;
 import SignUp_LogIn.LogIn;
+import Reports.CustomersAccount;
+import Reports.ExpiredProducts;
+import Reports.ReportDamage;
+import Reports.ViewProducts;
 import config.dbConnector;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.JLabel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -84,29 +94,31 @@ public void displayProduct() {
                 + "product_information.P_Price, "
                 + "product_information.P_Net, "
                 + "product_information.P_Unit;")) {
+           
             DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(rs);
             String[] columnNames = {"CODE", "NAME", "FLAVOR", "PRICE", "NET WEIGHT", "UNIT", "QUANTITY"};
             tableModel.setColumnIdentifiers(columnNames);
             TableStocks.setModel(tableModel);
             
-            // Set table properties
-            TableStocks.setBackground(new Color(102, 102, 102));
-            TableStocks.setForeground(new Color(240, 240, 240));
-            TableStocks.setRowHeight(20);
-            TableStocks.setShowGrid(true);
-            TableStocks.setGridColor(Color.BLACK);
-            JTableHeader thead = TableStocks.getTableHeader();
-            thead.setForeground(Color.BLACK);
-            thead.setBackground(new Color(0, 102, 51));
-            thead.setFont(new Font("Microsoft YaHei", Font.BOLD, 16));
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-            centerRenderer.setFont(TableStocks.getFont().deriveFont(Font.BOLD));
-            
-            // Set cell renderer for each column
+            JTableHeader header = TableStocks.getTableHeader();
+            header.setBackground(Color.GRAY);
+            header.setForeground(Color.BLACK);
+            header.setFont(new Font("Microsoft Gothic", Font.BOLD, 10));
+            header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30)); // Adjust header height
+
+            // Customize row appearance
+            TableStocks.setRowHeight(30);
+            TableStocks.setShowGrid(true);// Adjust row height
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.LIGHT_GRAY); // Alternating row colors
+                    return c;
+                }
+            };
             for (int i = 0; i < TableStocks.getColumnCount(); i++) {
-                TableStocks.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-                thead.setDefaultRenderer(centerRenderer);
+                TableStocks.getColumnModel().getColumn(i).setCellRenderer(renderer);
             }
         }
     } catch (SQLException ex) {
@@ -138,13 +150,12 @@ public void displayProduct() {
         drp = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         HOME = new javax.swing.JLabel();
-        ts = new javax.swing.JLabel();
-        rbp = new javax.swing.JLabel();
         tl = new javax.swing.JLabel();
         to = new javax.swing.JLabel();
         vers = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         list1 = new javax.swing.JLabel();
+        to1 = new javax.swing.JLabel();
         userDesktop = new javax.swing.JDesktopPane();
         mainPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -255,6 +266,9 @@ public void displayProduct() {
         da.setText("          Customer's Accounts");
         da.setOpaque(true);
         da.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                daMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 daMouseEntered(evt);
             }
@@ -271,6 +285,9 @@ public void displayProduct() {
         drp.setText("          Damage/Reject Products");
         drp.setOpaque(true);
         drp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                drpMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 drpMouseEntered(evt);
             }
@@ -307,44 +324,15 @@ public void displayProduct() {
         jPanel3.add(HOME);
         HOME.setBounds(0, 70, 280, 30);
 
-        ts.setBackground(new java.awt.Color(102, 102, 102));
-        ts.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        ts.setForeground(new java.awt.Color(255, 255, 255));
-        ts.setText("          Total Sales");
-        ts.setOpaque(true);
-        ts.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                tsMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                tsMouseExited(evt);
-            }
-        });
-        jPanel3.add(ts);
-        ts.setBounds(0, 440, 280, 30);
-
-        rbp.setBackground(new java.awt.Color(102, 102, 102));
-        rbp.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
-        rbp.setForeground(new java.awt.Color(255, 255, 255));
-        rbp.setText("          Expired Products");
-        rbp.setOpaque(true);
-        rbp.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                rbpMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                rbpMouseExited(evt);
-            }
-        });
-        jPanel3.add(rbp);
-        rbp.setBounds(0, 320, 280, 30);
-
         tl.setBackground(new java.awt.Color(102, 102, 102));
         tl.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         tl.setForeground(new java.awt.Color(255, 255, 255));
-        tl.setText("          Total Lost");
+        tl.setText("          Damage Products");
         tl.setOpaque(true);
         tl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tlMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 tlMouseEntered(evt);
             }
@@ -353,14 +341,17 @@ public void displayProduct() {
             }
         });
         jPanel3.add(tl);
-        tl.setBounds(0, 470, 280, 30);
+        tl.setBounds(0, 410, 280, 30);
 
         to.setBackground(new java.awt.Color(102, 102, 102));
         to.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         to.setForeground(new java.awt.Color(255, 255, 255));
-        to.setText("          Total Outputs");
+        to.setText("          Account's Receivable");
         to.setOpaque(true);
         to.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                toMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 toMouseEntered(evt);
             }
@@ -369,7 +360,7 @@ public void displayProduct() {
             }
         });
         jPanel3.add(to);
-        to.setBounds(0, 500, 280, 30);
+        to.setBounds(0, 470, 280, 30);
 
         vers.setBackground(new java.awt.Color(102, 102, 102));
         vers.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -392,14 +383,17 @@ public void displayProduct() {
         jLabel23.setText("Reports");
         jLabel23.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel3.add(jLabel23);
-        jLabel23.setBounds(30, 400, 220, 30);
+        jLabel23.setBounds(30, 370, 220, 30);
 
         list1.setBackground(new java.awt.Color(102, 102, 102));
         list1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
         list1.setForeground(new java.awt.Color(255, 255, 255));
-        list1.setText("          List of Products");
+        list1.setText("          View Products");
         list1.setOpaque(true);
         list1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list1MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 list1MouseEntered(evt);
             }
@@ -409,6 +403,25 @@ public void displayProduct() {
         });
         jPanel3.add(list1);
         list1.setBounds(0, 230, 280, 30);
+
+        to1.setBackground(new java.awt.Color(102, 102, 102));
+        to1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
+        to1.setForeground(new java.awt.Color(255, 255, 255));
+        to1.setText("          Expired Products");
+        to1.setOpaque(true);
+        to1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                to1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                to1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                to1MouseExited(evt);
+            }
+        });
+        jPanel3.add(to1);
+        to1.setBounds(0, 440, 280, 30);
 
         jPanel1.add(jPanel3);
         jPanel3.setBounds(0, 80, 280, 690);
@@ -432,6 +445,7 @@ public void displayProduct() {
         jPanel5.setBackground(new java.awt.Color(98, 180, 98));
         jPanel5.setLayout(null);
 
+        TableStocks.setBackground(new java.awt.Color(98, 180, 98));
         TableStocks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -482,7 +496,7 @@ public void displayProduct() {
         mainPanel.setBounds(0, 0, 760, 670);
 
         jPanel1.add(userDesktop);
-        userDesktop.setBounds(280, 90, 760, 690);
+        userDesktop.setBounds(280, 90, 760, 670);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -508,7 +522,7 @@ public void displayProduct() {
     }//GEN-LAST:event_logOutMouseClicked
 
     private void piMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_piMouseClicked
-        
+         
         userProfileInfo usi = new userProfileInfo();
         session ss = session.getInstance();
         String firstname = ss.getFname();
@@ -590,26 +604,6 @@ public void displayProduct() {
         drp.setBackground(bodycolor);
     }//GEN-LAST:event_drpMouseExited
 
-    private void rbpMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbpMouseEntered
-        // TODO add your handling code here:
-        rbp.setBackground(navcolor);
-    }//GEN-LAST:event_rbpMouseEntered
-
-    private void rbpMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbpMouseExited
-        // TODO add your handling code here:
-        rbp.setBackground(bodycolor); 
-    }//GEN-LAST:event_rbpMouseExited
-
-    private void tsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tsMouseEntered
-        // TODO add your handling code here:
-        ts.setBackground(navcolor); 
-    }//GEN-LAST:event_tsMouseEntered
-
-    private void tsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tsMouseExited
-        // TODO add your handling code here:
-        ts.setBackground(bodycolor); 
-    }//GEN-LAST:event_tsMouseExited
-
     private void tlMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tlMouseEntered
         // TODO add your handling code here:
         tl.setBackground(navcolor);
@@ -619,16 +613,6 @@ public void displayProduct() {
         // TODO add your handling code here:
         tl.setBackground(bodycolor); 
     }//GEN-LAST:event_tlMouseExited
-
-    private void toMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toMouseEntered
-        // TODO add your handling code here:
-        to.setBackground(navcolor); 
-    }//GEN-LAST:event_toMouseEntered
-
-    private void toMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toMouseExited
-        // TODO add your handling code here:
-        to.setBackground(bodycolor); 
-    }//GEN-LAST:event_toMouseExited
 
     private void versMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_versMouseEntered
         // TODO add your handling code here:
@@ -641,11 +625,15 @@ public void displayProduct() {
     }//GEN-LAST:event_versMouseExited
 
     private void transMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transMouseClicked
-        // TODO add your handling code here:
-        transaction tran = new transaction();
-        OrderForm dr = new OrderForm();
-        userDesktop.add(tran).setVisible(true);
-        userDesktop.add(dr);    
+        try {
+            // TODO add your handling code here:
+            transaction tran = new transaction();
+            OrderForm dr = new OrderForm();
+            userDesktop.add(tran).setVisible(true);    
+            userDesktop.add(dr);
+        } catch (SQLException ex) {
+            Logger.getLogger(user.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_transMouseClicked
 
@@ -674,6 +662,63 @@ public void displayProduct() {
         us.setVisible(true);
         dispose(); 
     }//GEN-LAST:event_HOMEMouseClicked
+
+    private void list1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list1MouseClicked
+        // TODO add your handling code here:
+        ViewProducts view = new ViewProducts();
+        userDesktop.add(view).setVisible(true);
+    }//GEN-LAST:event_list1MouseClicked
+
+    private void toMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toMouseExited
+        // TODO add your handling code here:
+        to.setBackground(bodycolor);
+    }//GEN-LAST:event_toMouseExited
+
+    private void toMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toMouseEntered
+        // TODO add your handling code here:
+        to.setBackground(navcolor);
+    }//GEN-LAST:event_toMouseEntered
+
+    private void daMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daMouseClicked
+        // TODO add your handling code here:
+        CustomersAccount view = new CustomersAccount();
+        userDesktop.add(view).setVisible(true);
+    }//GEN-LAST:event_daMouseClicked
+
+    private void drpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_drpMouseClicked
+        // TODO add your handling code here:
+        DamageProducts damage = new DamageProducts();
+        userDesktop.add(damage).setVisible(true);    
+    }//GEN-LAST:event_drpMouseClicked
+
+    private void to1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_to1MouseEntered
+        // TODO add your handling code here:
+        to1.setBackground(navcolor);
+    }//GEN-LAST:event_to1MouseEntered
+
+    private void to1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_to1MouseExited
+        // TODO add your handling code here:
+        to1.setBackground(bodycolor);
+    }//GEN-LAST:event_to1MouseExited
+
+    private void tlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tlMouseClicked
+        // TODO add your handling code here:
+        ReportDamage damage = new ReportDamage();
+        userDesktop.add(damage).setVisible(true);    
+        
+    }//GEN-LAST:event_tlMouseClicked
+
+    private void to1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_to1MouseClicked
+        // TODO add your handling code here:
+        ExpiredProducts damage = new ExpiredProducts();
+        userDesktop.add(damage).setVisible(true); 
+    }//GEN-LAST:event_to1MouseClicked
+
+    private void toMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toMouseClicked
+        // TODO add your handling code here:
+        AccountsReceivable acc = new AccountsReceivable();
+        userDesktop.add(acc).setVisible(true);  
+    }//GEN-LAST:event_toMouseClicked
 
     /**
      * @param args the command line arguments
@@ -732,14 +777,13 @@ public void displayProduct() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel list1;
     private javax.swing.JLabel logOut;
-    private javax.swing.JPanel mainPanel;
+    public javax.swing.JPanel mainPanel;
     private javax.swing.JLabel pi;
-    private javax.swing.JLabel rbp;
     private javax.swing.JLabel time;
     private javax.swing.JLabel tl;
     private javax.swing.JLabel to;
+    private javax.swing.JLabel to1;
     private javax.swing.JLabel trans;
-    private javax.swing.JLabel ts;
     public javax.swing.JDesktopPane userDesktop;
     public javax.swing.JLabel userName;
     public javax.swing.JLabel userPosition;

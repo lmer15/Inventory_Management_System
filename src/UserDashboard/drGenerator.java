@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package UserDashboard;
-import Config.session;
 import SignUp_LogIn.LogIn;
 import config.dbConnector;
 import java.awt.Color;
@@ -167,14 +161,12 @@ public class drGenerator extends javax.swing.JInternalFrame {
         drError = new javax.swing.JLabel();
         back = new javax.swing.JLabel();
         add = new javax.swing.JLabel();
-        addOrder = new javax.swing.JLabel();
-        pending = new javax.swing.JLabel();
 
         jPanel1.setLayout(null);
 
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(50, 150, 122));
-        jLabel3.setText("DELIVERY RECEIPT");
+        jLabel3.setText("DR GENERATOR");
         jLabel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         jPanel1.add(jLabel3);
         jLabel3.setBounds(10, 10, 530, 40);
@@ -275,7 +267,7 @@ public class drGenerator extends javax.swing.JInternalFrame {
         newCust.setBounds(10, 100, 200, 20);
 
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(10, 120, 760, 250);
+        jPanel4.setBounds(10, 150, 760, 250);
 
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(50, 150, 122), 1, true));
         jPanel2.setLayout(null);
@@ -317,7 +309,7 @@ public class drGenerator extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(back);
-        back.setBounds(330, 440, 100, 30);
+        back.setBounds(330, 480, 100, 30);
 
         add.setBackground(new java.awt.Color(255, 255, 255));
         add.setFont(new java.awt.Font("Microsoft YaHei", 1, 16)); // NOI18N
@@ -338,46 +330,7 @@ public class drGenerator extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(add);
-        add.setBounds(330, 400, 100, 30);
-
-        addOrder.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        addOrder.setForeground(new java.awt.Color(0, 0, 255));
-        addOrder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        addOrder.setText("ADD ORDER?");
-        addOrder.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        addOrder.setOpaque(true);
-        addOrder.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addOrderMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                addOrderMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                addOrderMouseExited(evt);
-            }
-        });
-        jPanel1.add(addOrder);
-        addOrder.setBounds(290, 490, 190, 21);
-
-        pending.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        pending.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        pending.setText("PRINT PENDING DELIVERY");
-        pending.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        pending.setOpaque(true);
-        pending.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pendingMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pendingMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pendingMouseExited(evt);
-            }
-        });
-        jPanel1.add(pending);
-        pending.setBounds(210, 530, 360, 40);
+        add.setBounds(330, 440, 100, 30);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -486,96 +439,63 @@ public class drGenerator extends javax.swing.JInternalFrame {
 
     private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
         // TODO add your handling code here:
-        transaction trans = new transaction();
+        DRTransactions drT = new DRTransactions();
         JDesktopPane desktopPane = (JDesktopPane) getParent();
-        desktopPane.add(trans);
-        trans.setVisible(true);
+        desktopPane.add(drT);
+        drT.setVisible(true);
         setVisible(false);        
     }//GEN-LAST:event_backMouseClicked
 
     private void addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseClicked
         
-        
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String deliveryDate = currentDate.format(dateFormatter);
+    LocalDate currentDate = LocalDate.now();
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    String deliveryDate = currentDate.format(dateFormatter);
 
-        String DrCode = drCode.getText();
-        String custCode = customerCode.getText();
+    String DrCode = drCode.getText();
+    String custCode = customerCode.getText();
 
-        if (DrCode.isEmpty() || custCode.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Fill in the Form First!", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (checkDRCode(DrCode)) {
-            JOptionPane.showMessageDialog(null, "DR Number Already Exist", "Error", JOptionPane.ERROR_MESSAGE);
-            drCode.setText(""); // Clear the text field
-        } else {
-            
-            dbConnector db = new dbConnector();
-            String Cashier = LogIn.getCashierID();
+    if (DrCode.isEmpty() || custCode.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Fill in the Form First!", "Error", JOptionPane.ERROR_MESSAGE);
+    } else {
+        dbConnector db = new dbConnector();
+        String Cashier = LogIn.getCashierID();
 
-            if (Cashier != null) { // Check if CashierID is not null
+        // Check if CashierID is not null
+        if (Cashier != null) {
+            // Check if the DR number already exists
+            if (checkDRCode(DrCode)) {
+                JOptionPane.showMessageDialog(null, "DR Number Already Exist", "Error", JOptionPane.ERROR_MESSAGE);
+                drCode.setText(""); 
+            } else {
+                // Attempt to insert the new DR number
                 if (db.insertData("INSERT INTO drgenerator (DRNo, CustomerID, CashierID, DeliveryDate, DRStatus) " +
                         "VALUES"
                         + " ('" + DrCode + "',"
                         + " '" + custCode + "',"
                         + " '" + Cashier + "',"
                         + " '" + deliveryDate + "', "
-                        + " 'Pending' ) ")) {
+                        + " 'PENDING' ) ")) {
                     JOptionPane.showMessageDialog(null, "Delivery Receipt Saved!");
+
+                    // If successful, proceed with other operations (e.g., opening OrderForm)
+                    OrderForm of = new OrderForm();
+                    JDesktopPane desktopPane = (JDesktopPane) getParent();
+                    desktopPane.add(of);
+                    of.setVisible(true);
+                    setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "Connection Error!");
                 }
-
-                OrderForm of = new OrderForm();
-                JDesktopPane desktopPane = (JDesktopPane) getParent();
-                desktopPane.add(of);
-                of.setVisible(true);
-                setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to retrieve Cashier ID", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to retrieve Cashier ID", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+      
 
     }//GEN-LAST:event_addMouseClicked
-
-    private void addOrderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addOrderMouseEntered
-        // TODO add your handling code here:
-        addOrder.setForeground(orig);
-        
-    }//GEN-LAST:event_addOrderMouseEntered
-
-    private void addOrderMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addOrderMouseExited
-        // TODO add your handling code here:
-        addOrder.setForeground(origC);
-    }//GEN-LAST:event_addOrderMouseExited
-
-    private void addOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addOrderMouseClicked
-        // TODO add your handling code here:
-        OrderForm of = new OrderForm();
-        JDesktopPane desktopPane = (JDesktopPane) getParent();
-        desktopPane.add(of);
-        of.setVisible(true);
-        setVisible(false);
-    }//GEN-LAST:event_addOrderMouseClicked
-
-    private void pendingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pendingMouseEntered
-        // TODO add your handling code here:
-        pending.setBackground(newColor);
-    }//GEN-LAST:event_pendingMouseEntered
-
-    private void pendingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pendingMouseExited
-        // TODO add your handling code here:
-        pending.setBackground(orig);
-    }//GEN-LAST:event_pendingMouseExited
-
-    private void pendingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pendingMouseClicked
-        // TODO add your handling code here:
-        PrintingDR dr = new PrintingDR();
-        dr.setVisible(true);
-        user us = new user();
-        us.dispose();
-        this.dispose();
-    }//GEN-LAST:event_pendingMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -583,7 +503,6 @@ public class drGenerator extends javax.swing.JInternalFrame {
     public javax.swing.JLabel CustomerContactNumber;
     public javax.swing.JLabel CustomerName;
     private javax.swing.JLabel add;
-    private javax.swing.JLabel addOrder;
     private javax.swing.JLabel back;
     private javax.swing.JLabel cOK;
     public javax.swing.JTextField customerCode;
@@ -599,6 +518,5 @@ public class drGenerator extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel newCust;
-    private javax.swing.JLabel pending;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -33,11 +35,15 @@ public class Output extends javax.swing.JInternalFrame {
         back.addMouseListener(new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
-            transaction transi = new transaction();
-            JDesktopPane desktopPane = (JDesktopPane) getParent();
-            desktopPane.add(transi);
-            transi.setVisible(true);
-            setVisible(false);
+            try {
+                transaction transi = new transaction();
+                JDesktopPane desktopPane = (JDesktopPane) getParent();
+                desktopPane.add(transi);
+                transi.setVisible(true);
+                setVisible(false);
+            } catch (SQLException ex) {
+                Logger.getLogger(Output.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         });
     }
@@ -295,76 +301,82 @@ public class Output extends javax.swing.JInternalFrame {
     private void saveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseClicked
         
         
-        Date checkDate = ManufacturingDate.getDate();
-        Date checkDate2 = ExpiryDate.getDate();
-
+        try {                                     
+            Date checkDate = ManufacturingDate.getDate();
+            Date checkDate2 = ExpiryDate.getDate();
+            
             if (checkDate == null || checkDate2 == null) {
                 JOptionPane.showMessageDialog(null, "Manufacturing date and expiry date must be filled", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String manufacturing = dateFormat.format(checkDate);
-                String expiry = dateFormat.format(checkDate2);
-
-                String code = OCode.getText();
-                String quantit = quanti.getText();
-
-        if (code.isEmpty() || quantit.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Product code and quantity must be filled", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int cod;
-        try {
-            cod = Integer.parseInt(code);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Invalid product code", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int newStock;
-        try {
-            newStock = Integer.parseInt(quantit);
-            if (newStock <= 0) {
-                JOptionPane.showMessageDialog(null, "Quantity must be a positive number", "Error", JOptionPane.ERROR_MESSAGE);
+            
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String manufacturing = dateFormat.format(checkDate);
+            String expiry = dateFormat.format(checkDate2);
+            
+            String code = OCode.getText();
+            String quantit = quanti.getText();
+            
+            if (code.isEmpty() || quantit.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Product code and quantity must be filled", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Quantity must be a valid counting number", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            
+            int cod;
+            try {
+                cod = Integer.parseInt(code);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid product code", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            int newStock;
+            try {
+                newStock = Integer.parseInt(quantit);
+                if (newStock <= 0) {
+                    JOptionPane.showMessageDialog(null, "Quantity must be a positive number", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Quantity must be a valid counting number", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            int oldStock = checkQuantity(cod);
+            
+            String status;
+            if (oldStock + newStock > 50) {
+                status = "IN STOCK";
+            } else if (oldStock + newStock > 0) {
+                status = "LOW STOCK";
+            } else {
+                status = "NO STOCK";
+            }
+            
+            dbConnector db = new dbConnector();
+            
+            if (db.insertData("INSERT INTO output (product_ID, O_Quantity, O_ManufacturingDate, O_ExpiryDate, O_Status) " +
+                    "VALUES"
+                    + " ('" + code + "',"
+                            + " '" + newStock + "',"
+                                    + " '" + manufacturing + "',"
+                                            + " '" + expiry + "', "
+                                                    + "'" + status + "')")) {
+                JOptionPane.showMessageDialog(null, "Data Saved!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Connection Error!");
+            }
+            
+            transaction trans = new transaction();
+            JDesktopPane desktopPane = (JDesktopPane) getParent();
+            desktopPane.add(trans);
+            trans.setVisible(true);
+            setVisible(false);
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Output.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        int oldStock = checkQuantity(cod);
-
-        String status;
-        if (oldStock + newStock > 50) {
-            status = "IN STOCK";
-        } else if (oldStock + newStock > 0) {
-            status = "LOW STOCK";
-        } else {
-            status = "NO STOCK";
-        }
-
-        dbConnector db = new dbConnector();
-
-        if (db.insertData("INSERT INTO output (product_ID, O_Quantity, O_ManufacturingDate, O_ExpiryDate, O_Status) " +
-                "VALUES"
-                + " ('" + code + "',"
-                + " '" + newStock + "',"
-                + " '" + manufacturing + "',"
-                + " '" + expiry + "', "
-                + "'" + status + "')")) {
-            JOptionPane.showMessageDialog(null, "Data Saved!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Connection Error!");
-        }
-
-        transaction trans = new transaction();
-        JDesktopPane desktopPane = (JDesktopPane) getParent();
-        desktopPane.add(trans);
-        trans.setVisible(true);
-        setVisible(false);
 
 
     }//GEN-LAST:event_saveMouseClicked

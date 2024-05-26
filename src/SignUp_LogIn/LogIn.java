@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package SignUp_LogIn;
 
 import AdminDashboard.admin;
+import Config.CheckExpiredProducts;
 import Config.session;
 import static SignUp_LogIn.SignUp.hashPass;
 import UserDashboard.user;
@@ -25,6 +21,7 @@ public class LogIn extends javax.swing.JFrame {
      */
     public LogIn() {
         initComponents();
+        CheckExpiredProducts.checkAndMoveExpiredProducts();
     }
     
     public static String surnam;

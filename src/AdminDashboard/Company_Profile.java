@@ -12,6 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -426,6 +431,7 @@ public class Company_Profile extends javax.swing.JFrame {
         male = new javax.swing.JCheckBox();
         jLabel28 = new javax.swing.JLabel();
         comName = new javax.swing.JTextField();
+        back = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -806,7 +812,7 @@ public class Company_Profile extends javax.swing.JFrame {
         register.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         register.setForeground(new java.awt.Color(0, 102, 0));
         register.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        register.setText("UPDATE");
+        register.setText("SAVE");
         register.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         register.setOpaque(true);
         register.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -821,7 +827,7 @@ public class Company_Profile extends javax.swing.JFrame {
             }
         });
         jPanel3.add(register);
-        register.setBounds(410, 620, 140, 30);
+        register.setBounds(440, 630, 140, 30);
 
         jLabel30.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(0, 102, 0));
@@ -861,8 +867,28 @@ public class Company_Profile extends javax.swing.JFrame {
         jPanel3.add(comName);
         comName.setBounds(160, 10, 260, 30);
 
+        back.setBackground(new java.awt.Color(255, 255, 255));
+        back.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        back.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        back.setText("BACK");
+        back.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        back.setOpaque(true);
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backMouseExited(evt);
+            }
+        });
+        jPanel3.add(back);
+        back.setBounds(440, 670, 140, 30);
+
         jPanel1.add(jPanel3);
-        jPanel3.setBounds(10, 80, 1020, 670);
+        jPanel3.setBounds(10, 80, 1020, 710);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -872,7 +898,9 @@ public class Company_Profile extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -881,114 +909,146 @@ public class Company_Profile extends javax.swing.JFrame {
 
     private void registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerMouseClicked
         // TODO add your handling code here:   
-        if(comName.getText().isEmpty()
-            || busType.getText().isEmpty()
-            || cLogo.getText().isEmpty()
-            || number.getText().isEmpty()
-            || email.getText().isEmpty()
-            || web.getText().isEmpty()
-            || fb.getText().isEmpty()
-            || tag.getText().isEmpty()
-            || ceoFname.getText().isEmpty()
-            || ceoLname.getText().isEmpty()
-            || c_Purok.getText().isEmpty()
-            || c_Brgy.getText().isEmpty()
-            || c_Mun.getText().isEmpty()
-            || c_Zip.getText().isEmpty()
-            || c_Prov.getText().isEmpty()
-            || c_Country.getText().isEmpty()
-            || noTIN.getText().isEmpty()
-            || noBIR.getText().isEmpty()
-            || noMayor.getText().isEmpty()
-            || noBRN.getText().isEmpty()
-            || noBIN.getText().isEmpty())
-        {
-            JOptionPane.showMessageDialog(null, "All Fields should be Filled");
-        }else if(!validateEmail(email.getText())){
-            JOptionPane.showMessageDialog(null, "Input Email Correctly!");
-            email.setText("");
-        }else if(!validateWebsite(web.getText())){
-            JOptionPane.showMessageDialog(null, "Input Website Correctly!");
-            web.setText("");
-        }else if(!validatePhoneNumber(number.getText()) ){
-            JOptionPane.showMessageDialog(null, "Input Number Correctly!");
-            number.setText("");
-        }else if(!validation(noTIN.getText(), "TIN")){
-            JOptionPane.showMessageDialog(null, "Input TIN Number Correctly!");
-            noTIN.setText("");
-        }else if(!validation(noBIR.getText(), "BIR")){
-            JOptionPane.showMessageDialog(null, "Input BIR Number Correctly!");
-            noBIR.setText("");
-        }else if(!validation(noMayor.getText(), "MAYORS_PERMIT")){
-            JOptionPane.showMessageDialog(null, "Input Mayor's Permit Number Correctly!");
-            noMayor.setText("");
-        }else if(!validation(noBRN.getText(), "BRN")){
-            JOptionPane.showMessageDialog(null, "Input BRN Number Correctly!");
-            noBRN.setText("");
-        }else if(!validation(noBIN.getText(), "BIN")){
-            JOptionPane.showMessageDialog(null, "Input BIN Number Correctly!");
-            noBIN.setText("");
-        }else{
-            if (male.isSelected()) {
-                selectedGender = "Male";
-            } else if (female.isSelected()) {
-                selectedGender = "Female";
-            }
-    dbConnector db = new dbConnector();
+            if (comName.getText().isEmpty()
+             || busType.getText().isEmpty()
+             || cLogo.getText().isEmpty()
+             || number.getText().isEmpty()
+             || email.getText().isEmpty()
+             || web.getText().isEmpty()
+             || fb.getText().isEmpty()
+             || tag.getText().isEmpty()
+             || ceoFname.getText().isEmpty()
+             || ceoLname.getText().isEmpty()
+             || c_Purok.getText().isEmpty()
+             || c_Brgy.getText().isEmpty()
+             || c_Mun.getText().isEmpty()
+             || c_Zip.getText().isEmpty()
+             || c_Prov.getText().isEmpty()
+             || c_Country.getText().isEmpty()
+             || noTIN.getText().isEmpty()
+             || noBIR.getText().isEmpty()
+             || noMayor.getText().isEmpty()
+             || noBRN.getText().isEmpty()
+             || noBIN.getText().isEmpty()) {
+         JOptionPane.showMessageDialog(null, "All Fields should be Filled");
+     } else if (!validateEmail(email.getText())) {
+         JOptionPane.showMessageDialog(null, "Input Email Correctly!");
+         email.setText("");
+     } else if (!validateWebsite(web.getText())) {
+         JOptionPane.showMessageDialog(null, "Input Website Correctly!");
+         web.setText("");
+     } else if (!validatePhoneNumber(number.getText())) {
+         JOptionPane.showMessageDialog(null, "Input Number Correctly!");
+         number.setText("");
+     } else if (!validation(noTIN.getText(), "TIN")) {
+         JOptionPane.showMessageDialog(null, "Input TIN Number Correctly!");
+         noTIN.setText("");
+     } else if (!validation(noBIR.getText(), "BIR")) {
+         JOptionPane.showMessageDialog(null, "Input BIR Number Correctly!");
+         noBIR.setText("");
+     } else if (!validation(noMayor.getText(), "MAYORS_PERMIT")) {
+         JOptionPane.showMessageDialog(null, "Input Mayor's Permit Number Correctly!");
+         noMayor.setText("");
+     } else if (!validation(noBRN.getText(), "BRN")) {
+         JOptionPane.showMessageDialog(null, "Input BRN Number Correctly!");
+         noBRN.setText("");
+     } else if (!validation(noBIN.getText(), "BIN")) {
+         JOptionPane.showMessageDialog(null, "Input BIN Number Correctly!");
+         noBIN.setText("");
+     } else {
+         String selectedGender = "";
+         if (male.isSelected()) {
+             selectedGender = "Male";
+         } else if (female.isSelected()) {
+             selectedGender = "Female";
+         }
 
-    String tagText = tag.getText();
+         dbConnector db = new dbConnector();
+         Connection conn = null;
+         PreparedStatement ps = null;
+         ResultSet rs = null;
 
-    // Insert company profile data with the image data
-    if (db.insertData("INSERT INTO companyprofile (Company_Name, Business_Type, Company_Logo, Contact_Number, Email_Address,"
-            + "Website, Facebook, Tagline, TIN_Number, BIR_Number, Mayors_Permit, BRN_Number, BIN_Number) "
-            + "VALUES "
-            + "('" + comName.getText() + "',"
-            + " '" + busType.getText() + "',"
-            + " '" + destination+ "',"
-            + " '" + number.getText() + "',"
-            + " '" + email.getText() + "',"
-            + " '" + web.getText() + "',"
-            + " '" + fb.getText() + "',"
-            + " '" + tagText+ "',"
-            + " '" + noTIN.getText() + "',"
-            + " '" + noBIR.getText() + "',"
-            + " '" + noMayor.getText() + "',"
-            + " '" + noBRN.getText() + "',"
-            + " '" + noBIN.getText() + "')")) {
-        // Insert business address data
-        if (db.insertData("INSERT INTO business_address (Purok, Baranggay, Municipality, ZIP_Code, Province, Country)"
-                + " VALUES "
-                + "('" + c_Purok.getText() + "',"
-                + " '" + c_Brgy.getText() + "',"
-                + " '" + c_Mun.getText() + "',"
-                + " '" + c_Zip.getText() + "',"
-                + " '" + c_Prov.getText() + "',"
-                + " '" + c_Country.getText() + "')")) {
-            // Insert CEO profile data
-            if (db.insertData("INSERT INTO ceo_profile (CEO_FirstName, CEO_LastName, CEO_Gender)"
-                    + " VALUES "
-                    + "('" + ceoFname.getText() + "',"
-                    + " '" + ceoLname.getText() + "',"
-                    + " '" + selectedGender + "')")) {
-            } else {
-                JOptionPane.showMessageDialog(null, "Error inserting CEO profile data");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Error inserting business address data");
-        }
-                try {
-                    Files.copy(selectedFile.toPath(), new File(destination).toPath(), StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException ex) {
+         try {
+             conn = db.getConnection();
+             conn.setAutoCommit(false); // Start transaction
+
+             // Insert business address and retrieve its ID
+             String addressSql = "INSERT INTO business_address (Purok, Baranggay, Municipality, ZIP_Code, Province, Country) VALUES (?, ?, ?, ?, ?, ?)";
+             ps = conn.prepareStatement(addressSql, Statement.RETURN_GENERATED_KEYS);
+             ps.setString(1, c_Purok.getText());
+             ps.setString(2, c_Brgy.getText());
+             ps.setString(3, c_Mun.getText());
+             ps.setString(4, c_Zip.getText());
+             ps.setString(5, c_Prov.getText());
+             ps.setString(6, c_Country.getText());
+             ps.executeUpdate();
+             rs = ps.getGeneratedKeys();
+             int addressId = 0;
+             if (rs.next()) {
+                 addressId = rs.getInt(1);
+             }
+             rs.close();
+             ps.close();
+
+             // Insert CEO profile and retrieve its ID
+             String ceoSql = "INSERT INTO ceo_profile (CEO_FirstName, CEO_LastName, CEO_Gender) VALUES (?, ?, ?)";
+             ps = conn.prepareStatement(ceoSql, Statement.RETURN_GENERATED_KEYS);
+             ps.setString(1, ceoFname.getText());
+             ps.setString(2, ceoLname.getText());
+             ps.setString(3, selectedGender);
+             ps.executeUpdate();
+             rs = ps.getGeneratedKeys();
+             int ceoId = 0;
+             if (rs.next()) {
+                 ceoId = rs.getInt(1);
+             }
+             rs.close();
+             ps.close();
+
+             String profileSql = "INSERT INTO companyprofile (Company_Name, CompanyCEO, CompanyAddress, Business_Type, Company_Logo, Contact_Number, Email_Address, Website, Facebook, Tagline, TIN_Number, BIR_Number, Mayors_Permit, BRN_Number, BIN_Number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+             ps = conn.prepareStatement(profileSql);
+             ps.setString(1, comName.getText());
+             ps.setInt(2, ceoId);
+             ps.setInt(3, addressId);
+             ps.setString(4, busType.getText());
+             ps.setString(5, destination);
+             ps.setString(6, number.getText());
+             ps.setString(7, email.getText());
+             ps.setString(8, web.getText());
+             ps.setString(9, fb.getText());
+             ps.setString(10, tag.getText());
+             ps.setString(11, noTIN.getText());
+             ps.setString(12, noBIR.getText());
+             ps.setString(13, noMayor.getText());
+             ps.setString(14, noBRN.getText());
+             ps.setString(15, noBIN.getText());
+             ps.executeUpdate();
+             ps.close();
+             
+             conn.commit();
+
+             Files.copy(selectedFile.toPath(), new File(destination).toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+             JOptionPane.showMessageDialog(null, "SAVE!", "Information", JOptionPane.INFORMATION_MESSAGE);
+             admin ads = new admin();
+             ads.setVisible(true);
+             this.dispose();
+
+         } catch (SQLException ex) {
+             if (conn != null) {
+                 try {
+                     conn.rollback(); 
+                 } catch (SQLException e) {
+                     Logger.getLogger(Company_Profile.class.getName()).log(Level.SEVERE, null, e);
+                 }
+             }
+             JOptionPane.showMessageDialog(null, "Error inserting data: " + ex.getMessage());
+         }      catch (IOException ex) {
                     Logger.getLogger(Company_Profile.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                JOptionPane.showMessageDialog(null, "SAVE!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                admin ads = new admin();
-                ads.setVisible(true);
-                this.dispose();
-    } else {
-        JOptionPane.showMessageDialog(null, "Error inserting company profile data");
-    }
-        }
+     }
+
+
     }//GEN-LAST:event_registerMouseClicked
 
     private void femaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_femaleActionPerformed
@@ -1054,6 +1114,23 @@ public class Company_Profile extends javax.swing.JFrame {
         cLogo.setBackground(bodycolor);  
     }//GEN-LAST:event_cLogoMouseExited
 
+    private void backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseEntered
+        // TODO add your handling code here:
+        back.setBackground(navcolor);
+    }//GEN-LAST:event_backMouseEntered
+
+    private void backMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseExited
+        // TODO add your handling code here:
+        back.setBackground(bodycolor);
+    }//GEN-LAST:event_backMouseExited
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        admin ad = new admin();
+        ad.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1071,6 +1148,7 @@ public class Company_Profile extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel back;
     private javax.swing.JLabel binError;
     private javax.swing.JLabel birError;
     private javax.swing.JLabel brnError;

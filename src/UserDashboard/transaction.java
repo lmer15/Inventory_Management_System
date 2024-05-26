@@ -1,9 +1,13 @@
 
 package UserDashboard;
-
+import config.dbConnector;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JDesktopPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
@@ -13,7 +17,7 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  */
 public class transaction extends javax.swing.JInternalFrame {    
     
-    public transaction() {
+    public transaction() throws SQLException {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI bi = (BasicInternalFrameUI)this.getUI();
@@ -47,13 +51,26 @@ public class transaction extends javax.swing.JInternalFrame {
     delRe.addMouseListener(new MouseAdapter() {
     @Override
     public void mouseClicked(MouseEvent e) {
-        drGenerator dr = new drGenerator();
+        DRTransactions drT = new DRTransactions();
         JDesktopPane desktopPane = (JDesktopPane) getParent();
-        desktopPane.add(dr);
-        dr.setVisible(true);
+        desktopPane.add(drT);
+        drT.setVisible(true);
         setVisible(false);
     }
     });
+    
+    ot.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        DamageProducts damage = new DamageProducts();
+        JDesktopPane desktopPane = (JDesktopPane) getParent();
+        desktopPane.add(damage);
+        damage.setVisible(true);
+        setVisible(false);
+    }
+    });
+    
+    getTotalSoldProducts();
     
     }   
    
@@ -64,6 +81,49 @@ public class transaction extends javax.swing.JInternalFrame {
     Color transColor = new Color (240,240,240);
     Color newBack = new Color (204,204,204);
     Color label = new Color (0,102,102);
+    
+    
+    public static void getTotalSoldProducts() {
+        try {
+            dbConnector db = new dbConnector();
+            String sql = "SELECT SUM(OrderQuantity) as TOTALSOLD, SUM(O_TotalAmount) as TOTALAMOUNT FROM orderform WHERE OrderStatus = 'DELIVERED'";
+            ResultSet resultSet = db.getData(sql);
+            if (resultSet.next()) {
+                int totalSoldQuantity = resultSet.getInt("TOTALSOLD");
+                double AccReceive = resultSet.getDouble("TOTALAMOUNT");          
+                NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+                String TotalSold = numberFormat.format(totalSoldQuantity);
+                String AcccReceive = numberFormat.format(AccReceive);
+                
+                TotalProductSold.setText(TotalSold);
+                sales.setText("₱" +AcccReceive);
+            } else {
+                TotalProductSold.setText("0");
+                sales.setText("0");
+            }
+            
+            
+            String query = "SELECT SUM(DamageQuantity) as TOTALDAMAGE FROM damageproduct";
+                        ResultSet result = db.getData(query);
+                        if (result.next()) {
+                            int quan = result.getInt("TOTALDAMAGE");
+                            
+                        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+                        String TotalDamage = numberFormat.format(quan);
+
+                            totalDamage.setText(TotalDamage);
+                        } else {
+                            totalDamage.setText("0");
+                        }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,16 +137,16 @@ public class transaction extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         Anew = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        NumProd = new javax.swing.JLabel();
         update = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        sales = new javax.swing.JLabel();
         dr = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        TotalProductSold = new javax.swing.JLabel();
         other = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        totalDamage = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         nnew = new javax.swing.JLabel();
         op = new javax.swing.JLabel();
@@ -121,11 +181,12 @@ public class transaction extends javax.swing.JInternalFrame {
         Anew.add(jLabel11);
         jLabel11.setBounds(0, 0, 320, 40);
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("500");
-        Anew.add(jLabel10);
-        jLabel10.setBounds(110, 90, 100, 70);
+        NumProd.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        NumProd.setForeground(new java.awt.Color(255, 255, 255));
+        NumProd.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        NumProd.setText("500");
+        Anew.add(NumProd);
+        NumProd.setBounds(10, 170, 300, 40);
 
         jPanel1.add(Anew);
         Anew.setBounds(50, 160, 320, 210);
@@ -145,17 +206,18 @@ public class transaction extends javax.swing.JInternalFrame {
         jLabel4.setBackground(new java.awt.Color(50, 150, 122));
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("   Output");
+        jLabel4.setText(" Accounts Receivable");
         jLabel4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 2, 2, 0, new java.awt.Color(255, 255, 255)));
         jLabel4.setOpaque(true);
         update.add(jLabel4);
         jLabel4.setBounds(0, 0, 320, 40);
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("345");
-        update.add(jLabel12);
-        jLabel12.setBounds(110, 90, 100, 70);
+        sales.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        sales.setForeground(new java.awt.Color(255, 255, 255));
+        sales.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        sales.setText("345");
+        update.add(sales);
+        sales.setBounds(10, 170, 300, 40);
 
         jPanel1.add(update);
         update.setBounds(390, 160, 320, 210);
@@ -181,11 +243,12 @@ public class transaction extends javax.swing.JInternalFrame {
         dr.add(jLabel5);
         jLabel5.setBounds(0, 0, 320, 40);
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("378");
-        dr.add(jLabel13);
-        jLabel13.setBounds(110, 90, 100, 70);
+        TotalProductSold.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        TotalProductSold.setForeground(new java.awt.Color(255, 255, 255));
+        TotalProductSold.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        TotalProductSold.setText("378");
+        dr.add(TotalProductSold);
+        TotalProductSold.setBounds(10, 180, 300, 40);
 
         jPanel1.add(dr);
         dr.setBounds(50, 390, 320, 220);
@@ -211,11 +274,12 @@ public class transaction extends javax.swing.JInternalFrame {
         other.add(jLabel2);
         jLabel2.setBounds(0, 0, 320, 40);
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("746");
-        other.add(jLabel9);
-        jLabel9.setBounds(110, 90, 100, 70);
+        totalDamage.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        totalDamage.setForeground(new java.awt.Color(255, 255, 255));
+        totalDamage.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        totalDamage.setText("746");
+        other.add(totalDamage);
+        totalDamage.setBounds(10, 180, 300, 40);
 
         jPanel1.add(other);
         other.setBounds(390, 390, 320, 220);
@@ -292,10 +356,10 @@ public class transaction extends javax.swing.JInternalFrame {
 
         ot.setBackground(new java.awt.Color(0, 102, 102));
         ot.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
-        ot.setForeground(new java.awt.Color(255, 255, 255));
+        ot.setForeground(new java.awt.Color(236, 5, 7));
         ot.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-menu-vertical-20.png"))); // NOI18N
-        ot.setText("Others");
+        ot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PICTURE/icons8-cancel-20 (1).png"))); // NOI18N
+        ot.setText("Damage");
         ot.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         ot.setOpaque(true);
         ot.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -412,22 +476,22 @@ public class transaction extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Anew;
+    private static javax.swing.JLabel NumProd;
+    private static javax.swing.JLabel TotalProductSold;
     private javax.swing.JLabel delRe;
     private javax.swing.JPanel dr;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel nnew;
     private javax.swing.JLabel op;
     private javax.swing.JLabel ot;
     private javax.swing.JPanel other;
+    private static javax.swing.JLabel sales;
+    private static javax.swing.JLabel totalDamage;
     private javax.swing.JPanel update;
     // End of variables declaration//GEN-END:variables
 }

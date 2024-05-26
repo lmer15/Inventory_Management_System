@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -41,11 +43,15 @@ public class newProduct extends javax.swing.JInternalFrame {
         back.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                transaction transi = new transaction();
-                JDesktopPane desktopPane = (JDesktopPane) getParent();
-                desktopPane.add(transi);
-                transi.setVisible(true);
-                setVisible(false);
+                try {
+                    transaction transi = new transaction();
+                    JDesktopPane desktopPane = (JDesktopPane) getParent();
+                    desktopPane.add(transi);
+                    transi.setVisible(true);
+                    setVisible(false);
+                } catch (SQLException ex) {
+                    Logger.getLogger(newProduct.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             });
     
@@ -156,6 +162,30 @@ public class newProduct extends javax.swing.JInternalFrame {
             String query = "SELECT P_Code FROM product_information WHERE P_Code = ?";
             PreparedStatement statement = connect.getConnection().prepareStatement(query);
             statement.setString(1, codes);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return true; // Code exists in the database
+            } else {
+                return false; // Code not found in the database
+            }
+        } catch(SQLException ex) {
+            System.out.println("Connection Error: " + ex);
+            return false; // Exception occurred
+        }
+    }
+    
+        public static boolean checkProduct(String name, String Flavor, double NetWeight, String unit) {
+        dbConnector connect = new dbConnector();
+
+        try {
+            String query = "SELECT 1 FROM product_information WHERE P_Name = ? AND P_Flavor = ? AND P_Net = ? AND P_Unit = ?";
+            PreparedStatement statement = connect.getConnection().prepareStatement(query);
+            statement.setString(1, name);
+            statement.setString(2, Flavor);
+            statement.setDouble(3, NetWeight);
+            statement.setString(4, unit);
+           
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -496,59 +526,73 @@ public class newProduct extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_saveMouseExited
 
     private void saveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseClicked
-
+        
+        String pname = PName.getText();
+        String pflavor = PFlavor.getText();
+        double pnet = Double.parseDouble(PNetWeight.getText().trim());
         String Unit = PUnit.getText();
         String codd = code.getText();
-  
-        if(photo.getIcon() == null
-                ||PName.getText().isEmpty()
-                ||code.getText().isEmpty()
-                ||PFlavor.getText().isEmpty()
-                ||PPrice.getText().isEmpty()
-                ||PNetWeight.getText().isEmpty()
-                ||Unit.isEmpty()){
+
+        if (photo.getIcon() == null
+                || PName.getText().isEmpty()
+                || code.getText().isEmpty()
+                || PFlavor.getText().isEmpty()
+                || PPrice.getText().isEmpty()
+                || PNetWeight.getText().isEmpty()
+                || Unit.isEmpty()) {
             JOptionPane.showMessageDialog(null, "All fields should be filled", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        }else if(!isValidUnit(Unit)){
+        } else if (!isValidUnit(Unit)) {
             PUnit.setText("");
-        }else if (!isNumber(PPrice.getText())){
+        } else if (!isNumber(PPrice.getText())) {
             JOptionPane.showMessageDialog(null, "Price must be a valid number", "Error", JOptionPane.ERROR_MESSAGE);
             PPrice.setText(" ");
-        }else if (!isNumber(PNetWeight.getText())){
+        } else if (!isNumber(PNetWeight.getText())) {
             JOptionPane.showMessageDialog(null, "Net Weight must be a valid measurement", "Error", JOptionPane.ERROR_MESSAGE);
             PNetWeight.setText(" ");
-        }else if(checkCode(codd)){
+        } else if (checkCode(codd)) {
             code.setText(" ");
-        }else{
+        } else if (checkProduct(pname, pflavor, pnet, Unit)) {
+            JOptionPane.showMessageDialog(null, "New Product Already Exist in your Inventory", "Error", JOptionPane.ERROR_MESSAGE);
+            PName.setText("");
+            PFlavor.setText("");
+            PPrice.setText("");
+            PNetWeight.setText("");
+            PUnit.setText("");
+            photo.setIcon(null);
+            oldPath = "";
+            path = "";
+            destination = "";
+        } else {
             dbConnector db = new dbConnector();
-        try{
-            if(db.insertData("INSERT INTO product_information (P_Code, P_Photo, P_Name, P_Flavor,"
-                    + "P_Price, P_Net, P_Unit) "
-                    + "VALUES ('"+code.getText()+"',"
-                    + " '"+destination+"',"
-                    + " '"+PName.getText()+"', "
-                    + " '"+PFlavor.getText()+"', "
-                    + " '"+PPrice.getText()+"', "
-                    + " '"+PNetWeight.getText()+"', "
-                    + " '"+PUnit.getText()+ "')")){
-                    
-                Files.copy(selectedFile.toPath(), new File(destination).toPath(), StandardCopyOption.REPLACE_EXISTING);
-                JOptionPane.showMessageDialog(null, "SAVE!", "Information", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
+            try {
+                if (db.insertData("INSERT INTO product_information (P_Code, P_Photo, P_Name, P_Flavor,"
+                        + "P_Price, P_Net, P_Unit) "
+                        + "VALUES ('" + code.getText() + "',"
+                        + " '" + destination + "',"
+                        + " '" + PName.getText() + "', "
+                        + " '" + PFlavor.getText() + "', "
+                        + " '" + PPrice.getText() + "', "
+                        + " '" + pnet + "', "
+                        + " '" + PUnit.getText() + "')")) {
+
+                    Files.copy(selectedFile.toPath(), new File(destination).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    JOptionPane.showMessageDialog(null, "SAVE!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                } else {
                     JOptionPane.showMessageDialog(null, "Connection Error!");
                 }
-                    transaction trans = new transaction();
-                    JDesktopPane desktopPane = (JDesktopPane) getParent();
-                    desktopPane.add(trans);
-                    trans.setVisible(true);
-                    setVisible(false); 
-        }catch(IOException ex){
-            System.out.println("Insert Image Error: " +ex);
+                transaction trans = new transaction();
+                JDesktopPane desktopPane = (JDesktopPane) getParent();
+                desktopPane.add(trans);
+                trans.setVisible(true);
+                setVisible(false);
+            } catch (IOException ex) {
+                System.out.println("Insert Image Error: " + ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(newProduct.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    
 
-        }
     }//GEN-LAST:event_saveMouseClicked
 
     private void PNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PNameActionPerformed

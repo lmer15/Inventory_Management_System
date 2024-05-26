@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -103,56 +105,35 @@ public class PrintingDR extends javax.swing.JFrame {
 
         PanelPrint.setBackground(new java.awt.Color(255, 255, 255));
         PanelPrint.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        PanelPrint.setLayout(null);
 
         CompanysLogo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         CompanysLogo.setOpaque(true);
-        PanelPrint.add(CompanysLogo);
-        CompanysLogo.setBounds(20, 10, 270, 170);
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("DELIVERY RECEIPT");
-        PanelPrint.add(jLabel3);
-        jLabel3.setBounds(880, 20, 250, 30);
 
         CompanysAddress.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         CompanysAddress.setText("ADDRESS");
-        PanelPrint.add(CompanysAddress);
-        CompanysAddress.setBounds(300, 40, 560, 30);
 
         CompanysContact.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         CompanysContact.setText("CONTACT NUMBER");
-        PanelPrint.add(CompanysContact);
-        CompanysContact.setBounds(300, 70, 390, 30);
 
         CompanysEmail.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         CompanysEmail.setText("EMAIL");
-        PanelPrint.add(CompanysEmail);
-        CompanysEmail.setBounds(300, 100, 390, 30);
 
         DeliveryNumber.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        PanelPrint.add(DeliveryNumber);
-        DeliveryNumber.setBounds(970, 60, 160, 30);
 
         DRDate.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-        PanelPrint.add(DRDate);
-        DRDate.setBounds(970, 90, 160, 30);
 
         CompanysWebsite.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         CompanysWebsite.setText("WEBSITE");
-        PanelPrint.add(CompanysWebsite);
-        CompanysWebsite.setBounds(300, 130, 390, 30);
 
         jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel13.setText("DR NO.:");
-        PanelPrint.add(jLabel13);
-        jLabel13.setBounds(900, 60, 70, 30);
 
         jLabel14.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel14.setText("DATE:");
-        PanelPrint.add(jLabel14);
-        jLabel14.setBounds(910, 90, 60, 30);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -195,17 +176,10 @@ public class PrintingDR extends javax.swing.JFrame {
         jPanel3.add(jLabel21);
         jLabel21.setBounds(30, 90, 180, 30);
 
-        PanelPrint.add(jPanel3);
-        jPanel3.setBounds(10, 190, 760, 190);
-
         jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel8.setText("CUSTOMER ID:");
-        PanelPrint.add(jLabel8);
-        jLabel8.setBounds(840, 120, 130, 30);
 
         custID.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)));
-        PanelPrint.add(custID);
-        custID.setBounds(970, 120, 160, 30);
 
         DRTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         DRTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -217,9 +191,6 @@ public class PrintingDR extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(DRTable);
-
-        PanelPrint.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 390, 1120, 280);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -256,20 +227,113 @@ public class PrintingDR extends javax.swing.JFrame {
         jPanel4.add(jLabel27);
         jLabel27.setBounds(570, 80, 550, 20);
 
-        PanelPrint.add(jPanel4);
-        jPanel4.setBounds(10, 720, 1120, 110);
-
         GTotal.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         GTotal.setForeground(new java.awt.Color(255, 0, 0));
         GTotal.setText(" GRAND TOTAL:");
         GTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        PanelPrint.add(GTotal);
-        GTotal.setBounds(820, 670, 310, 30);
 
         CompanysName.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         CompanysName.setText("COMPANY'S NAME");
-        PanelPrint.add(CompanysName);
-        CompanysName.setBounds(300, 10, 390, 30);
+
+        javax.swing.GroupLayout PanelPrintLayout = new javax.swing.GroupLayout(PanelPrint);
+        PanelPrint.setLayout(PanelPrintLayout);
+        PanelPrintLayout.setHorizontalGroup(
+            PanelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelPrintLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(CompanysLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(PanelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGroup(PanelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CompanysAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CompanysContact, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(PanelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(PanelPrintLayout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(DeliveryNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGroup(PanelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CompanysEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CompanysWebsite, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(150, 150, 150)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGap(670, 670, 670)
+                        .addComponent(custID, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGap(670, 670, 670)
+                        .addComponent(DRDate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGap(600, 600, 600)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CompanysName, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGap(610, 610, 610)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(PanelPrintLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(PanelPrintLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1120, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(PanelPrintLayout.createSequentialGroup()
+                .addGap(819, 819, 819)
+                .addComponent(GTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(PanelPrintLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 1120, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        PanelPrintLayout.setVerticalGroup(
+            PanelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelPrintLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addGroup(PanelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(CompanysLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(PanelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelPrintLayout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(CompanysAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(CompanysContact, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelPrintLayout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(DeliveryNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelPrintLayout.createSequentialGroup()
+                                .addComponent(CompanysEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(CompanysWebsite, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelPrintLayout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(custID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(DRDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CompanysName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelPrintLayout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(GTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         jPanel1.add(PanelPrint);
         PanelPrint.setBounds(10, 50, 1140, 850);
@@ -280,6 +344,9 @@ public class PrintingDR extends javax.swing.JFrame {
         back.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         back.setOpaque(true);
         back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 backMouseEntered(evt);
             }
@@ -586,12 +653,38 @@ public class PrintingDR extends javax.swing.JFrame {
 
     private void printMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printMouseClicked
         // TODO add your handling code here:
-        JPanel myPanel = new JPanel();
-        // Add components to myPanel as needed
-        PanelPrinter printer = new PanelPrinter(PanelPrint);
-        printer.printPanel();
-        
+    
+    JPanel myPanel = new JPanel();
+    PanelPrinter printer = new PanelPrinter(PanelPrint);
+    printer.printPanel();
+   
+    dbConnector db = new dbConnector();
+    String drCode = DRCode.getText();
+
+    String updateQuery = "UPDATE drgenerator "
+            + "INNER JOIN orderform ON orderform.DRNumber = drgenerator.DRNo "
+            + "SET orderform.OrderStatus = 'DELIVERED', drgenerator.DRStatus = 'DELIVERED' "
+            + "WHERE drgenerator.DRNo = ?";
+
+    try (Connection conn = db.getConnection(); 
+         PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+
+        pstmt.setString(1, drCode);
+        pstmt.executeUpdate();
+
+    } catch (Exception e) {
+        System.out.println("Connection Error: " + e.getMessage());
+    }
     }//GEN-LAST:event_printMouseClicked
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+    user us = new user();
+    us.setVisible(true);
+    this.dispose();
+        
+
+    }//GEN-LAST:event_backMouseClicked
 
     /**
      * @param args the command line arguments

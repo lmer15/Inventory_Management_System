@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
@@ -155,7 +156,6 @@ public class OrderForm extends javax.swing.JInternalFrame {
         }
         return productPrice;
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -370,102 +370,23 @@ public class OrderForm extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void quantitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_quantitActionPerformed
-
-    private void backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseEntered
-        // TODO add your handling code here:
-        back.setBackground(newColor);
-        
-    }//GEN-LAST:event_backMouseEntered
-
-    private void backMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseExited
-        // TODO add your handling code here:
-        back.setBackground(orig);
-    }//GEN-LAST:event_backMouseExited
-
-    private void doneMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_doneMouseEntered
-        // TODO add your handling code here:
-        done.setBackground(newColor);
-    }//GEN-LAST:event_doneMouseEntered
 
     private void doneMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_doneMouseExited
         // TODO add your handling code here:
         done.setBackground(orig);
     }//GEN-LAST:event_doneMouseExited
 
-    private void iOKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iOKMouseEntered
+    private void doneMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_doneMouseEntered
         // TODO add your handling code here:
-        iOK.setBackground(newColor);
-        
-    }//GEN-LAST:event_iOKMouseEntered
-
-    private void iOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iOKMouseExited
-        // TODO add your handling code here:
-        iOK.setBackground(orig);
-    }//GEN-LAST:event_iOKMouseExited
-
-    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
-        // TODO add your handling code here:
-        drGenerator dr = new drGenerator();
-        JDesktopPane desktopPane = (JDesktopPane) getParent();
-        desktopPane.add(dr);
-        dr.setVisible(true);
-        setVisible(false);
-
-    }//GEN-LAST:event_backMouseClicked
-
-    private void iOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iOKMouseClicked
-        // TODO add your handling code here:
-        
-     dbConnector dbc = new dbConnector();
-     newProduct np = new newProduct();
-     Output op = new Output();
-
-        try {
-            String code = itemCode.getText();
-
-            if (code.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "INPUT PRODUCT CODE FIRST", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else {
-                String sql = "SELECT * FROM product_information WHERE P_Code = '" + code + "'";
-                ResultSet rs = dbc.getData(sql);
-
-                if (rs.next()) {
-                    int productCode = rs.getInt("P_Code");
-
-                    if (code.equals(String.valueOf(productCode))) {
-                        int productPrice = rs.getInt("P_Price");
-                        int quan = op.checkQuantity(productCode); // get the quantity for the specific product
-                        
-                        OName.setText("Name: " + rs.getString("P_Name"));
-                        OFlavor.setText("Flavor: " + rs.getString("P_Flavor"));
-                        OPrice.setText("Price: " + productPrice);
-                        quantity.setText("Quantity: " + quan);
-                    }
-                } else {
-                    // No rows found
-                    JOptionPane.showMessageDialog(null, "NO PRODUCT FOUND", "Error", JOptionPane.ERROR_MESSAGE);
-                    OName.setText("Name: ");
-                    OFlavor.setText("Flavor: ");
-                    OPrice.setText("Price: ");
-                    quantity.setText("Quantity");
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Invalid Connection: " + ex.getMessage());
-        }
-    }//GEN-LAST:event_iOKMouseClicked
+        done.setBackground(newColor);
+    }//GEN-LAST:event_doneMouseEntered
 
     private void doneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_doneMouseClicked
-// TODO add your handling code here:
 
         String DrCode = drCode.getText();
         String ItemCode = itemCode.getText();
@@ -489,91 +410,183 @@ public class OrderForm extends javax.swing.JInternalFrame {
                 return;
             }
 
-        dbConnector db = new dbConnector();
-        Connection conn = db.getConnection();
-        try {
-            conn.setAutoCommit(false); // Start transaction
+            dbConnector db = new dbConnector();
+            Connection conn = db.getConnection();
+            try {
+                conn.setAutoCommit(false); // Start transaction
 
-            // Step 1: Fetch products ordered by expiry date
-            String query = "SELECT * FROM output WHERE product_ID = '" + ItemCode + "' ORDER BY O_ExpiryDate ASC";
-            ResultSet resultSet = db.getData(query);
+                String query = "SELECT * FROM output WHERE product_ID = ? ORDER BY O_ExpiryDate ASC";
+                try (PreparedStatement pst = conn.prepareStatement(query)) {
+                    pst.setString(1, ItemCode);
+                    ResultSet resultSet = pst.executeQuery();
 
-            double totalAmount = 0.0;
-            double productPrice = getProductPrice(ItemCode);
+                    double totalAmount = 0.0;
+                    double productPrice = getProductPrice(ItemCode);
 
-            while (resultSet.next() && quant > 0) {
-                int outputId = resultSet.getInt("output_ID");
-                int currentQuantity = resultSet.getInt("O_Quantity");
+                    while (resultSet.next() && quant > 0) {
+                        int outputId = resultSet.getInt("output_ID");
+                        int currentQuantity = resultSet.getInt("O_Quantity");
+                        Date manDate = resultSet.getDate("O_ManufacturingDate");
+                        Date exDate = resultSet.getDate("O_ExpiryDate");
 
-                if (currentQuantity <= quant) {
-                    // Order quantity exceeds or matches the current product quantity
-                    quant -= currentQuantity;
-                    totalAmount += currentQuantity * productPrice;
-                    // Delete the record
-                    String deleteQuery = "DELETE FROM output WHERE output_ID = " + outputId;
-                    db.updateData(deleteQuery);
-                } else {
-                    // Order quantity is less than the current product quantity
-                    int newQuantity = currentQuantity - quant;
-                    totalAmount += quant * productPrice;
-                    quant = 0;
-                    // Update the quantity
-                    String updateQuery = "UPDATE output SET O_Quantity = " + newQuantity + " WHERE output_ID = " + outputId;
-                    db.updateData(updateQuery);
+                        int usedQuantity;
+                        if (currentQuantity <= quant) {
+                            // Order quantity exceeds or matches the current product quantity
+                            usedQuantity = currentQuantity;
+                            quant -= currentQuantity;
+                            // Delete the record
+                            String deleteQuery = "DELETE FROM output WHERE output_ID = ?";
+                            try (PreparedStatement deletePst = conn.prepareStatement(deleteQuery)) {
+                                deletePst.setInt(1, outputId);
+                                deletePst.executeUpdate();
+                            }
+                        } else {
+                            // Order quantity is less than the current product quantity
+                            usedQuantity = quant;
+                            int newQuantity = currentQuantity - quant;
+                            quant = 0;
+                            // Update the quantity
+                            String updateQuery = "UPDATE output SET O_Quantity = ? WHERE output_ID = ?";
+                            try (PreparedStatement updatePst = conn.prepareStatement(updateQuery)) {
+                                updatePst.setInt(1, newQuantity);
+                                updatePst.setInt(2, outputId);
+                                updatePst.executeUpdate();
+                            }
+                        }
+
+                        // Calculate the total amount for the used quantity
+                        double batchTotalAmount = usedQuantity * productPrice;
+                        totalAmount += batchTotalAmount;
+
+                        // Insert the used product batch into the orderform table
+                        String insertOrderQuery = "INSERT INTO orderform (DRNumber, ProductID, OrderQuantity, O_TotalAmount, ManufacturingDate, ExpiryDate, OrderStatus) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                        try (PreparedStatement insertPst = conn.prepareStatement(insertOrderQuery)) {
+                            insertPst.setString(1, DrCode);
+                            insertPst.setString(2, ItemCode);
+                            insertPst.setInt(3, usedQuantity);
+                            insertPst.setDouble(4, batchTotalAmount);
+                            insertPst.setDate(5, (java.sql.Date) manDate);
+                            insertPst.setDate(6, (java.sql.Date) exDate);
+                            insertPst.setString(7, "PENDING");
+                            insertPst.executeUpdate();
+                        }
+                    }
+
+                    if (quant > 0) {
+                        conn.rollback(); // Rollback transaction if there is insufficient stock
+                        JOptionPane.showMessageDialog(null, "Insufficient stock to fulfill the order!.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        conn.commit(); // Commit transaction
+                        JOptionPane.showMessageDialog(null, "Order Saved!");
+                        OrderForm of = new OrderForm();
+                        JDesktopPane desktopPane = (JDesktopPane) getParent();
+                        desktopPane.add(of);
+                        of.setVisible(true);
+                        setVisible(false);
+                    }
                 }
-            }
-
-            if (quant > 0) {
-                conn.rollback(); // Rollback transaction if there is insufficient stock
-                JOptionPane.showMessageDialog(null, "Insufficient stock to fulfill the order.", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                // Insert into orderform
-                String insertOrderQuery = "INSERT INTO orderform (DRNumber, ProductID, OrderQuantity, O_TotalAmount, OrderStatus) " +
-                        "VALUES (?, ?, ?, ?, ?)";
-                try (PreparedStatement pst = conn.prepareStatement(insertOrderQuery)) {
-                    pst.setString(1, DrCode);
-                    pst.setString(2, ItemCode);
-                    pst.setInt(3, Integer.parseInt(quan));
-                    pst.setDouble(4, totalAmount);
-                    pst.setString(5, "Pending");
-                    pst.executeUpdate();
-                }
-
-                conn.commit(); // Commit transaction
-                JOptionPane.showMessageDialog(null, "Delivery Receipt Saved!");
-
-                OrderForm of = new OrderForm();
-                JDesktopPane desktopPane = (JDesktopPane) getParent();
-                desktopPane.add(of);
-                of.setVisible(true);
-                setVisible(false);
-            }
-
-        } catch (SQLException ex) {
+            } catch (SQLException ex) {
                 try {
                     conn.rollback(); // Rollback transaction in case of error
                 } catch (SQLException ex1) {
                     Logger.getLogger(OrderForm.class.getName()).log(Level.SEVERE, null, ex1);
                 }
-            JOptionPane.showMessageDialog(null, "Error processing the order: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
+                JOptionPane.showMessageDialog(null, "Error processing the order: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } finally {
                 try {
                     conn.setAutoCommit(true); // Reset to default
                 } catch (SQLException ex) {
                     Logger.getLogger(OrderForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
         }
-}
-
 
     }//GEN-LAST:event_doneMouseClicked
 
+    private void backMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseExited
+        // TODO add your handling code here:
+        back.setBackground(orig);
+    }//GEN-LAST:event_backMouseExited
+
+    private void backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseEntered
+        // TODO add your handling code here:
+        back.setBackground(newColor);
+
+    }//GEN-LAST:event_backMouseEntered
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        OrderTransactions ot = new OrderTransactions();
+        JDesktopPane desktopPane = (JDesktopPane) getParent();
+        desktopPane.add(ot);
+        ot.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_backMouseClicked
+
+    private void quantitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quantitActionPerformed
+
+    private void iOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iOKMouseExited
+        // TODO add your handling code here:
+        iOK.setBackground(orig);
+    }//GEN-LAST:event_iOKMouseExited
+
+    private void iOKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iOKMouseEntered
+        // TODO add your handling code here:
+        iOK.setBackground(newColor);
+
+    }//GEN-LAST:event_iOKMouseEntered
+
+    private void iOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iOKMouseClicked
+        // TODO add your handling code here:
+
+        dbConnector dbc = new dbConnector();
+        newProduct np = new newProduct();
+        Output op = new Output();
+
+        try {
+            String code = itemCode.getText();
+
+            if (code.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "INPUT PRODUCT CODE FIRST", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                String sql = "SELECT * FROM product_information WHERE P_Code = '" + code + "'";
+                ResultSet rs = dbc.getData(sql);
+
+                if (rs.next()) {
+                    int productCode = rs.getInt("P_Code");
+
+                    if (code.equals(String.valueOf(productCode))) {
+                        int productPrice = rs.getInt("P_Price");
+                        int quan = op.checkQuantity(productCode); // get the quantity for the specific product
+
+                        OName.setText("Name: " + rs.getString("P_Name"));
+                        OFlavor.setText("Flavor: " + rs.getString("P_Flavor"));
+                        OPrice.setText("Price: " + productPrice);
+                        quantity.setText("Quantity: " + quan);
+                    }
+                } else {
+                    // No rows found
+                    JOptionPane.showMessageDialog(null, "NO PRODUCT FOUND", "Error", JOptionPane.ERROR_MESSAGE);
+                    OName.setText("Name: ");
+                    OFlavor.setText("Flavor: ");
+                    OPrice.setText("Price: ");
+                    quantity.setText("Quantity");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Invalid Connection: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_iOKMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JLabel OFlavor;
-    public javax.swing.JLabel OName;
-    public javax.swing.JLabel OPrice;
-    public javax.swing.JLabel Oquan;
+    private javax.swing.JLabel OFlavor;
+    private javax.swing.JLabel OName;
+    private javax.swing.JLabel OPrice;
+    private javax.swing.JLabel Oquan;
     private javax.swing.JLabel back;
     private javax.swing.JLabel done;
     private javax.swing.JTextField drCode;
@@ -590,6 +603,6 @@ public class OrderForm extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField quantit;
-    public javax.swing.JLabel quantity;
+    private javax.swing.JLabel quantity;
     // End of variables declaration//GEN-END:variables
 }

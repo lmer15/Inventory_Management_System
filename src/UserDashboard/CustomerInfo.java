@@ -393,7 +393,7 @@ public class CustomerInfo extends javax.swing.JInternalFrame {
                         db.getConnection().commit();
                         JOptionPane.showMessageDialog(null, "Data Saved!", "Message", JOptionPane.INFORMATION_MESSAGE);
 
-                        OrderForm dr = new OrderForm();
+                        drGenerator dr = new drGenerator();
                         JDesktopPane desktopPane = (JDesktopPane) getParent();
                         desktopPane.add(dr);
                         dr.setVisible(true);

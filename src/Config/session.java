@@ -11,7 +11,7 @@ public class session {
     private String position;    
     private String status;
 
-    private session(){
+    public session(){
         //Private constructor to prevent instantiate another instance
           
     }
