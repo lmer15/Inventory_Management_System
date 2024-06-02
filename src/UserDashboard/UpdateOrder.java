@@ -367,7 +367,7 @@ public class UpdateOrder extends javax.swing.JInternalFrame {
 
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(50, 150, 122));
-        jLabel3.setText("ORDER FORM");
+        jLabel3.setText("UPDATE ORDER");
         jLabel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         jPanel1.add(jLabel3);
         jLabel3.setBounds(10, 10, 530, 40);

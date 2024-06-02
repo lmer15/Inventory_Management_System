@@ -12,6 +12,7 @@ import UserDashboard.OrderForm;
 import Reports.CustomersAccount;
 import Reports.ExpiredProducts;
 import Reports.ReportDamage;
+import Reports.SoldItems;
 import Reports.ViewProducts;
 import UserDashboard.DamageProducts;
 import UserDashboard.user;
@@ -179,6 +180,7 @@ public class admin extends javax.swing.JFrame {
         cd = new javax.swing.JLabel();
         dr1 = new javax.swing.JLabel();
         HOME = new javax.swing.JLabel();
+        sold = new javax.swing.JLabel();
         AdminDesktop = new javax.swing.JDesktopPane();
         mainPanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -336,7 +338,7 @@ public class admin extends javax.swing.JFrame {
             }
         });
         jPanel3.add(ListOfProducts);
-        ListOfProducts.setBounds(0, 300, 290, 30);
+        ListOfProducts.setBounds(0, 280, 290, 30);
 
         dr.setBackground(new java.awt.Color(102, 102, 102));
         dr.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -362,7 +364,7 @@ public class admin extends javax.swing.JFrame {
         jLabel16.setText("Dashboard");
         jLabel16.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel3.add(jLabel16);
-        jLabel16.setBounds(30, 260, 220, 30);
+        jLabel16.setBounds(30, 240, 220, 30);
 
         da.setBackground(new java.awt.Color(102, 102, 102));
         da.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -381,7 +383,7 @@ public class admin extends javax.swing.JFrame {
             }
         });
         jPanel3.add(da);
-        da.setBounds(0, 330, 290, 30);
+        da.setBounds(0, 310, 290, 30);
 
         vers.setBackground(new java.awt.Color(102, 102, 102));
         vers.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -481,6 +483,25 @@ public class admin extends javax.swing.JFrame {
         });
         jPanel3.add(HOME);
         HOME.setBounds(0, 70, 280, 30);
+
+        sold.setBackground(new java.awt.Color(102, 102, 102));
+        sold.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
+        sold.setForeground(new java.awt.Color(255, 255, 255));
+        sold.setText("          Sold Products");
+        sold.setOpaque(true);
+        sold.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                soldMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                soldMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                soldMouseExited(evt);
+            }
+        });
+        jPanel3.add(sold);
+        sold.setBounds(0, 340, 280, 30);
 
         jPanel1.add(jPanel3);
         jPanel3.setBounds(0, 90, 290, 670);
@@ -831,6 +852,22 @@ public class admin extends javax.swing.JFrame {
         
     }//GEN-LAST:event_piMouseClicked
 
+    private void soldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soldMouseClicked
+        // TODO add your handling code here:
+        SoldItems sold = new SoldItems();
+        AdminDesktop.add(sold).setVisible(true);
+    }//GEN-LAST:event_soldMouseClicked
+
+    private void soldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soldMouseEntered
+        // TODO add your handling code here:
+        sold.setBackground(navcolor);
+    }//GEN-LAST:event_soldMouseEntered
+
+    private void soldMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soldMouseExited
+        // TODO add your handling code here:
+        sold.setBackground(bodycolor);
+    }//GEN-LAST:event_soldMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -902,6 +939,7 @@ public class admin extends javax.swing.JFrame {
     private javax.swing.JLabel pi;
     private javax.swing.JLabel rbs;
     private static javax.swing.JLabel sale;
+    private javax.swing.JLabel sold;
     private javax.swing.JLabel time;
     private javax.swing.JLabel totalS;
     private static javax.swing.JLabel totalSold;

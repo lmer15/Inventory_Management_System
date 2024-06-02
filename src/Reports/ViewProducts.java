@@ -275,11 +275,11 @@ public class ViewProducts extends javax.swing.JInternalFrame {
                 } else {
                     // No rows found
                     JOptionPane.showMessageDialog(null, "NO PRODUCT FOUND", "Error", JOptionPane.ERROR_MESSAGE);
-                    OName.setText("");
-                    OFlavor.setText("");
-                    OPrice.setText("");
-                    quantity.setText("");
-                    status.setText("");
+                    OName.setText("Name: ");
+                    OFlavor.setText("Flavor: ");
+                    OPrice.setText("Price: ");
+                    quantity.setText("Quantity: ");
+                    status.setText("Status: ");
                     OLogo.setIcon(null); // Clear the icon
                     np.oldPath = "";
                     np.path = "";

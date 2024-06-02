@@ -11,6 +11,7 @@ import SignUp_LogIn.LogIn;
 import Reports.CustomersAccount;
 import Reports.ExpiredProducts;
 import Reports.ReportDamage;
+import Reports.SoldItems;
 import Reports.ViewProducts;
 import config.dbConnector;
 import java.awt.Color;
@@ -156,6 +157,7 @@ public void displayProduct() {
         jLabel23 = new javax.swing.JLabel();
         list1 = new javax.swing.JLabel();
         to1 = new javax.swing.JLabel();
+        sold = new javax.swing.JLabel();
         userDesktop = new javax.swing.JDesktopPane();
         mainPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -341,7 +343,7 @@ public void displayProduct() {
             }
         });
         jPanel3.add(tl);
-        tl.setBounds(0, 410, 280, 30);
+        tl.setBounds(0, 440, 280, 30);
 
         to.setBackground(new java.awt.Color(102, 102, 102));
         to.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -360,7 +362,7 @@ public void displayProduct() {
             }
         });
         jPanel3.add(to);
-        to.setBounds(0, 470, 280, 30);
+        to.setBounds(0, 500, 280, 30);
 
         vers.setBackground(new java.awt.Color(102, 102, 102));
         vers.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -383,7 +385,7 @@ public void displayProduct() {
         jLabel23.setText("Reports");
         jLabel23.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel3.add(jLabel23);
-        jLabel23.setBounds(30, 370, 220, 30);
+        jLabel23.setBounds(30, 400, 220, 30);
 
         list1.setBackground(new java.awt.Color(102, 102, 102));
         list1.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 16)); // NOI18N
@@ -421,7 +423,26 @@ public void displayProduct() {
             }
         });
         jPanel3.add(to1);
-        to1.setBounds(0, 440, 280, 30);
+        to1.setBounds(0, 470, 280, 30);
+
+        sold.setBackground(new java.awt.Color(102, 102, 102));
+        sold.setFont(new java.awt.Font("Microsoft YaHei", 0, 16)); // NOI18N
+        sold.setForeground(new java.awt.Color(255, 255, 255));
+        sold.setText("          Sold Products");
+        sold.setOpaque(true);
+        sold.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                soldMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                soldMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                soldMouseExited(evt);
+            }
+        });
+        jPanel3.add(sold);
+        sold.setBounds(0, 320, 280, 30);
 
         jPanel1.add(jPanel3);
         jPanel3.setBounds(0, 80, 280, 690);
@@ -720,6 +741,22 @@ public void displayProduct() {
         userDesktop.add(acc).setVisible(true);  
     }//GEN-LAST:event_toMouseClicked
 
+    private void soldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soldMouseEntered
+        // TODO add your handling code here:
+        sold.setBackground(navcolor);
+    }//GEN-LAST:event_soldMouseEntered
+
+    private void soldMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soldMouseExited
+        // TODO add your handling code here:
+        sold.setBackground(bodycolor);
+    }//GEN-LAST:event_soldMouseExited
+
+    private void soldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soldMouseClicked
+        // TODO add your handling code here:
+        SoldItems sold = new SoldItems();
+        userDesktop.add(sold).setVisible(true);
+    }//GEN-LAST:event_soldMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -779,6 +816,7 @@ public void displayProduct() {
     private javax.swing.JLabel logOut;
     public javax.swing.JPanel mainPanel;
     private javax.swing.JLabel pi;
+    private javax.swing.JLabel sold;
     private javax.swing.JLabel time;
     private javax.swing.JLabel tl;
     private javax.swing.JLabel to;

@@ -443,7 +443,7 @@ public class Company_Profile extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("UPDATE COMPANY'S PROFILE");
+        jLabel1.setText("COMPANY'S PROFILE");
         jPanel2.add(jLabel1);
         jLabel1.setBounds(50, 10, 430, 40);
 
@@ -970,7 +970,7 @@ public class Company_Profile extends javax.swing.JFrame {
 
          try {
              conn = db.getConnection();
-             conn.setAutoCommit(false); // Start transaction
+             conn.setAutoCommit(false);
 
              // Insert business address and retrieve its ID
              String addressSql = "INSERT INTO business_address (Purok, Baranggay, Municipality, ZIP_Code, Province, Country) VALUES (?, ?, ?, ?, ?, ?)";
